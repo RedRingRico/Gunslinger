@@ -39,19 +39,34 @@ namespace Gunslinger
 	}
 
 	ZED_UINT32 GameStateManager::RegisterState(
-		GameState * const &p_GameState )
+		GameState * const &p_pGameState )
 	{
+		m_GameStateRegistry.insert( p_pGameState );
+
 		return ZED_OK;
 	}
 
 	ZED_UINT32 GameStateManager::GetNumberOfStates( ) const
 	{
-		return 0;
+		return m_GameStateRegistry.size( );
 	}
 
 	ZED_CHAR8 *GameStateManager::GetStateName( const ZED_UINT32 p_Index ) const
 	{
-		return "NULL";
+		if( p_Index > m_GameStateRegistry.size( ) )
+		{
+			return "\0";
+		}
+
+		GameStateSet::const_iterator RegistryIterator =
+			m_GameStateRegistry.begin( );
+
+		for( ZED_UINT32 i = 0; i < p_Index; ++i )
+		{
+			++RegistryIterator;
+		}
+
+		return ( *RegistryIterator )->GetName( );
 	}
 
 	ZED_UINT32 GameStateManager::ChangeState( const ZED_CHAR8 *p_pStateName )

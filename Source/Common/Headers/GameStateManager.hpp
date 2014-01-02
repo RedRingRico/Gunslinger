@@ -3,7 +3,7 @@
 
 #include <System/DataTypes.hpp>
 #include <stack>
-#include <vector>
+#include <set>
 
 namespace Gunslinger
 {
@@ -36,9 +36,10 @@ namespace Gunslinger
 
 	private:
 		typedef std::stack< GameState * > GameStateStack;
+		typedef std::set< GameState * > GameStateSet;
 
 		GameStateStack				m_GameStateStack;
-		std::vector< GameState * >	m_GameStateRegistry;
+		GameStateSet				m_GameStateRegistry;
 		ZED_BOOL					m_Running;
 		ZED_UINT64					m_StartTime;
 	};
