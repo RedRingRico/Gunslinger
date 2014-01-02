@@ -2,6 +2,7 @@
 #define __GUNSLINGER_GAMESTATEMANAGER_HPP__
 
 #include <System/DataTypes.hpp>
+#include <Utility/InputBinder.hpp>
 #include <stack>
 #include <set>
 
@@ -45,6 +46,8 @@ namespace Gunslinger
 
 		ZED_BOOL IsGameStateNameValid(
 			const ZED_CHAR8 *p_pGameStateName ) const;
+
+		ZED::Utility::InputBinder	*m_pInputBinder;
 	};
 }
 

@@ -1,0 +1,9 @@
+#ifndef __GUNSLINGER_GAMEPLAYGAMESTATE_HPP__
+#define __GUNSLINGER_GAMEPLAYGAMESTATE_HPP__
+
+namespace Gunslinger
+{
+}
+
+#endif // __GUNSLINGER_GAMEPLAYGAMESTATE_HPP__
+

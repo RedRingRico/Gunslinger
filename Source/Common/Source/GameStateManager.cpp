@@ -1,5 +1,6 @@
 #include <GameStateManager.hpp>
 #include <System/Time.hpp>
+#include <System/Memory.hpp>
 #include <GameState.hpp>
 #include <cstring>
 
@@ -10,10 +11,12 @@ namespace Gunslinger
 		m_Running = ZED_FALSE;
 		ZED::System::StartTime( );
 		m_StartTime = ZED::System::GetTimeMiS( );
+		m_pInputBinder = ZED_NULL;
 	}
 
 	GameStateManager::~GameStateManager( )
 	{
+		zedSafeDelete( m_pInputBinder );
 	}
 
 	ZED_UINT32 GameStateManager::Initialise( )
