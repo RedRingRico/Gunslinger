@@ -1,6 +1,7 @@
 #include <GameStateManager.hpp>
 #include <System/Time.hpp>
 #include <GameState.hpp>
+#include <cstring>
 
 namespace Gunslinger
 {
@@ -69,24 +70,64 @@ namespace Gunslinger
 		return ( *RegistryIterator )->GetName( );
 	}
 
-	ZED_UINT32 GameStateManager::ChangeState( const ZED_CHAR8 *p_pStateName )
+	ZED_UINT32 GameStateManager::ChangeState(
+		const ZED_CHAR8 *p_pGameStateName )
 	{
+		if( this->IsGameStateNameValid( p_pGameStateName ) == ZED_FALSE )
+		{
+			return ZED_FAIL;
+		}
+
+		this->PopState( );
+		this->PushState( p_pGameStateName );
+
 		return ZED_OK;
 	}
 
-	ZED_UINT32 GameStateManager::PushState( const ZED_CHAR8 *p_pStateName )
+	ZED_UINT32 GameStateManager::PushState( const ZED_CHAR8 *p_pGameStateName )
 	{
+		if( this->IsGameStateNameValid( p_pGameStateName ) == ZED_FALSE )
+		{
+			return ZED_FAIL;
+		}
+
+		GameStateSet::const_iterator RegistryIterator =
+			m_GameStateRegistry.begin( );
+
+		for( ; RegistryIterator != m_GameStateRegistry.end( );
+			++RegistryIterator )
+		{
+			if( strcmp( ( *RegistryIterator )->GetName( ),
+				p_pGameStateName ) == 0 )
+			{
+				break;
+			}
+		}
+		
+		m_GameStateStack.push( ( *RegistryIterator ) );
+
+		if( m_GameStateStack.top( )->Enter( ) != ZED_OK )
+		{
+			this->PopState( );
+			return ZED_FAIL;
+		}
+
 		return ZED_OK;
 	}
 
 	ZED_UINT32 GameStateManager::PopState( )
 	{
+		if( !m_GameStateStack.empty( ) )
+		{
+			m_GameStateStack.pop( );
+		}
+
 		return ZED_OK;
 	}
 
 	void GameStateManager::Quit( )
 	{
-		for( ZED_MEMSIZE i = 0; i < m_GameStateStack.size( ); ++i )
+		while( !m_GameStateStack.empty( ) )
 		{
 			this->PopState( );
 		}
@@ -104,6 +145,23 @@ namespace Gunslinger
 		static GameStateManager Instance;
 
 		return Instance;
+	}
+
+	ZED_BOOL GameStateManager::IsGameStateNameValid(
+		const ZED_CHAR8 *p_pGameStateName ) const
+	{
+		GameStateSet::const_iterator RegistryItr =
+			m_GameStateRegistry.begin( );
+
+		for( ; RegistryItr != m_GameStateRegistry.end( ); ++RegistryItr )
+		{
+			if( strcmp( ( *RegistryItr )->GetName( ), p_pGameStateName ) == 0 )
+			{
+				return ZED_TRUE;
+			}
+		}
+
+		return ZED_FALSE;
 	}
 }
 

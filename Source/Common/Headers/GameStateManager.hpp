@@ -23,9 +23,9 @@ namespace Gunslinger
 		ZED_UINT32 GetNumberOfStates( ) const;
 		ZED_CHAR8* GetStateName( const ZED_UINT32 p_Index ) const;
 
-		ZED_UINT32 ChangeState( const ZED_CHAR8 *p_pStateName );
+		ZED_UINT32 ChangeState( const ZED_CHAR8 *p_pGameStateName );
 
-		ZED_UINT32 PushState( const ZED_CHAR8 *p_pStateName );
+		ZED_UINT32 PushState( const ZED_CHAR8 *p_pGameStateName );
 		ZED_UINT32 PopState( );
 
 		void Quit( );
@@ -42,6 +42,9 @@ namespace Gunslinger
 		GameStateSet				m_GameStateRegistry;
 		ZED_BOOL					m_Running;
 		ZED_UINT64					m_StartTime;
+
+		ZED_BOOL IsGameStateNameValid(
+			const ZED_CHAR8 *p_pGameStateName ) const;
 	};
 }
 
