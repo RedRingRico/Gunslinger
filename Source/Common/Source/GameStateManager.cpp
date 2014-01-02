@@ -1,9 +1,14 @@
 #include <GameStateManager.hpp>
+#include <System/Time.hpp>
+#include <GameState.hpp>
 
 namespace Gunslinger
 {
 	GameStateManager::GameStateManager( )
 	{
+		m_Running = ZED_FALSE;
+		ZED::System::StartTime( );
+		m_StartTime = ZED::System::GetTimeMiS( );
 	}
 
 	GameStateManager::~GameStateManager( )
@@ -17,6 +22,19 @@ namespace Gunslinger
 
 	ZED_UINT32 GameStateManager::Execute( )
 	{
+		if( m_GameStateStack.empty( ) )
+		{
+			this->Quit( );
+			return ZED_FAIL;
+		}
+
+		ZED_UINT64 CurrentTimeElapsed = ZED::System::GetTimeMiS( );
+		ZED_UINT64 TimeDifference = CurrentTimeElapsed - m_StartTime;
+		m_StartTime = CurrentTimeElapsed;
+
+		m_GameStateStack.top( )->Update( TimeDifference );
+		m_GameStateStack.top( )->Render( );
+
 		return ZED_OK;
 	}
 
@@ -49,6 +67,21 @@ namespace Gunslinger
 	ZED_UINT32 GameStateManager::PopState( )
 	{
 		return ZED_OK;
+	}
+
+	void GameStateManager::Quit( )
+	{
+		for( ZED_MEMSIZE i = 0; i < m_GameStateStack.size( ); ++i )
+		{
+			this->PopState( );
+		}
+
+		m_Running = ZED_FALSE;
+	}
+
+	ZED_BOOL GameStateManager::Running( ) const
+	{
+		return m_Running;
 	}
 
 	GameStateManager &GameStateManager::GetInstance( )

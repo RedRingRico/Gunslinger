@@ -4,6 +4,8 @@
 #include <System/Debugger.hpp>
 #include <GitVersion.hpp>
 #include <unistd.h>
+#include <GameStateManager.hpp>
+#include <System/Time.hpp>
 
 namespace Gunslinger
 {
@@ -42,6 +44,11 @@ namespace Gunslinger
 
 	ZED_UINT32 Game::Execute( )
 	{
+		if( GameStateManager::GetInstance( ).Initialise( ) != ZED_OK )
+		{
+			return ZED_FAIL;
+		}
+
 		m_Running = ZED_TRUE;
 
 		while( m_Running )
@@ -51,6 +58,13 @@ namespace Gunslinger
 			m_pWindow->FlushEvents( );
 
 			if( m_Keyboard.IsKeyDown( K_ESCAPE ) )
+			{
+				m_Running = ZED_FALSE;
+			}
+
+			GameStateManager::GetInstance( ).Execute( );
+
+			if( GameStateManager::GetInstance( ).Running( ) == ZED_FALSE )
 			{
 				m_Running = ZED_FALSE;
 			}

@@ -28,14 +28,19 @@ namespace Gunslinger
 		ZED_UINT32 PushState( const ZED_CHAR8 *p_pStateName );
 		ZED_UINT32 PopState( );
 
+		void Quit( );
+
+		ZED_BOOL Running( ) const;
+
 		static GameStateManager &GetInstance( );
 
 	private:
 		typedef std::stack< GameState * > GameStateStack;
 
-		GameStateStack	m_StateStack;
-
-		std::vector< GameState * > m_GameStateRegistry;
+		GameStateStack				m_GameStateStack;
+		std::vector< GameState * >	m_GameStateRegistry;
+		ZED_BOOL					m_Running;
+		ZED_UINT64					m_StartTime;
 	};
 }
 

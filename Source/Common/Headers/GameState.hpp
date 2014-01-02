@@ -11,7 +11,8 @@ namespace Gunslinger
 		virtual ~GameState( );
 
 		virtual ZED_UINT32 Enter( ) = 0;
-		virtual ZED_UINT32 Execute( ) = 0;
+		virtual void Render( ) = 0;
+		virtual void Update( const ZED_UINT64 p_ElapsedTime ) = 0;
 		virtual ZED_UINT32 Exit( ) = 0;
 
 		virtual ZED_CHAR8 GetName( ) = 0;

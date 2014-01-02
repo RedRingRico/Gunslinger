@@ -34,5 +34,5 @@ namespace Gunslinger
 	};
 }
 
-#endif
+#endif // __GUNSLINGER_GAME_HPP__
 
