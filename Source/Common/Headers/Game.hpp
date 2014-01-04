@@ -21,8 +21,6 @@ namespace Gunslinger
 
 	private:
 		ZED_UINT32 PreInitialise( );
-		void Update( const ZED_UINT64 p_MicroSeconds );
-		void Render( );
 
 		ZED::System::Window					*m_pWindow;
 		ZED::System::InputManager			*m_pInputManager;

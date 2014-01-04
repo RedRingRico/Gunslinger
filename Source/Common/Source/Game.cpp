@@ -68,22 +68,9 @@ namespace Gunslinger
 			{
 				m_Running = ZED_FALSE;
 			}
-			
-			this->Update( 16667ULL );
-			this->Render( );
 		}
 
 		return ZED_OK;
-	}
-
-	void Game::Update( const ZED_UINT64 p_MicroSeconds )
-	{
-	}
-
-	void Game::Render( )
-	{
-		m_pRenderer->BeginScene( ZED_TRUE, ZED_TRUE, ZED_TRUE );
-		m_pRenderer->EndScene( );
 	}
 }
 

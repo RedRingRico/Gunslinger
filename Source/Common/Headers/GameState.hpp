@@ -17,7 +17,7 @@ namespace Gunslinger
 
 		virtual ZED_CHAR8 *GetName( ) const = 0;
 
-	private:
+	protected:
 	};
 }
 
