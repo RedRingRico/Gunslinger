@@ -7,6 +7,8 @@
 #include <GameStateManager.hpp>
 #include <System/Time.hpp>
 #include <GameplayGameState.hpp>
+#include <Events.hpp>
+#include <System/Debugger.hpp>
 
 namespace Gunslinger
 {
@@ -56,6 +58,11 @@ namespace Gunslinger
 		GameStateManager::GetInstance( ).RegisterState( pGameplay );
 		GameStateManager::GetInstance( ).PushState( "Gameplay" );
 
+		ZED_KEYBOARDSTATE PreviousKeyboardState;
+		memset( &PreviousKeyboardState, 0, sizeof( PreviousKeyboardState ) );
+		ZED_MEMSIZE KeyCount =	sizeof( PreviousKeyboardState ) /
+								sizeof( PreviousKeyboardState.Key[ 0 ] );
+
 		m_Running = ZED_TRUE;
 
 		while( m_Running )
@@ -63,6 +70,24 @@ namespace Gunslinger
 			m_pWindow->Update( );
 			m_pInputManager->Update( );
 			m_pWindow->FlushEvents( );
+
+			ZED_KEYBOARDSTATE NewKeyboardState;
+			m_Keyboard.State( &NewKeyboardState );
+
+			for( ZED_MEMSIZE i = 0; i < KeyCount; ++i )
+			{
+				if( NewKeyboardState.Key[ static_cast< ZED_KEY >( i ) ] !=
+					PreviousKeyboardState.Key[ static_cast< ZED_KEY >( i ) ] )
+				{
+					KeyboardInputEventData KeyboardData;
+					KeyboardData.SetState( static_cast< ZED_KEY >( i ),
+						NewKeyboardState.Key[ i ] );
+
+					KeyboardEvent Keyboard( &KeyboardData );
+
+					ZED::Utility::SendEvent( Keyboard );
+				}
+			}
 
 			if( m_Keyboard.IsKeyDown( K_ESCAPE ) &&
 				m_Keyboard.IsKeyDown( K_CTRL ) )

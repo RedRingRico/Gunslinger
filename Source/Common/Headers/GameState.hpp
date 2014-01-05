@@ -2,6 +2,8 @@
 #define __GUNSLINGER_GAMESTATE_HPP__
 
 #include <System/DataTypes.hpp>
+#include <Utility/InputBinder.hpp>
+#include <Utility/EventRouter.hpp>
 
 namespace Gunslinger
 {
@@ -17,7 +19,11 @@ namespace Gunslinger
 
 		virtual ZED_CHAR8 *GetName( ) const = 0;
 
+		ZED::Utility::EventRouter * const GetEventRouter( );
+
 	protected:
+		ZED::Utility::InputBinder	*m_pInputBinder;
+		ZED::Utility::EventRouter	*m_pEventRouter;
 	};
 }
 

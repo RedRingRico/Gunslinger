@@ -5,6 +5,8 @@
 #include <GameState.hpp>
 #include <cstring>
 #include <unistd.h>
+#include <GameStateEvents.hpp>
+#include <Events.hpp>
 
 namespace Gunslinger
 {
@@ -13,7 +15,7 @@ namespace Gunslinger
 		m_Running = ZED_FALSE;
 		ZED::System::StartTime( );
 		m_StartTime = ZED::System::GetTimeMiS( );
-		m_pInputBinder = ZED_NULL;
+		m_pInputListener = new GameStateInputListener( );
 	}
 
 	GameStateManager::~GameStateManager( )
@@ -123,6 +125,9 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
+		m_GameStateStack.top( )->GetEventRouter( )->Add( m_pInputListener,
+			KeyboardInputEventType );
+
 		return ZED_OK;
 	}
 
@@ -131,7 +136,6 @@ namespace Gunslinger
 		if( !m_GameStateStack.empty( ) )
 		{
 			m_GameStateStack.pop( );
-			m_pInputBinder = ZED_NULL;
 		}
 
 		return ZED_OK;
@@ -142,7 +146,7 @@ namespace Gunslinger
 	{
 		if( p_pInputBinder )
 		{
-			m_pInputBinder = p_pInputBinder;
+			m_pInputListener->SetInputBinder( p_pInputBinder );
 			return ZED_OK;
 		}
 

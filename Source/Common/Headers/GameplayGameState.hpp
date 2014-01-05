@@ -3,11 +3,11 @@
 
 #include <System/DataTypes.hpp>
 #include <GameState.hpp>
-#include <Utility/InputBinder.hpp>
-#include <Utility/EventRouter.hpp>
 
 namespace Gunslinger
 {
+	class GameplayInputListener;
+
 	class GameplayGameState : public GameState
 	{
 	public:
@@ -22,8 +22,7 @@ namespace Gunslinger
 		virtual ZED_CHAR8 *GetName( ) const;
 
 	private:
-		ZED::Utility::InputBinder	*m_pInputBinder;
-		ZED::Utility::EventRouter	*m_pEventRouter;
+		GameplayInputListener		*m_pInputListener;
 	};
 }
 

@@ -10,6 +10,7 @@
 namespace Gunslinger
 {
 	class GameState;
+	class GameStateInputListener;
 
 	class GameStateManager
 	{
@@ -56,6 +57,8 @@ namespace Gunslinger
 
 		ZED::Utility::InputBinder	*m_pInputBinder;
 		ZED::Renderer::Renderer		*m_pRenderer;
+
+		GameStateInputListener		*m_pInputListener;
 	};
 }
 
