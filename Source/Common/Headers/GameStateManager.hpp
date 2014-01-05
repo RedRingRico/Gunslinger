@@ -3,6 +3,7 @@
 
 #include <System/DataTypes.hpp>
 #include <Utility/InputBinder.hpp>
+#include <Renderer/Renderer.hpp>
 #include <stack>
 #include <set>
 
@@ -29,9 +30,15 @@ namespace Gunslinger
 		ZED_UINT32 PushState( const ZED_CHAR8 *p_pGameStateName );
 		ZED_UINT32 PopState( );
 
+		ZED_UINT32 SetInputBinder(
+			ZED::Utility::InputBinder * const &p_pInputBinder );
+
 		void Quit( );
 
 		ZED_BOOL Running( ) const;
+
+		ZED::Renderer::Renderer * const GetRenderer( );
+		ZED_UINT32 SetRenderer( ZED::Renderer::Renderer * const &p_pRenderer );
 
 		static GameStateManager &GetInstance( );
 
@@ -48,6 +55,7 @@ namespace Gunslinger
 			const ZED_CHAR8 *p_pGameStateName ) const;
 
 		ZED::Utility::InputBinder	*m_pInputBinder;
+		ZED::Renderer::Renderer		*m_pRenderer;
 	};
 }
 

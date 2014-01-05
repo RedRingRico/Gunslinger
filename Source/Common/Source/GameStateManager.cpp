@@ -1,8 +1,10 @@
 #include <GameStateManager.hpp>
 #include <System/Time.hpp>
 #include <System/Memory.hpp>
+#include <System/Debugger.hpp>
 #include <GameState.hpp>
 #include <cstring>
+#include <unistd.h>
 
 namespace Gunslinger
 {
@@ -16,11 +18,12 @@ namespace Gunslinger
 
 	GameStateManager::~GameStateManager( )
 	{
-		zedSafeDelete( m_pInputBinder );
 	}
 
 	ZED_UINT32 GameStateManager::Initialise( )
 	{
+		m_Running = ZED_TRUE;
+
 		return ZED_OK;
 	}
 
@@ -37,7 +40,9 @@ namespace Gunslinger
 		m_StartTime = CurrentTimeElapsed;
 
 		m_GameStateStack.top( )->Update( TimeDifference );
+		m_pRenderer->BeginScene( ZED_TRUE, ZED_TRUE, ZED_TRUE );
 		m_GameStateStack.top( )->Render( );
+		m_pRenderer->EndScene( );
 
 		return ZED_OK;
 	}
@@ -46,6 +51,9 @@ namespace Gunslinger
 		GameState * const &p_pGameState )
 	{
 		m_GameStateRegistry.insert( p_pGameState );
+
+		zedTrace( "[Gunslinger::GamestateManager::RegisterState] "
+			"<INFO> Added %s\n", p_pGameState->GetName( ) );
 
 		return ZED_OK;
 	}
@@ -123,9 +131,22 @@ namespace Gunslinger
 		if( !m_GameStateStack.empty( ) )
 		{
 			m_GameStateStack.pop( );
+			m_pInputBinder = ZED_NULL;
 		}
 
 		return ZED_OK;
+	}
+
+	ZED_UINT32 GameStateManager::SetInputBinder(
+		ZED::Utility::InputBinder * const &p_pInputBinder )
+	{
+		if( p_pInputBinder )
+		{
+			m_pInputBinder = p_pInputBinder;
+			return ZED_OK;
+		}
+
+		return ZED_FAIL;
 	}
 
 	void GameStateManager::Quit( )
@@ -141,6 +162,23 @@ namespace Gunslinger
 	ZED_BOOL GameStateManager::Running( ) const
 	{
 		return m_Running;
+	}
+
+	ZED::Renderer::Renderer * const GameStateManager::GetRenderer( )
+	{
+		return m_pRenderer;		
+	}
+
+	ZED_UINT32 GameStateManager::SetRenderer(
+		ZED::Renderer::Renderer * const &p_pRenderer )
+	{
+		if( p_pRenderer )
+		{
+			m_pRenderer = p_pRenderer;
+			return ZED_OK;
+		}
+
+		return ZED_FAIL;
 	}
 
 	GameStateManager &GameStateManager::GetInstance( )

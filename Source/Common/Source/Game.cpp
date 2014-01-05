@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <GameStateManager.hpp>
 #include <System/Time.hpp>
+#include <GameplayGameState.hpp>
 
 namespace Gunslinger
 {
@@ -49,6 +50,12 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
+		GameStateManager::GetInstance( ).SetRenderer( m_pRenderer );
+
+		GameplayGameState *pGameplay = new GameplayGameState( );
+		GameStateManager::GetInstance( ).RegisterState( pGameplay );
+		GameStateManager::GetInstance( ).PushState( "Gameplay" );
+
 		m_Running = ZED_TRUE;
 
 		while( m_Running )
@@ -57,7 +64,8 @@ namespace Gunslinger
 			m_pInputManager->Update( );
 			m_pWindow->FlushEvents( );
 
-			if( m_Keyboard.IsKeyDown( K_ESCAPE ) )
+			if( m_Keyboard.IsKeyDown( K_ESCAPE ) &&
+				m_Keyboard.IsKeyDown( K_CTRL ) )
 			{
 				m_Running = ZED_FALSE;
 			}
@@ -69,6 +77,8 @@ namespace Gunslinger
 				m_Running = ZED_FALSE;
 			}
 		}
+
+		zedSafeDelete( pGameplay );
 
 		return ZED_OK;
 	}
