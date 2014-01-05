@@ -55,7 +55,6 @@ namespace Gunslinger
 		ZED_BOOL IsGameStateNameValid(
 			const ZED_CHAR8 *p_pGameStateName ) const;
 
-		ZED::Utility::InputBinder	*m_pInputBinder;
 		ZED::Renderer::Renderer		*m_pRenderer;
 
 		GameStateInputListener		*m_pInputListener;
