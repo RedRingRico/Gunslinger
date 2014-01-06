@@ -6,6 +6,11 @@
 
 namespace Gunslinger
 {
+	const ZED_UINT32 PLAYER_MOVE_FORWARD	= 9000;
+	const ZED_UINT32 PLAYER_MOVE_BACKWARD	= 9001;
+	const ZED_UINT32 PLAYER_MOVE_LEFT		= 9002;
+	const ZED_UINT32 PLAYER_MOVE_RIGHT		= 9003;
+
 	class GameplayGameState;
 
 	class GameplayInputListener : public ZED::Utility::EventListener

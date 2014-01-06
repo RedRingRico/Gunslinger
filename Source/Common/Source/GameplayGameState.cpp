@@ -6,12 +6,13 @@
 #include <Events.hpp>
 #include <Utility/InputBinder.hpp>
 #include <Utility/EventRouter.hpp>
+#include <World.hpp>
 
 namespace Gunslinger
 {
 	GameplayGameState::GameplayGameState( ) :
-
-		m_pInputListener( new GameplayInputListener( ) )
+		m_pInputListener( new GameplayInputListener( ) ),
+		m_pGameWorld( new World( ) )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
@@ -38,7 +39,7 @@ namespace Gunslinger
 	void GameplayGameState::Render( )
 	{
 		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
-			0.0f, 1.0f, 0.0f );
+			0.14f, 0.0f, 0.14f );
 	}
 
 	void GameplayGameState::Update( const ZED_UINT64 p_ElapsedTime )

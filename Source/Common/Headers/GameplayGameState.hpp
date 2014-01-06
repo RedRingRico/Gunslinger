@@ -7,6 +7,7 @@
 namespace Gunslinger
 {
 	class GameplayInputListener;
+	class World;
 
 	class GameplayGameState : public GameState
 	{
@@ -23,6 +24,7 @@ namespace Gunslinger
 
 	private:
 		GameplayInputListener		*m_pInputListener;
+		World						*m_pGameWorld;
 	};
 }
 
