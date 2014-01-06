@@ -3,6 +3,7 @@
 
 #include <System/DataTypes.hpp>
 #include <GameState.hpp>
+#include <Utility/FreeCamera.hpp>
 
 namespace Gunslinger
 {
@@ -22,9 +23,12 @@ namespace Gunslinger
 
 		virtual ZED_CHAR8 *GetName( ) const;
 
+		ZED::Utility::FreeCamera *GetDebugCamera( );
+
 	private:
 		GameplayInputListener		*m_pInputListener;
 		World						*m_pGameWorld;
+		ZED::Utility::FreeCamera	m_DebugCamera;
 	};
 }
 

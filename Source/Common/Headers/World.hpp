@@ -3,6 +3,7 @@
 
 #include <Utility/Grid.hpp>
 #include <Utility/Camera.hpp>
+#include <Arithmetic/Matrix4x4.hpp>
 
 namespace Gunslinger
 {
@@ -15,7 +16,8 @@ namespace Gunslinger
 		~World( );
 
 		void Update( const ZED_UINT64 p_ElapsedTime );
-		void Render( );
+		void Render(
+			ZED::Arithmetic::Matrix4x4 * const &p_pProjectionViewMatrix );
 
 	private:
 		ZED::Utility::Grid		m_Grid;

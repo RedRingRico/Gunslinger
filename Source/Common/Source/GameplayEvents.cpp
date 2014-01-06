@@ -3,6 +3,8 @@
 #include <Events.hpp>
 #include <Actions.hpp>
 #include <Arithmetic/Arithmetic.hpp>
+#include <Arithmetic/Vector3.hpp>
+#include <System/Debugger.hpp>
 
 namespace Gunslinger
 {
@@ -37,6 +39,20 @@ namespace Gunslinger
 						m_pGameplayGameState->Exit( );
 					}
 
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_MOVE_UP:
+				{
+					ZED::Arithmetic::Vector3 Up( 0.0f, ActionValue, 0.0f );
+					m_pGameplayGameState->GetDebugCamera( )->Move( Up );
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_MOVE_DOWN:
+				{
+					ZED::Arithmetic::Vector3 Down( 0.0f, -ActionValue, 0.0f );
+					m_pGameplayGameState->GetDebugCamera( )->Move( Down );
 					return ZED_TRUE;
 				}
 
