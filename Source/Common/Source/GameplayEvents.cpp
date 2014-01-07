@@ -30,6 +30,8 @@ namespace Gunslinger
 
 			pActionData->GetAction( Action, ActionValue );
 
+			static ZED_FLOAT32 XRot = 0.0f;
+
 			switch( Action )
 			{
 				case STATE_EXIT:
@@ -54,6 +56,49 @@ namespace Gunslinger
 					ZED::Arithmetic::Vector3 Down( 0.0f, -ActionValue, 0.0f );
 					m_pGameplayGameState->GetDebugCamera( )->Move( Down );
 					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_MOVE_FORWARD:
+				{
+					m_pGameplayGameState->GetDebugCamera( )->Move(
+						ZED::Arithmetic::Vector3( 0.0f, 0.0f, -ActionValue ) );
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_MOVE_BACKWARD:
+				{
+					m_pGameplayGameState->GetDebugCamera( )->Move(
+						ZED::Arithmetic::Vector3( 0.0f, 0.0f, ActionValue ) );
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_MOVE_LEFT:
+				{
+					m_pGameplayGameState->GetDebugCamera( )->Move(
+						ZED::Arithmetic::Vector3( -ActionValue, 0.0f, 0.0f ) );
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_MOVE_RIGHT:
+				{
+					m_pGameplayGameState->GetDebugCamera( )->Move(
+						ZED::Arithmetic::Vector3( ActionValue, 0.0f, 0.0f ) );
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_LOOK_UP:
+				{
+					m_pGameplayGameState->GetDebugCamera( )->Rotate(
+						XRot+0.02f,
+						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
+					return ZED_TRUE;
+				}
+
+				case DEBUG_CAMERA_LOOK_DOWN:
+				{
+					m_pGameplayGameState->GetDebugCamera( )->Rotate(
+						XRot-0.02f,
+						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
 				}
 
 				default:
