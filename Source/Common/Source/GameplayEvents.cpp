@@ -89,16 +89,15 @@ namespace Gunslinger
 				case DEBUG_CAMERA_LOOK_UP:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Rotate(
-						XRot+0.02f,
-						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
+						ZED::Arithmetic::Vector3(XRot+=0.00002f* 1.0f, 0.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
 
 				case DEBUG_CAMERA_LOOK_DOWN:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Rotate(
-						XRot-0.02f,
-						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
+						
+						ZED::Arithmetic::Vector3( XRot-=0.00002f*1.0f, 0.0f, 0.0f ) );
 				}
 
 				default:
