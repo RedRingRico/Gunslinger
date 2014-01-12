@@ -18,7 +18,7 @@ namespace Gunslinger
 		void GetCamera( ZED::Utility::Camera *p_pCamera );
 
 	private:
-		ZED::Utility::Camera		m_Camera;
+		ZED::Utility::Camera		*m_Camera;
 		ZED::Arithmetic::Vector3	m_Position;
 	};
 }

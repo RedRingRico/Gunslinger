@@ -17,7 +17,7 @@ namespace Gunslinger
 
 	void Player::GetCamera( ZED::Utility::Camera *p_pCamera )
 	{
-		( *p_pCamera ) = m_Camera;
+		//( *p_pCamera ) = m_Camera;
 	}
 }
 
