@@ -2,6 +2,8 @@
 #include <System/LinuxWindow.hpp>
 #include <Renderer/LinuxRendererOGL3.hpp>
 #include <System/LinuxInputManager.hpp>
+#include <Renderer/OGL/GLTexture.hpp>
+#include <System/Memory.hpp>
 
 namespace Gunslinger
 {
@@ -27,6 +29,7 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
+//		ZED_UINT32 X = 1920, Y = 1920-720, Width = 1280, Height = 720;
 		ZED_UINT32 X = 0, Y = 0, Width = 1280, Height = 720;
 		ZED_UINT32 WindowStyle = ZED_WINDOW_STYLE_MINIMISE |
 			ZED_WINDOW_STYLE_CLOSE | ZED_WINDOW_STYLE_TITLEBAR |
@@ -70,6 +73,13 @@ namespace Gunslinger
 		}
 
 		m_pInputManager->AddDevice( &m_Keyboard );
+/*
+		ZED::Renderer::GLTexture TmpTGA;
+
+		if( TmpTGA.Load( "test.tga" ) != ZED_OK )
+		{
+			return ZED_FAIL;
+		}*/
 
 		return ZED_OK;
 	}

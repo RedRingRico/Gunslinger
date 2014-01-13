@@ -20,7 +20,7 @@ namespace Gunslinger
 			ZED::Arithmetic::Matrix4x4 * const &p_pProjectionViewMatrix );
 
 	private:
-		ZED::Utility::Grid		m_Grid;
+		ZED::Utility::Grid		m_Grid[ 6 ];
 		ZED::Utility::Camera	*m_pViewCamera;
 
 		Player	*m_pPlayer;

@@ -28,7 +28,7 @@ namespace Gunslinger
 			ZED_NULL );
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
-		m_DebugCamera.SetPosition( 0.0f, 170.0f, 0.0f ) ;
+		m_DebugCamera.SetPosition( 0.0f, 0.0f, 0.0f ) ;
 		
 		// N.B. The camera will start off looking at 0, 0, -1, which would be
 		// correct if the camera were looking down from the centre, however,
