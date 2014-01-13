@@ -30,8 +30,6 @@ namespace Gunslinger
 
 			pActionData->GetAction( Action, ActionValue );
 
-			static ZED_FLOAT32 XRot = 0.0f;
-			static ZED_FLOAT32 YRot = 0.0f;
 			m_pGameplayGameState->GetDebugCamera( )->Rotate(
 				0.0f, 
 				ZED::Arithmetic::Vector3( 1.0f, 1.0f, 1.0f ) );
@@ -93,7 +91,7 @@ namespace Gunslinger
 				case DEBUG_CAMERA_LOOK_UP:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Rotate(
-						XRot+=0.00002f, 
+						0.002f, 
 						ZED::Arithmetic::Vector3(1.0f, 0.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
@@ -101,7 +99,7 @@ namespace Gunslinger
 				case DEBUG_CAMERA_LOOK_DOWN:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Rotate(
-						XRot-=0.00002f,
+						-0.002f,
 						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
@@ -109,7 +107,7 @@ namespace Gunslinger
 				case DEBUG_CAMERA_LOOK_LEFT:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Rotate(
-						YRot+=0.00002f,
+						0.002f,
 						ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
@@ -117,7 +115,7 @@ namespace Gunslinger
 				case DEBUG_CAMERA_LOOK_RIGHT:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Rotate(
-						YRot -= 0.00002f,
+						-0.002f,
 						ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
