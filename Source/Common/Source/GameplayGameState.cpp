@@ -52,7 +52,7 @@ namespace Gunslinger
 		m_pInputBinder->BindKey( K_PGUP, DEBUG_CAMERA_LOOK_UP );
 		m_pInputBinder->BindKey( K_PGDN, DEBUG_CAMERA_LOOK_DOWN );
 		m_pInputBinder->BindKey( K_HOME, DEBUG_CAMERA_LOOK_LEFT );
-		m_pInputBinder->BindKey( K_END, DEBUG_CAMERA_LOOK_LEFT );
+		m_pInputBinder->BindKey( K_END, DEBUG_CAMERA_LOOK_RIGHT );
 		GameStateManager::GetInstance( ).SetInputBinder( m_pInputBinder );
 
 		m_pEventRouter->Add( m_pInputListener, ActionInputEventType );
