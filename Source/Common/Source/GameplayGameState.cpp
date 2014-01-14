@@ -15,7 +15,8 @@ namespace Gunslinger
 	GameplayGameState::GameplayGameState( ) :
 		m_pInputListener( new GameplayInputListener( ) ),
 		m_pGameWorld( new World( ) ),
-		m_DebugCameraActive( ZED_FALSE )
+		m_DebugCameraActive( ZED_FALSE ),
+		m_pActiveCamera( ZED_NULL )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
@@ -29,7 +30,7 @@ namespace Gunslinger
 			ZED_NULL );
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
-		m_DebugCamera.SetPosition( 0.0f, 0.0f, 0.0f ) ;
+		m_DebugCamera.SetPosition( 0.0f, 170.0f, 0.0f );
 		
 		// N.B. The camera will start off looking at 0, 0, -1, which would be
 		// correct if the camera were looking down from the centre, however,
@@ -103,9 +104,19 @@ namespace Gunslinger
 
 		if( m_DebugCameraActive )
 		{
-			// The camera should position itself where the player (or any other
-			// entity in the world) is viewing from and orientate itself
-			// looking in the same direction
+			// Only when there's an active camera will the debug camera use it
+			// as a basis for its orientation and position
+			if( m_pActiveCamera )
+			{
+				ZED::Arithmetic::Vector3 ActivePosition;
+				ZED::Arithmetic::Quaternion ActiveOrientation;
+
+				m_pActiveCamera->GetPosition( &ActivePosition );
+				m_pActiveCamera->GetOrientation( &ActiveOrientation );
+
+				m_DebugCamera.SetPosition( ActivePosition );
+				m_DebugCamera.SetOrientation( ActiveOrientation );
+			}
 		}
 	}
 

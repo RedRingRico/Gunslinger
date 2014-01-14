@@ -3,6 +3,7 @@
 
 #include <System/DataTypes.hpp>
 #include <GameState.hpp>
+#include <Utility/Camera.hpp>
 #include <Utility/FreeCamera.hpp>
 
 namespace Gunslinger
@@ -33,6 +34,7 @@ namespace Gunslinger
 		World						*m_pGameWorld;
 		ZED::Utility::FreeCamera	m_DebugCamera;
 		ZED_BOOL					m_DebugCameraActive;
+		ZED::Utility::Camera		*m_pActiveCamera;
 	};
 }
 
