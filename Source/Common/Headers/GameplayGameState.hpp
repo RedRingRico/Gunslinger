@@ -25,10 +25,14 @@ namespace Gunslinger
 
 		ZED::Utility::FreeCamera *GetDebugCamera( );
 
+		void ToggleDebugCamera( );
+		ZED_BOOL DebugCameraActive( ) const;
+
 	private:
 		GameplayInputListener		*m_pInputListener;
 		World						*m_pGameWorld;
 		ZED::Utility::FreeCamera	m_DebugCamera;
+		ZED_BOOL					m_DebugCameraActive;
 	};
 }
 

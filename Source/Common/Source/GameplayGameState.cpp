@@ -14,7 +14,8 @@ namespace Gunslinger
 {
 	GameplayGameState::GameplayGameState( ) :
 		m_pInputListener( new GameplayInputListener( ) ),
-		m_pGameWorld( new World( ) )
+		m_pGameWorld( new World( ) ),
+		m_DebugCameraActive( ZED_FALSE )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
@@ -43,6 +44,7 @@ namespace Gunslinger
 	ZED_UINT32 GameplayGameState::Enter( )
 	{
 		m_pInputBinder->BindKey( K_ESCAPE, STATE_EXIT );
+		m_pInputBinder->BindKey( K_F1, DEBUG_CAMERA_TOGGLE );
 		m_pInputBinder->BindKey( K_SHIFT, DEBUG_CAMERA_MOVE_UP );
 		m_pInputBinder->BindKey( K_CTRL, DEBUG_CAMERA_MOVE_DOWN );
 		m_pInputBinder->BindKey( K_UPARROW, DEBUG_CAMERA_MOVE_FORWARD );
@@ -93,6 +95,23 @@ namespace Gunslinger
 	ZED::Utility::FreeCamera *GameplayGameState::GetDebugCamera( )
 	{
 		return &m_DebugCamera;
+	}
+
+	void GameplayGameState::ToggleDebugCamera( )
+	{
+		m_DebugCameraActive = !m_DebugCameraActive;
+
+		if( m_DebugCameraActive )
+		{
+			// The camera should position itself where the player (or any other
+			// entity in the world) is viewing from and orientate itself
+			// looking in the same direction
+		}
+	}
+
+	ZED_BOOL GameplayGameState::DebugCameraActive( ) const
+	{
+		return m_DebugCameraActive;
 	}
 }
 
