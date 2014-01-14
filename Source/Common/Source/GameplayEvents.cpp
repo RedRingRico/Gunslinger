@@ -6,6 +6,7 @@
 #include <Arithmetic/Vector3.hpp>
 #include <System/Debugger.hpp>
 
+const ZED_FLOAT32 MaxSpeed = 5.0f;
 namespace Gunslinger
 {
 	GameplayInputListener::GameplayInputListener( ) :
@@ -30,10 +31,6 @@ namespace Gunslinger
 
 			pActionData->GetAction( Action, ActionValue );
 
-			m_pGameplayGameState->GetDebugCamera( )->Rotate(
-				0.0f, 
-				ZED::Arithmetic::Vector3( 1.0f, 1.0f, 1.0f ) );
-
 			switch( Action )
 			{
 				case STATE_EXIT:
@@ -48,43 +45,49 @@ namespace Gunslinger
 
 				case DEBUG_CAMERA_MOVE_UP:
 				{
-					ZED::Arithmetic::Vector3 Up( 0.0f, ActionValue, 0.0f );
-					m_pGameplayGameState->GetDebugCamera( )->Move( Up );
+					m_pGameplayGameState->GetDebugCamera( )->Move(
+						ZED::Arithmetic::Vector3(
+							0.0f, ActionValue * MaxSpeed, 0.0f ) );
 					return ZED_TRUE;
 				}
 
 				case DEBUG_CAMERA_MOVE_DOWN:
 				{
-					ZED::Arithmetic::Vector3 Down( 0.0f, -ActionValue, 0.0f );
-					m_pGameplayGameState->GetDebugCamera( )->Move( Down );
+					m_pGameplayGameState->GetDebugCamera( )->Move(
+						ZED::Arithmetic::Vector3(
+							0.0f, -ActionValue * MaxSpeed, 0.0f ) );
 					return ZED_TRUE;
 				}
 
 				case DEBUG_CAMERA_MOVE_FORWARD:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Move(
-						ZED::Arithmetic::Vector3( 0.0f, 0.0f, -ActionValue ) );
+						ZED::Arithmetic::Vector3(
+							0.0f, 0.0f, -ActionValue * MaxSpeed ) );
 					return ZED_TRUE;
 				}
 
 				case DEBUG_CAMERA_MOVE_BACKWARD:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Move(
-						ZED::Arithmetic::Vector3( 0.0f, 0.0f, ActionValue ) );
+						ZED::Arithmetic::Vector3(
+							0.0f, 0.0f, ActionValue * MaxSpeed ) );
 					return ZED_TRUE;
 				}
 
 				case DEBUG_CAMERA_MOVE_LEFT:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Move(
-						ZED::Arithmetic::Vector3( -ActionValue, 0.0f, 0.0f ) );
+						ZED::Arithmetic::Vector3(
+							-ActionValue * MaxSpeed, 0.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
 
 				case DEBUG_CAMERA_MOVE_RIGHT:
 				{
 					m_pGameplayGameState->GetDebugCamera( )->Move(
-						ZED::Arithmetic::Vector3( ActionValue, 0.0f, 0.0f ) );
+						ZED::Arithmetic::Vector3(
+							ActionValue * MaxSpeed, 0.0f, 0.0f ) );
 					return ZED_TRUE;
 				}
 

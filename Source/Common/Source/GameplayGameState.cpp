@@ -24,7 +24,7 @@ namespace Gunslinger
 		m_DebugCamera.SetPosition( 0.0f, 0.0f, 0.0f );
 		// Clip to 1cm-1Km, it's doubtful that 1Km will be needed
 		m_DebugCamera.SetClippingPlanes( 1.0f, 100000.0f );
-		m_DebugCamera.SetPerspectiveProjection( ZED_Pi, 1280.0f/720.0f,
+		m_DebugCamera.SetPerspectiveProjection( 45.0f, 1280.0f/720.0f,
 			ZED_NULL );
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
