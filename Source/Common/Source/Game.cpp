@@ -89,8 +89,8 @@ namespace Gunslinger
 				}
 			}
 
-			if( m_Keyboard.IsKeyDown( K_ESCAPE ) &&
-				m_Keyboard.IsKeyDown( K_CTRL ) )
+			if( m_Keyboard.IsKeyDown( ZED_KEY_ESCAPE ) &&
+				m_Keyboard.IsKeyDown( ZED_KEY_CTRL ) )
 			{
 				m_Running = ZED_FALSE;
 			}

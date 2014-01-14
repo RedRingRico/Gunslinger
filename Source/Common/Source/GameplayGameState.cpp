@@ -44,18 +44,18 @@ namespace Gunslinger
 
 	ZED_UINT32 GameplayGameState::Enter( )
 	{
-		m_pInputBinder->BindKey( K_ESCAPE, STATE_EXIT );
-		m_pInputBinder->BindKey( K_F1, DEBUG_CAMERA_TOGGLE );
-		m_pInputBinder->BindKey( K_SHIFT, DEBUG_CAMERA_MOVE_UP );
-		m_pInputBinder->BindKey( K_CTRL, DEBUG_CAMERA_MOVE_DOWN );
-		m_pInputBinder->BindKey( K_UPARROW, DEBUG_CAMERA_MOVE_FORWARD );
-		m_pInputBinder->BindKey( K_DOWNARROW, DEBUG_CAMERA_MOVE_BACKWARD );
-		m_pInputBinder->BindKey( K_LEFTARROW, DEBUG_CAMERA_MOVE_LEFT );
-		m_pInputBinder->BindKey( K_RIGHTARROW, DEBUG_CAMERA_MOVE_RIGHT );
-		m_pInputBinder->BindKey( K_PGUP, DEBUG_CAMERA_LOOK_UP );
-		m_pInputBinder->BindKey( K_PGDN, DEBUG_CAMERA_LOOK_DOWN );
-		m_pInputBinder->BindKey( K_HOME, DEBUG_CAMERA_LOOK_LEFT );
-		m_pInputBinder->BindKey( K_END, DEBUG_CAMERA_LOOK_RIGHT );
+		m_pInputBinder->BindKey( ZED_KEY_ESCAPE, STATE_EXIT );
+		m_pInputBinder->BindKey( ZED_KEY_F1, DEBUG_CAMERA_TOGGLE );
+		m_pInputBinder->BindKey( ZED_KEY_Q, DEBUG_CAMERA_MOVE_UP );
+		m_pInputBinder->BindKey( ZED_KEY_E, DEBUG_CAMERA_MOVE_DOWN );
+		m_pInputBinder->BindKey( ZED_KEY_W, DEBUG_CAMERA_MOVE_FORWARD );
+		m_pInputBinder->BindKey( ZED_KEY_S, DEBUG_CAMERA_MOVE_BACKWARD );
+		m_pInputBinder->BindKey( ZED_KEY_A, DEBUG_CAMERA_MOVE_LEFT );
+		m_pInputBinder->BindKey( ZED_KEY_D, DEBUG_CAMERA_MOVE_RIGHT );
+		m_pInputBinder->BindKey( ZED_KEY_UPARROW, DEBUG_CAMERA_LOOK_UP );
+		m_pInputBinder->BindKey( ZED_KEY_DOWNARROW, DEBUG_CAMERA_LOOK_DOWN );
+		m_pInputBinder->BindKey( ZED_KEY_LEFTARROW, DEBUG_CAMERA_LOOK_LEFT );
+		m_pInputBinder->BindKey( ZED_KEY_RIGHTARROW, DEBUG_CAMERA_LOOK_RIGHT );
 		GameStateManager::GetInstance( ).SetInputBinder( m_pInputBinder );
 
 		m_pEventRouter->Add( m_pInputListener, ActionInputEventType );
