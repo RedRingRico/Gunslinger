@@ -40,6 +40,7 @@ namespace Gunslinger
 
 	GameplayGameState::~GameplayGameState( )
 	{
+		zedSafeDelete( m_pPlayer );
 		zedSafeDelete( m_pInputBinder );
 	}
 
