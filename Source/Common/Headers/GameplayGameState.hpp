@@ -5,6 +5,8 @@
 #include <GameState.hpp>
 #include <Utility/Camera.hpp>
 #include <Utility/FreeCamera.hpp>
+#include <Utility/FirstPersonCamera.hpp>
+#include <Player.hpp>
 
 namespace Gunslinger
 {
@@ -24,7 +26,8 @@ namespace Gunslinger
 
 		virtual ZED_CHAR8 *GetName( ) const;
 
-		ZED::Utility::FreeCamera *GetDebugCamera( );
+		ZED::Utility::FreeCamera		*GetDebugCamera( );
+		ZED::Utility::FirstPersonCamera	*GetPlayerCamera( );
 
 		void ToggleDebugCamera( );
 		ZED_BOOL DebugCameraActive( ) const;
@@ -35,6 +38,8 @@ namespace Gunslinger
 		ZED::Utility::FreeCamera	m_DebugCamera;
 		ZED_BOOL					m_DebugCameraActive;
 		ZED::Utility::Camera		*m_pActiveCamera;
+		ZED::Utility::Camera		*m_pPreviousCamera;
+		Player						m_Player;
 	};
 }
 

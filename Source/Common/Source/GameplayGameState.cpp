@@ -16,22 +16,22 @@ namespace Gunslinger
 		m_pInputListener( new GameplayInputListener( ) ),
 		m_pGameWorld( new World( ) ),
 		m_DebugCameraActive( ZED_FALSE ),
-		m_pActiveCamera( ZED_NULL )
+		m_pActiveCamera( ZED_NULL ),
+		m_pPreviousCamera( ZED_NULL )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
 			"Gameplay", ZED_TRUE, 2 );
 
 		m_DebugCamera.SetViewMode( ZED_VIEWMODE_PERSPECTIVE );
-		m_DebugCamera.SetPosition( 0.0f, 0.0f, 0.0f );
 		// Clip to 1cm-1Km, it's doubtful that 1Km will be needed
 		m_DebugCamera.SetClippingPlanes( 1.0f, 100000.0f );
 		m_DebugCamera.SetPerspectiveProjection( 45.0f, 1280.0f/720.0f,
 			ZED_NULL );
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
-		m_DebugCamera.SetPosition( 0.0f, 170.0f, 0.0f );
-		
+		m_Player.SetPosition( ZED::Arithmetic::Vector3( 0.0f, 170.0f, 0.0f ) );
+
 		// N.B. The camera will start off looking at 0, 0, -1, which would be
 		// correct if the camera were looking down from the centre, however,
 		// this will need to be corrected from the current view
@@ -56,11 +56,17 @@ namespace Gunslinger
 		m_pInputBinder->BindKey( ZED_KEY_DOWNARROW, DEBUG_CAMERA_LOOK_DOWN );
 		m_pInputBinder->BindKey( ZED_KEY_LEFTARROW, DEBUG_CAMERA_LOOK_LEFT );
 		m_pInputBinder->BindKey( ZED_KEY_RIGHTARROW, DEBUG_CAMERA_LOOK_RIGHT );
+		m_pInputBinder->BindKey( ZED_KEY_I, PLAYER_MOVE_FORWARD );
+		m_pInputBinder->BindKey( ZED_KEY_K, PLAYER_MOVE_BACKWARD );
+		m_pInputBinder->BindKey( ZED_KEY_J, PLAYER_MOVE_LEFT );
+		m_pInputBinder->BindKey( ZED_KEY_L, PLAYER_MOVE_RIGHT );
 		GameStateManager::GetInstance( ).SetInputBinder( m_pInputBinder );
 
 		m_pEventRouter->Add( m_pInputListener, ActionInputEventType );
 
 		m_pInputListener->SetGameplayGameState( this );
+
+		m_Player.GetCamera( &m_pActiveCamera );
 
 		return ZED_OK;
 	}
@@ -71,14 +77,14 @@ namespace Gunslinger
 			0.14f, 0.0f, 0.14f );
 
 		ZED::Arithmetic::Matrix4x4 ProjectionViewMatrix;
-		m_DebugCamera.GetProjectionViewMatrix( &ProjectionViewMatrix );
+		m_pActiveCamera->GetProjectionViewMatrix( &ProjectionViewMatrix );
 		m_pGameWorld->Render( &ProjectionViewMatrix );
 	}
 
 	void GameplayGameState::Update( const ZED_UINT64 p_ElapsedTime )
 	{
-		m_DebugCamera.Update( p_ElapsedTime );
-		m_DebugCamera.Rotate( 0.0f, 
+		m_pActiveCamera->Update( p_ElapsedTime );
+		m_pActiveCamera->Rotate( 0.0f, 
 			ZED::Arithmetic::Vector3( 1.0f, 1.0f, 1.0f ) );
 	}
 
@@ -96,6 +102,15 @@ namespace Gunslinger
 	ZED::Utility::FreeCamera *GameplayGameState::GetDebugCamera( )
 	{
 		return &m_DebugCamera;
+	}
+
+	ZED::Utility::FirstPersonCamera *GameplayGameState::GetPlayerCamera( )
+	{
+		ZED::Utility::Camera *pReturn;
+
+		m_Player.GetCamera( &pReturn );
+
+		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >( pReturn );
 	}
 
 	void GameplayGameState::ToggleDebugCamera( )
@@ -116,6 +131,16 @@ namespace Gunslinger
 
 				m_DebugCamera.SetPosition( ActivePosition );
 				m_DebugCamera.SetOrientation( ActiveOrientation );
+
+				m_pPreviousCamera = m_pActiveCamera;
+				m_pActiveCamera = &m_DebugCamera;
+			}
+		}
+		else
+		{
+			if( m_pPreviousCamera )
+			{
+				m_pActiveCamera = m_pPreviousCamera;
 			}
 		}
 	}

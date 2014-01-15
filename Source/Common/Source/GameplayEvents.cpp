@@ -44,9 +44,52 @@ namespace Gunslinger
 				}
 				case DEBUG_CAMERA_TOGGLE:
 				{
-					m_pGameplayGameState->ToggleDebugCamera( );
+					// This still toggles quickly as there is no state checking
+					// of the previous state with this one
+					if( ZED::Arithmetic::Equal( ActionValue, 1.0f ) )
+					{
+						m_pGameplayGameState->ToggleDebugCamera( );
+					}
+
 					return ZED_TRUE;
 				}
+
+				case PLAYER_MOVE_FORWARD:
+				{
+					m_pGameplayGameState->GetPlayerCamera( )->Move(
+						ZED::Arithmetic::Vector3(
+							0.0f, 0.0f, ActionValue * MaxSpeed ) );
+
+					return ZED_TRUE;
+				}
+
+				case PLAYER_MOVE_BACKWARD:
+				{
+					m_pGameplayGameState->GetPlayerCamera( )->Move(
+						ZED::Arithmetic::Vector3(
+							0.0f, 0.0f, -ActionValue * MaxSpeed ) );
+
+					return ZED_TRUE;
+				}
+
+				case PLAYER_MOVE_LEFT:
+				{
+					m_pGameplayGameState->GetPlayerCamera( )->Move(
+						ZED::Arithmetic::Vector3(
+							-ActionValue * MaxSpeed, 0.0f, 0.0f ) );
+
+					return ZED_TRUE;
+				}
+
+				case PLAYER_MOVE_RIGHT:
+				{
+					m_pGameplayGameState->GetPlayerCamera( )->Move(
+						ZED::Arithmetic::Vector3(
+							ActionValue * MaxSpeed, 0.0f, 0.0f ) );
+
+					return ZED_TRUE;
+				}
+
 				default:
 				{
 					break;
