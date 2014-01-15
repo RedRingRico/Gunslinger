@@ -2,7 +2,8 @@
 
 namespace Gunslinger
 {
-	Player::Player( )
+	Player::Player( const ZED_UINT32 p_ID ) :
+		GameEntity( "Player", p_ID )
 	{
 		m_Camera.SetViewMode( ZED_VIEWMODE_PERSPECTIVE );
 		m_Camera.SetClippingPlanes( 1.0f, 100000.0f );
@@ -13,10 +14,29 @@ namespace Gunslinger
 	{
 	}
 
+	ZED_UINT32 Player::Initialise( )
+	{
+		return ZED_OK;
+	}
+
+	void Player::Update( const ZED_UINT64 p_ElapsedTime )
+	{
+	}
+
+	void Player::Render( )
+	{
+	}
+
 	void Player::SetPosition( const ZED::Arithmetic::Vector3 &p_Position )
 	{
-		m_Position = p_Position;
+		GameEntity::SetPosition( p_Position );
 		m_Camera.SetPosition( m_Position );
+	}
+
+	void Player::SetOrientation(
+		const ZED::Arithmetic::Quaternion &p_Orientation )
+	{
+		GameEntity::SetOrientation( p_Orientation );
 	}
 
 	void Player::GetCamera( ZED::Utility::Camera **p_ppCamera )

@@ -21,11 +21,11 @@ namespace Gunslinger
 		virtual void Render( ) = 0;
 
 		void GetPosition( ZED::Arithmetic::Vector3 *p_pPoistion ) const;
-		void SetPosition( const ZED::Arithmetic::Vector3 &p_Position );
+		virtual void SetPosition( const ZED::Arithmetic::Vector3 &p_Position );
 
 		void GetOrientation(
 			ZED::Arithmetic::Quaternion *p_pOrientation ) const;
-		void SetOrientation(
+		virtual void SetOrientation(
 			const ZED::Arithmetic::Quaternion &p_Orientation );
 
 	protected:

@@ -30,7 +30,8 @@ namespace Gunslinger
 			ZED_NULL );
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
-		m_Player.SetPosition( ZED::Arithmetic::Vector3( 0.0f, 170.0f, 0.0f ) );
+		m_pPlayer = new Player( 2001 );
+		m_pPlayer->SetPosition( ZED::Arithmetic::Vector3( 0.0f, 170.0f, 0.0f ) );
 
 		// N.B. The camera will start off looking at 0, 0, -1, which would be
 		// correct if the camera were looking down from the centre, however,
@@ -66,7 +67,7 @@ namespace Gunslinger
 
 		m_pInputListener->SetGameplayGameState( this );
 
-		m_Player.GetCamera( &m_pActiveCamera );
+		m_pPlayer->GetCamera( &m_pActiveCamera );
 
 		return ZED_OK;
 	}
@@ -108,7 +109,7 @@ namespace Gunslinger
 	{
 		ZED::Utility::Camera *pReturn;
 
-		m_Player.GetCamera( &pReturn );
+		m_pPlayer->GetCamera( &pReturn );
 
 		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >( pReturn );
 	}

@@ -39,7 +39,7 @@ namespace Gunslinger
 		ZED_BOOL					m_DebugCameraActive;
 		ZED::Utility::Camera		*m_pActiveCamera;
 		ZED::Utility::Camera		*m_pPreviousCamera;
-		Player						m_Player;
+		Player						*m_pPlayer;
 	};
 }
 
