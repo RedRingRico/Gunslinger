@@ -15,6 +15,9 @@ namespace Gunslinger
 		~GameEntityManager( );
 
 	private:
+		GameEntityManager( const GameEntityManager &p_Original );
+		GameEntityManager &operator=( const GameEntityManager &p_Original );
+
 		typedef std::vector< GameEntity * > GameEntityArray;
 
 		GameEntityArray	m_Entities;
