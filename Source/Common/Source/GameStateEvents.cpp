@@ -35,22 +35,39 @@ namespace Gunslinger
 				{
 					return ZED_FAIL;
 				}
+				else if( ActionCount == 1 )
+				{				
+					ZED_UINT32 ActionID;
+					ActionID = m_pInputBinder->GetActionFromKey( Key );
 
-				ZED_UINT32 ActionID[ ActionCount ];
-				m_pInputBinder->GetActionsFromKey( Key, ActionID );
+					if( ActionID != 0 )
+					{
+						ZED_FLOAT32 ActionValue = KeyState ? 1.0f : 0.0f;
+						ActionInputEventData ActionData;
+						ActionData.SetAction( ActionID, ActionValue );
+						ActionInputEvent Action( &ActionData );
 
-				for( ZED_UINT32 i = 0; i < ActionCount; ++i )
-				{
-					ZED_FLOAT32 ActionValue = KeyState ? 1.0f : 0.0f;
-					ActionInputEventData ActionData;
-					ActionData.SetAction( ActionID[ i ], ActionValue );
-					ActionInputEvent Action( &ActionData );
+						ZED::Utility::SendEvent( Action );
 
-					ZED::Utility::SendEvent( Action );
-
-
+						return ZED_TRUE;
+					}
 				}
-				return ZED_TRUE;
+				else
+				{
+					ZED_UINT32 ActionID[ ActionCount ];
+					m_pInputBinder->GetActionsFromKey( Key, ActionID );
+
+					for( ZED_UINT32 i = 0; i < ActionCount; ++i )
+					{
+						ZED_FLOAT32 ActionValue = KeyState ? 1.0f : 0.0f;
+						ActionInputEventData ActionData;
+						ActionData.SetAction( ActionID[ i ], ActionValue );
+						ActionInputEvent Action( &ActionData );
+
+						ZED::Utility::SendEvent( Action );
+					}
+					return ZED_TRUE;
+				}
 			}
 		}
 		
