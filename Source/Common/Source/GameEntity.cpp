@@ -7,14 +7,16 @@ namespace Gunslinger
 {
 	GameEntityType::GameEntityType( ) :
 		m_ID( 0 ),
-		m_pName( ZED_NULL )
+		m_pName( ZED_NULL ),
+		m_Unique( ZED_FALSE )
 	{
 	}
 
-	GameEntityType::GameEntityType( const ZED_CHAR8 *p_pName )
+	GameEntityType::GameEntityType( const ZED_CHAR8 *p_pName,
+		const ZED_BOOL p_Unique ) :
+		m_ID( ZED::System::HashString( p_pName ) ),
+		m_Unique( p_Unique )
 	{
-		m_ID = ZED::System::HashString( p_pName );
-
 		ZED_MEMSIZE NameLength = strlen( p_pName );
 		m_pName = new ZED_CHAR8[ NameLength + 1 ];
 		strncpy( m_pName, p_pName, NameLength );
@@ -22,7 +24,8 @@ namespace Gunslinger
 	}
 
 	GameEntityType::GameEntityType( const GameEntityType &p_Type ) :
-		m_ID( p_Type.m_ID )
+		m_ID( p_Type.m_ID ),
+		m_Unique( ZED_FALSE )
 	{
 		ZED_MEMSIZE NameLength = strlen( p_Type.GetName( ) );
 		m_pName = new ZED_CHAR8[ NameLength + 1 ];
@@ -53,6 +56,26 @@ namespace Gunslinger
 		m_pName = new ZED_CHAR8[ NameLength + 1 ];
 		strncpy( m_pName, p_Type.m_pName, NameLength );
 		m_pName[ NameLength ] = '\0';
+	}
+
+	ZED_BOOL GameEntityType::operator==( const GameEntityType &p_Type )
+	{
+		ZED_MEMSIZE NameLength = strlen( m_pName );
+		if( strncmp( p_Type.m_pName, m_pName, NameLength ) != 0 )
+		{
+			return ZED_FALSE;
+		}
+		if( m_ID != p_Type.m_ID )
+		{
+			return ZED_FALSE;
+		}
+
+		return ZED_TRUE;
+	}
+
+	ZED_BOOL GameEntityType::IsUnique( ) const
+	{
+		return m_Unique;
 	}
 
 	GameEntity::GameEntity( const GameEntityType &p_EntityType,
@@ -86,6 +109,11 @@ namespace Gunslinger
 		const ZED::Arithmetic::Quaternion &p_Orientation )
 	{
 		m_Orientation = p_Orientation;
+	}
+
+	void GameEntity::GetGameEntityType( GameEntityType *p_pType ) const
+	{
+		( *p_pType ) = m_Type;
 	}
 }
 

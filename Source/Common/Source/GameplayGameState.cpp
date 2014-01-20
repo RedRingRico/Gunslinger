@@ -73,6 +73,8 @@ namespace Gunslinger
 		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
 			0.14f, 0.0f, 0.14f );
 
+		m_GameEntityManager.CreateEntity( PlayerGameEntityType );
+
 		return ZED_OK;
 	}
 

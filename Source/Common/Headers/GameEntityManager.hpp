@@ -15,6 +15,8 @@ namespace Gunslinger
 
 		ZED_UINT32 CreateEntity( const GameEntityType &p_Type );
 
+		void PurgeEntities( );
+
 	private:
 		GameEntityManager( const GameEntityManager &p_Original );
 		GameEntityManager &operator=( const GameEntityManager &p_Original );
@@ -22,6 +24,8 @@ namespace Gunslinger
 		typedef std::vector< GameEntity * > GameEntityArray;
 
 		GameEntityArray	m_Entities;
+
+		ZED_UINT32		m_UniqueID;
 	};
 }
 

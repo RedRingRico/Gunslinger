@@ -7,6 +7,7 @@
 #include <Utility/FreeCamera.hpp>
 #include <Utility/FirstPersonCamera.hpp>
 #include <Player.hpp>
+#include <GameEntityManager.hpp>
 
 namespace Gunslinger
 {
@@ -40,6 +41,7 @@ namespace Gunslinger
 		ZED::Utility::Camera		*m_pActiveCamera;
 		ZED::Utility::Camera		*m_pPreviousCamera;
 		Player						*m_pPlayer;
+		GameEntityManager			m_GameEntityManager;
 	};
 }
 
