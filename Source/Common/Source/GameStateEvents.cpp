@@ -28,20 +28,29 @@ namespace Gunslinger
 
 				pKeyboardData->GetState( Key, KeyState );
 
-				ZED_UINT32 ActionID;
-				ActionID = m_pInputBinder->GetActionFromKey( Key );
+				ZED_UINT32 ActionCount =
+					m_pInputBinder->GetActionCountForKey( Key );
 
-				if( ActionID != 0 )
+				if( ActionCount == 0 )
+				{
+					return ZED_FAIL;
+				}
+
+				ZED_UINT32 ActionID[ ActionCount ];
+				m_pInputBinder->GetActionsFromKey( Key, ActionID );
+
+				for( ZED_UINT32 i = 0; i < ActionCount; ++i )
 				{
 					ZED_FLOAT32 ActionValue = KeyState ? 1.0f : 0.0f;
 					ActionInputEventData ActionData;
-					ActionData.SetAction( ActionID, ActionValue );
+					ActionData.SetAction( ActionID[ i ], ActionValue );
 					ActionInputEvent Action( &ActionData );
 
 					ZED::Utility::SendEvent( Action );
 
-					return ZED_TRUE;
+
 				}
+				return ZED_TRUE;
 			}
 		}
 		

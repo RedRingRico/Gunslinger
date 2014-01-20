@@ -58,10 +58,10 @@ namespace Gunslinger
 		m_pInputBinder->BindKey( ZED_KEY_DOWNARROW, DEBUG_CAMERA_LOOK_DOWN );
 		m_pInputBinder->BindKey( ZED_KEY_LEFTARROW, DEBUG_CAMERA_LOOK_LEFT );
 		m_pInputBinder->BindKey( ZED_KEY_RIGHTARROW, DEBUG_CAMERA_LOOK_RIGHT );
-		m_pInputBinder->BindKey( ZED_KEY_I, PLAYER_MOVE_FORWARD );
-		m_pInputBinder->BindKey( ZED_KEY_K, PLAYER_MOVE_BACKWARD );
-		m_pInputBinder->BindKey( ZED_KEY_J, PLAYER_MOVE_LEFT );
-		m_pInputBinder->BindKey( ZED_KEY_L, PLAYER_MOVE_RIGHT );
+		m_pInputBinder->BindKey( ZED_KEY_W, PLAYER_MOVE_FORWARD );
+		m_pInputBinder->BindKey( ZED_KEY_S, PLAYER_MOVE_BACKWARD );
+		m_pInputBinder->BindKey( ZED_KEY_A, PLAYER_MOVE_LEFT );
+		m_pInputBinder->BindKey( ZED_KEY_D, PLAYER_MOVE_RIGHT );
 		GameStateManager::GetInstance( ).SetInputBinder( m_pInputBinder );
 
 		m_pEventRouter->Add( m_pInputListener, ActionInputEventType );
