@@ -116,5 +116,10 @@ namespace Gunslinger
 	{
 		( *p_pType ) = m_Type;
 	}
+
+	ZED_UINT32 GameEntity::GetID( ) const
+	{
+		return m_ID;
+	}
 }
 

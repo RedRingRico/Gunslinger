@@ -68,6 +68,24 @@ namespace Gunslinger
 		return ZED_OK;
 	}
 
+	ZED_UINT32 GameEntityManager::GetEntityByID( const ZED_UINT32 p_ID,
+		GameEntity **p_ppEntity )
+	{
+		GameEntityArray::iterator Entity = m_Entities.begin( );
+
+		while( Entity != m_Entities.end( ) )
+		{
+			if( ( *Entity )->GetID( ) == p_ID )
+			{
+				( *p_ppEntity ) = ( *Entity );
+				return ZED_OK;
+			}
+			++Entity;
+		}
+
+		return ZED_FAIL;
+	}
+
 	void GameEntityManager::PurgeEntities( )
 	{
 		GameEntityArray::iterator Entity = m_Entities.begin( );

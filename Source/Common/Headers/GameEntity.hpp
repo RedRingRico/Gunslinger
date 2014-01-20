@@ -54,6 +54,8 @@ namespace Gunslinger
 
 		void GetGameEntityType( GameEntityType *p_pType ) const;
 
+		ZED_UINT32 GetID( ) const;
+
 	protected:
 		GameEntityType	m_Type;
 		ZED_UINT32		m_ID;

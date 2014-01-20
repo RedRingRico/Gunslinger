@@ -30,8 +30,6 @@ namespace Gunslinger
 			ZED_NULL );
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
-		m_pPlayer = new Player( 2001 );
-		m_pPlayer->SetPosition( ZED::Arithmetic::Vector3( 0.0f, 170.0f, 0.0f ) );
 
 		// N.B. The camera will start off looking at 0, 0, -1, which would be
 		// correct if the camera were looking down from the centre, however,
@@ -40,7 +38,6 @@ namespace Gunslinger
 
 	GameplayGameState::~GameplayGameState( )
 	{
-		zedSafeDelete( m_pPlayer );
 		zedSafeDelete( m_pInputBinder );
 	}
 
@@ -68,12 +65,16 @@ namespace Gunslinger
 
 		m_pInputListener->SetGameplayGameState( this );
 
-		m_pPlayer->GetCamera( &m_pActiveCamera );
+		m_GameEntityManager.CreateEntity( PlayerGameEntityType );
+		GameEntity *pPlayer = ZED_NULL;
+		m_GameEntityManager.GetEntityByID( 0, &pPlayer );
+
+		reinterpret_cast< Player * >( pPlayer )->SetPosition(
+			ZED::Arithmetic::Vector3( 0.0f, 170.0f, 0.0f ) );
+		reinterpret_cast< Player * >( pPlayer )->GetCamera( &m_pActiveCamera );
 
 		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
 			0.14f, 0.0f, 0.14f );
-
-		m_GameEntityManager.CreateEntity( PlayerGameEntityType );
 
 		return ZED_OK;
 	}
@@ -110,11 +111,15 @@ namespace Gunslinger
 
 	ZED::Utility::FirstPersonCamera *GameplayGameState::GetPlayerCamera( )
 	{
+		GameEntity *pPlayer = ZED_NULL;
+		m_GameEntityManager.GetEntityByID( 0, &pPlayer );
+
 		ZED::Utility::Camera *pReturn;
 
-		m_pPlayer->GetCamera( &pReturn );
+		reinterpret_cast< Player * >( pPlayer )->GetCamera( &pReturn );
 
-		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >( pReturn );
+		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >(
+			pReturn );
 	}
 
 	void GameplayGameState::ToggleDebugCamera( )
