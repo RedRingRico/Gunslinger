@@ -25,7 +25,7 @@ namespace Gunslinger
 
 	GameEntityType::GameEntityType( const GameEntityType &p_Type ) :
 		m_ID( p_Type.m_ID ),
-		m_Unique( ZED_FALSE )
+		m_Unique( p_Type.m_Unique )
 	{
 		ZED_MEMSIZE NameLength = strlen( p_Type.GetName( ) );
 		m_pName = new ZED_CHAR8[ NameLength + 1 ];
@@ -50,6 +50,7 @@ namespace Gunslinger
 
 	GameEntityType &GameEntityType::operator=( const GameEntityType &p_Type )
 	{
+		m_Unique = p_Type.m_Unique;
 		m_ID = p_Type.m_ID;
 
 		ZED_MEMSIZE NameLength = strlen( p_Type.GetName( ) );
