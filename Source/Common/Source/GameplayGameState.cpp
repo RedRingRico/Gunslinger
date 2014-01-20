@@ -70,14 +70,14 @@ namespace Gunslinger
 
 		m_pPlayer->GetCamera( &m_pActiveCamera );
 
+		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
+			0.14f, 0.0f, 0.14f );
+
 		return ZED_OK;
 	}
 
 	void GameplayGameState::Render( )
 	{
-		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
-			0.14f, 0.0f, 0.14f );
-
 		ZED::Arithmetic::Matrix4x4 ProjectionViewMatrix;
 		m_pActiveCamera->GetProjectionViewMatrix( &ProjectionViewMatrix );
 		m_pGameWorld->Render( &ProjectionViewMatrix );

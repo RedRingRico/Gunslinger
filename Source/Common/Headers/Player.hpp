@@ -9,6 +9,8 @@
 
 namespace Gunslinger
 {
+	const GameEntityType PlayerGameEntityType( "Player" );
+
 	class Player : public GameEntity
 	{
 	public:

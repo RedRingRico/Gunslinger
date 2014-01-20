@@ -3,7 +3,7 @@
 namespace Gunslinger
 {
 	Player::Player( const ZED_UINT32 p_ID ) :
-		GameEntity( "Player", p_ID )
+		GameEntity( PlayerGameEntityType, p_ID )
 	{
 		m_Camera.SetViewMode( ZED_VIEWMODE_PERSPECTIVE );
 		m_Camera.SetClippingPlanes( 1.0f, 100000.0f );

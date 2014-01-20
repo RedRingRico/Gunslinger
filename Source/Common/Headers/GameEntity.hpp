@@ -7,10 +7,28 @@
 
 namespace Gunslinger
 {
+	class GameEntityType
+	{
+	public:
+		GameEntityType( );
+		ZED_EXPLICIT GameEntityType( const ZED_CHAR8 *p_pName );
+		GameEntityType( const GameEntityType &p_Type );
+		~GameEntityType( );
+
+		ZED_UINT32 GetID( ) const;
+		const ZED_CHAR8 *GetName( ) const;
+
+		GameEntityType &operator=( const GameEntityType &p_Type );
+
+	private:
+		ZED_UINT32	m_ID;
+		ZED_CHAR8	*m_pName;
+	};
+
 	class GameEntity
 	{
 	public:
-		ZED_EXPLICIT GameEntity( const ZED_CHAR8 *p_pName,
+		ZED_EXPLICIT GameEntity( const GameEntityType &p_EntityType,
 			const ZED_UINT32 p_ID );
 		virtual ~GameEntity( );
 
@@ -29,9 +47,8 @@ namespace Gunslinger
 			const ZED::Arithmetic::Quaternion &p_Orientation );
 
 	protected:
-		ZED_UINT32	m_ID;
-		ZED_UINT32	m_Type;
-		ZED_CHAR8	*m_pName;
+		GameEntityType	m_Type;
+		ZED_UINT32		m_ID;
 
 		ZED::Arithmetic::Vector3	m_Position;
 		ZED::Arithmetic::Quaternion	m_Orientation;
