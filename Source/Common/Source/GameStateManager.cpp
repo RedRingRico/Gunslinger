@@ -40,7 +40,7 @@ namespace Gunslinger
 		static ZED_UINT64 BeginTime = ZED::System::GetTimeMiS( );
 		ZED_UINT64 CurrentTimeElapsed = ZED::System::GetTimeMiS( );
 		ZED_UINT64 TimeDifference = CurrentTimeElapsed - m_StartTime;
-		m_TotalTimeElapsed = CurrentTimeElapsed - BeginTime;
+		m_TotalElapsedTime = CurrentTimeElapsed - BeginTime;
 		m_StartTime = CurrentTimeElapsed;
 
 		m_GameStateStack.top( )->Update( TimeDifference );
@@ -194,14 +194,15 @@ namespace Gunslinger
 		return Instance;
 	}
 
-	ZED_FLOAT64 GameStateManager::GetTotalElapsedTimeAsFloat( ) const
+	ZED_FLOAT64 GameStateManager::GetTotalElapsedTimeAsFloat64( ) const
 	{
-		return static_cast< ZED_FLOAT64 >( m_TotalTimeElapsed ) / 1000000.0d;
+		return static_cast< ZED_FLOAT64 >( m_TotalElapsedTime ) *
+			OneOverMillion;
 	}
 
 	ZED_UINT64 GameStateManager::GetTotalElapsedTimeAsUInt64( ) const
 	{
-		return m_TotalTimeElapsed;
+		return m_TotalElapsedTime;
 	}
 
 	ZED_BOOL GameStateManager::IsGameStateNameValid(

@@ -93,6 +93,7 @@ namespace Gunslinger
 	void GameEntity::Update( const ZED_UINT64 p_ElapsedTime )
 	{
 		m_Orientation *= m_Rotation;
+		m_Position += m_Velocity;
 	}
 
 	void GameEntity::GetPosition( ZED::Arithmetic::Vector3 *p_pPosition ) const
@@ -108,9 +109,7 @@ namespace Gunslinger
 	void GameEntity::Move( const ZED_FLOAT32 p_X, const ZED_FLOAT32 p_Y,
 		const ZED_FLOAT32 p_Z )
 	{
-		m_Position[ 0 ] += p_X;
-		m_Position[ 1 ] += p_Y;
-		m_Position[ 2 ] += p_Z;
+		m_Velocity.Set( p_X, p_Y, p_Z );
 	}
 
 	void GameEntity::GetOrientation(

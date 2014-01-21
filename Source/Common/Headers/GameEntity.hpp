@@ -67,6 +67,7 @@ namespace Gunslinger
 		ZED_UINT32		m_ID;
 
 		ZED::Arithmetic::Vector3	m_Position;
+		ZED::Arithmetic::Vector3	m_Velocity;
 		ZED::Arithmetic::Quaternion	m_Orientation;
 		ZED::Arithmetic::Quaternion	m_Rotation;
 	};
