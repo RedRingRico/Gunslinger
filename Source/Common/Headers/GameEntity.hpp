@@ -40,7 +40,7 @@ namespace Gunslinger
 
 		virtual ZED_UINT32 Initialise( ) = 0;
 
-		virtual void Update( const ZED_UINT64 p_ElapsedTime );
+		virtual void Update( const ZED_UINT64 p_ElapsedTime ) = 0;
 
 		virtual void Render( ) = 0;
 

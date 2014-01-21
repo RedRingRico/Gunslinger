@@ -90,12 +90,6 @@ namespace Gunslinger
 	{
 	}
 
-	void GameEntity::Update( const ZED_UINT64 p_ElapsedTime )
-	{
-		m_Orientation *= m_Rotation;
-		m_Position += m_Velocity;
-	}
-
 	void GameEntity::GetPosition( ZED::Arithmetic::Vector3 *p_pPosition ) const
 	{
 		( *p_pPosition ) = m_Position;
