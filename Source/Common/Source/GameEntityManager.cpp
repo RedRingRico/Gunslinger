@@ -56,6 +56,13 @@ namespace Gunslinger
 		
 		GameEntityType EntityType;
 		pGameEntity->GetGameEntityType( &EntityType );
+		if( pGameEntity->Initialise( ) != ZED_OK )
+		{
+			zedSafeDelete( pGameEntity );
+			zedTrace( "Failed to initialise entity: %s [%u]\n",
+				EntityType.GetName( ), EntityType.GetID( ) );
+			return ZED_FAIL;
+		}
 
 		zedTrace( "Created entity type %s with ID: %u [%s]\n",
 			EntityType.GetName( ), m_UniqueID,

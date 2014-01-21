@@ -36,6 +36,7 @@ namespace Gunslinger
 
 		ZED::Utility::FirstPersonCamera	m_Camera;
 		ZED::Arithmetic::AABB			m_BoundingBox;
+		ZED_FLOAT32						m_HeadOffset;
 	};
 }
 

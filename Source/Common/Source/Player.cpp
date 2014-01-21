@@ -3,7 +3,8 @@
 namespace Gunslinger
 {
 	Player::Player( const ZED_UINT32 p_ID ) :
-		GameEntity( PlayerGameEntityType, p_ID )
+		GameEntity( PlayerGameEntityType, p_ID ),
+		m_HeadOffset( 0.0f )
 	{
 		m_Camera.SetViewMode( ZED_VIEWMODE_PERSPECTIVE );
 		m_Camera.SetClippingPlanes( 1.0f, 100000.0f );
@@ -16,6 +17,7 @@ namespace Gunslinger
 
 	ZED_UINT32 Player::Initialise( )
 	{
+		m_HeadOffset = 170.0f;
 		return ZED_OK;
 	}
 
@@ -30,7 +32,10 @@ namespace Gunslinger
 	void Player::SetPosition( const ZED::Arithmetic::Vector3 &p_Position )
 	{
 		GameEntity::SetPosition( p_Position );
-		m_Camera.SetPosition( m_Position );
+		// This should really be based on the player's stance, such as whether
+		// the player is standing or crouching
+		m_Camera.SetPosition( m_Position[ 0 ], m_Position[ 1 ] + m_HeadOffset,
+			m_Position[ 2 ] );
 	}
 
 	void Player::SetOrientation(

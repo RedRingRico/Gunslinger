@@ -71,7 +71,7 @@ namespace Gunslinger
 		m_GameEntityManager.GetEntityByID( 0, &pPlayer );
 
 		reinterpret_cast< Player * >( pPlayer )->SetPosition(
-			ZED::Arithmetic::Vector3( 0.0f, 170.0f, 0.0f ) );
+			ZED::Arithmetic::Vector3( 0.0f, 0.0f, 0.0f ) );
 		reinterpret_cast< Player * >( pPlayer )->GetCamera( &m_pActiveCamera );
 
 		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
