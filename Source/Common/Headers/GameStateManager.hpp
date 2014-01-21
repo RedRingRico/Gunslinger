@@ -41,6 +41,9 @@ namespace Gunslinger
 		ZED::Renderer::Renderer * const GetRenderer( );
 		ZED_UINT32 SetRenderer( ZED::Renderer::Renderer * const &p_pRenderer );
 
+		ZED_FLOAT64 GetTotalElapsedTimeAsFloat( ) const;
+		ZED_UINT64 GetTotalElapsedTimeAsUInt64( ) const;
+
 		static GameStateManager &GetInstance( );
 
 	private:
@@ -58,6 +61,8 @@ namespace Gunslinger
 		ZED::Renderer::Renderer		*m_pRenderer;
 
 		GameStateInputListener		*m_pInputListener;
+
+		ZED_UINT64					m_TotalTimeElapsed;
 	};
 }
 

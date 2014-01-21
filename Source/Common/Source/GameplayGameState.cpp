@@ -17,7 +17,8 @@ namespace Gunslinger
 		m_pGameWorld( new World( ) ),
 		m_DebugCameraActive( ZED_FALSE ),
 		m_pActiveCamera( ZED_NULL ),
-		m_pPreviousCamera( ZED_NULL )
+		m_pPreviousCamera( ZED_NULL ),
+		m_pActiveActor( ZED_NULL )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
@@ -76,6 +77,8 @@ namespace Gunslinger
 		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
 			0.14f, 0.0f, 0.14f );
 
+		m_GameEntityManager.GetEntityByID( 0, &m_pActiveActor );
+
 		return ZED_OK;
 	}
 
@@ -120,6 +123,11 @@ namespace Gunslinger
 
 		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >(
 			pReturn );
+	}
+
+	GameEntity *GameplayGameState::GetActiveActor( )
+	{
+		return m_pActiveActor;
 	}
 
 	void GameplayGameState::ToggleDebugCamera( )

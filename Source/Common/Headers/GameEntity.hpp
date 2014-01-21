@@ -40,17 +40,23 @@ namespace Gunslinger
 
 		virtual ZED_UINT32 Initialise( ) = 0;
 
-		virtual void Update( const ZED_UINT64 p_ElapsedTime ) = 0;
+		virtual void Update( const ZED_UINT64 p_ElapsedTime );
 
 		virtual void Render( ) = 0;
 
 		void GetPosition( ZED::Arithmetic::Vector3 *p_pPoistion ) const;
 		virtual void SetPosition( const ZED::Arithmetic::Vector3 &p_Position );
 
+		void Move( const ZED_FLOAT32 p_X, const ZED_FLOAT32 p_Y,
+			const ZED_FLOAT32 p_Z );
+
 		void GetOrientation(
 			ZED::Arithmetic::Quaternion *p_pOrientation ) const;
 		virtual void SetOrientation(
 			const ZED::Arithmetic::Quaternion &p_Orientation );
+
+		void Rotate( const ZED_FLOAT32 p_Angle,
+			const ZED::Arithmetic::Vector3 &p_Axis );
 
 		void GetGameEntityType( GameEntityType *p_pType ) const;
 
@@ -62,6 +68,7 @@ namespace Gunslinger
 
 		ZED::Arithmetic::Vector3	m_Position;
 		ZED::Arithmetic::Quaternion	m_Orientation;
+		ZED::Arithmetic::Quaternion	m_Rotation;
 	};
 }
 

@@ -90,6 +90,11 @@ namespace Gunslinger
 	{
 	}
 
+	void GameEntity::Update( const ZED_UINT64 p_ElapsedTime )
+	{
+		m_Orientation *= m_Rotation;
+	}
+
 	void GameEntity::GetPosition( ZED::Arithmetic::Vector3 *p_pPosition ) const
 	{
 		( *p_pPosition ) = m_Position;
@@ -98,6 +103,14 @@ namespace Gunslinger
 	void GameEntity::SetPosition( const ZED::Arithmetic::Vector3 &p_Position )
 	{
 		m_Position = p_Position;
+	}
+
+	void GameEntity::Move( const ZED_FLOAT32 p_X, const ZED_FLOAT32 p_Y,
+		const ZED_FLOAT32 p_Z )
+	{
+		m_Position[ 0 ] += p_X;
+		m_Position[ 1 ] += p_Y;
+		m_Position[ 2 ] += p_Z;
 	}
 
 	void GameEntity::GetOrientation(
@@ -110,6 +123,19 @@ namespace Gunslinger
 		const ZED::Arithmetic::Quaternion &p_Orientation )
 	{
 		m_Orientation = p_Orientation;
+	}
+
+	void GameEntity::Rotate( const ZED_FLOAT32 p_Angle,
+		const ZED::Arithmetic::Vector3 &p_Axis )
+	{
+		ZED_FLOAT32 Sine, Cosine;
+
+		ZED::Arithmetic::SinCos( p_Angle / 2.0f, Sine, Cosine );
+
+		m_Rotation[ 0 ] = p_Axis[ 0 ] * Sine;
+		m_Rotation[ 1 ] = p_Axis[ 1 ] * Sine;
+		m_Rotation[ 2 ] = p_Axis[ 2 ] * Sine;
+		m_Rotation[ 3 ] = Cosine;
 	}
 
 	void GameEntity::GetGameEntityType( GameEntityType *p_pType ) const

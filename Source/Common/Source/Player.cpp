@@ -21,6 +21,7 @@ namespace Gunslinger
 
 	void Player::Update( const ZED_UINT64 p_ElapsedTime )
 	{
+		GameEntity::Update( p_ElapsedTime );
 	}
 
 	void Player::Render( )

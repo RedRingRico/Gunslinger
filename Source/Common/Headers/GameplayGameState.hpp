@@ -29,6 +29,7 @@ namespace Gunslinger
 
 		ZED::Utility::FreeCamera		*GetDebugCamera( );
 		ZED::Utility::FirstPersonCamera	*GetPlayerCamera( );
+		GameEntity						*GetActiveActor( );
 
 		void ToggleDebugCamera( );
 		ZED_BOOL DebugCameraActive( ) const;
@@ -41,6 +42,7 @@ namespace Gunslinger
 		ZED::Utility::Camera		*m_pActiveCamera;
 		ZED::Utility::Camera		*m_pPreviousCamera;
 		GameEntityManager			m_GameEntityManager;
+		GameEntity					*m_pActiveActor;
 	};
 }
 
