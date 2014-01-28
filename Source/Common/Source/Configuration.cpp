@@ -76,6 +76,48 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
+		std::vector< std::string >::const_iterator LineIterator =
+			m_Lines.begin( );
+
+		std::string CurrentType( "Global" );
+		zedTrace( "\n\n" );
+
+		while( LineIterator != m_Lines.end( ) )
+		{
+			if( ( *LineIterator ).find_first_of( "[" ) == 0 )
+			{
+				ZED_MEMSIZE CloseBracket =
+					( *LineIterator ).find_first_of( "]" );
+				if( CloseBracket != std::string::npos )
+				{
+					CurrentType = ( *LineIterator ).substr( 1,
+						CloseBracket - 1 );
+
+					this->TrimWhiteSpace( CurrentType );
+
+					++LineIterator;
+
+					zedTrace( "\nCurrent Type: %s\n", CurrentType.c_str( ) );
+
+					continue;
+				}
+			}
+			ZED_MEMSIZE TokenPosition = ( *LineIterator ).find_first_of( "=" );
+			if( TokenPosition != std::string::npos )
+			{
+				std::string Key = ( *LineIterator ).substr( 0, TokenPosition );
+				std::string Value =
+					( *LineIterator ).substr( TokenPosition + 1 );
+
+				this->TrimWhiteSpace( Key );
+				this->TrimWhiteSpace( Value );
+				
+				zedTrace( "Key: %s | Value: %s\n",
+					Key.c_str( ), Value.c_str( ) );
+			}
+			++LineIterator;
+		}
+
 		return ZED_OK;
 	}
 
