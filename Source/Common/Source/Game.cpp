@@ -9,6 +9,7 @@
 #include <GameplayGameState.hpp>
 #include <Events.hpp>
 #include <System/Debugger.hpp>
+#include <Configuration.hpp>
 
 namespace Gunslinger
 {
@@ -64,6 +65,9 @@ namespace Gunslinger
 								sizeof( PreviousKeyboardState.Key[ 0 ] );
 
 		m_Running = ZED_TRUE;
+
+		Configuration Test;
+		Test.Read( );
 
 		while( m_Running )
 		{
