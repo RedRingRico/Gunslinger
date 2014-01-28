@@ -111,12 +111,36 @@ namespace Gunslinger
 
 				this->TrimWhiteSpace( Key );
 				this->TrimWhiteSpace( Value );
-				
+				std::map< std::string, std::string > TestMap;
+				TestMap.insert( std::pair< std::string, std::string >(
+					Key, Value ) );
+				m_TypeParameterValue.insert( std::pair< std::string, std::map< std::string, std::string > >( CurrentType, TestMap ) );
 				zedTrace( "Key: %s | Value: %s\n",
 					Key.c_str( ), Value.c_str( ) );
 			}
+
 			++LineIterator;
 		}
+
+		TypeParameterValueMap::iterator MapItr = m_TypeParameterValue.begin( );
+		zedTrace( "\n\n" );
+		while( MapItr != m_TypeParameterValue.end( ) )
+		{
+			zedTrace( "Type: %s | ", ( *MapItr ).first.c_str( ) );
+			std::map< std::string, std::string > TmpMp;
+			TmpMp = ( *MapItr ).second;
+			std::map< std::string, std::string >::const_iterator MapI =
+				TmpMp.begin( );
+			while( MapI != TmpMp.end( ) )
+			{
+				zedTrace( "Key: %s | ", MapI->first.c_str( ) );
+				zedTrace( "Value: %s\n", MapI->second.c_str( ) );
+				++MapI;
+			}
+			++MapItr;
+		}
+
+		zedTrace( "\n" );
 
 		return ZED_OK;
 	}
