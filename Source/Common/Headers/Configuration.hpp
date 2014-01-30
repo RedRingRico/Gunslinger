@@ -33,10 +33,12 @@ namespace Gunslinger
 			std::map< std::string, std::string > > TypeParameterValueMap;
 
 		ZED_UINT32 ProcessFile( ZED::System::NativeFile *p_pFile );
+		ZED_UINT32 ProcessStackItem( const std::string &p_Type,
+			const std::string &p_Key, const std::string &p_Value );
 		void TrimWhiteSpace( std::string &p_String );
 
-		ZED_UINT32	m_X;
-		ZED_UINT32	m_Y;
+		ZED_SINT32	m_X;
+		ZED_SINT32	m_Y;
 		ZED_UINT32	m_Width;
 		ZED_UINT32	m_Height;
 

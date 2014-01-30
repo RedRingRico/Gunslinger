@@ -97,8 +97,6 @@ namespace Gunslinger
 
 					++LineIterator;
 
-					zedTrace( "\nCurrent Type: %s\n", CurrentType.c_str( ) );
-
 					continue;
 				}
 			}
@@ -111,36 +109,21 @@ namespace Gunslinger
 
 				this->TrimWhiteSpace( Key );
 				this->TrimWhiteSpace( Value );
-				std::map< std::string, std::string > TestMap;
-				TestMap.insert( std::pair< std::string, std::string >(
+
+				std::map< std::string, std::string > KeyValueMap;
+
+				KeyValueMap.insert( std::pair< std::string, std::string >(
 					Key, Value ) );
-				m_TypeParameterValue.insert( std::pair< std::string, std::map< std::string, std::string > >( CurrentType, TestMap ) );
-				zedTrace( "Key: %s | Value: %s\n",
-					Key.c_str( ), Value.c_str( ) );
+
+				m_TypeParameterValue.insert( std::pair< std::string,
+					std::map< std::string, std::string > >(
+						CurrentType, KeyValueMap ) );
+
+				this->ProcessStackItem( CurrentType, Key, Value );
 			}
 
 			++LineIterator;
 		}
-
-		TypeParameterValueMap::iterator MapItr = m_TypeParameterValue.begin( );
-		zedTrace( "\n\n" );
-		while( MapItr != m_TypeParameterValue.end( ) )
-		{
-			zedTrace( "Type: %s | ", ( *MapItr ).first.c_str( ) );
-			std::map< std::string, std::string > TmpMp;
-			TmpMp = ( *MapItr ).second;
-			std::map< std::string, std::string >::const_iterator MapI =
-				TmpMp.begin( );
-			while( MapI != TmpMp.end( ) )
-			{
-				zedTrace( "Key: %s | ", MapI->first.c_str( ) );
-				zedTrace( "Value: %s\n", MapI->second.c_str( ) );
-				++MapI;
-			}
-			++MapItr;
-		}
-
-		zedTrace( "\n" );
 
 		return ZED_OK;
 	}
@@ -290,22 +273,47 @@ namespace Gunslinger
 
 		zedSafeDeleteArray( pFileBuffer );
 
-		zedTrace( "-----------------------------\n" );
-		zedTrace( "Gunslinger Configuration File\n" );
-		zedTrace( "-----------------------------\n" );
+		return ZED_OK;
+	}
 
-		ZED_MEMSIZE LineCounter = 0;
-		std::vector< std::string >::const_iterator LineIterator =
-			m_Lines.begin( );
-
-		while( LineIterator != m_Lines.end( ) )
+	ZED_UINT32 Configuration::ProcessStackItem( const std::string &p_Type,
+		const std::string &p_Key, const std::string &p_Value )
+	{
+		if( p_Type.compare( "Graphics" ) == 0 )
 		{
-			zedTrace( "[%d] %s\n", LineCounter, ( *LineIterator ).c_str( ) );
-			++LineCounter;
-			++LineIterator;
+			if( p_Key.compare( "Width" ) == 0 )
+			{
+				m_Width = strtoul( p_Value.c_str( ), ZED_NULL, 10 );
+				if( m_Width == 0 )
+				{
+					return ZED_FAIL;
+				}
+
+				return ZED_OK;
+			}
+			if( p_Key.compare( "Height" ) == 0 )
+			{
+				m_Height = strtoul( p_Value.c_str( ), ZED_NULL, 10 );
+				if( m_Height == 0 )
+				{
+					return ZED_FAIL;
+				}
+
+				return ZED_OK;
+			}
+			if( p_Key.compare( "X Position") == 0 )
+			{
+				m_X = strtol( p_Value.c_str( ), ZED_NULL, 10 );
+				return ZED_OK;
+			}
+			if( p_Key.compare( "Y Position" ) == 0 )
+			{
+				m_Y = strtol( p_Value.c_str( ), ZED_NULL, 10 );
+				return ZED_OK;
+			}
 		}
 
-		return ZED_OK;
+		return ZED_FAIL;
 	}
 
 	void Configuration::TrimWhiteSpace( std::string &p_String )

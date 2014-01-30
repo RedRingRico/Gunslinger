@@ -66,9 +66,6 @@ namespace Gunslinger
 
 		m_Running = ZED_TRUE;
 
-		Configuration Test;
-		Test.Read( );
-
 		while( m_Running )
 		{
 			m_pWindow->Update( );

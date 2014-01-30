@@ -29,12 +29,21 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
-		ZED_UINT32 X = 1920, Y = 1920-720, Width = 1280, Height = 720;
-//		ZED_UINT32 X = 0, Y = 0, Width = 1280, Height = 720;
+		m_GameConfiguration.Read( );
+
+		ZED_SINT32 X, Y;
+		ZED_UINT32 Width, Height;
+		X = m_GameConfiguration.GetXPosition( );
+		Y = m_GameConfiguration.GetYPosition( );
+		Width = m_GameConfiguration.GetWidth( );
+		Height = m_GameConfiguration.GetHeight( );
 		ZED_UINT32 WindowStyle = ZED_WINDOW_STYLE_MINIMISE |
 			ZED_WINDOW_STYLE_CLOSE | ZED_WINDOW_STYLE_TITLEBAR |
 			ZED_WINDOW_STYLE_MOVE;
 
+		// TODO
+		// The display and screen number should first be derived from the
+		// cursor's position (Configuration should handle that)
 		if( m_pWindow->Create( X, Y, Width, Height, 0, 0, WindowStyle ) !=
 			ZED_OK )
 		{
