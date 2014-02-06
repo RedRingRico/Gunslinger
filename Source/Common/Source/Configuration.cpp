@@ -13,7 +13,9 @@ namespace Gunslinger
 		m_X( 0 ),
 		m_Y( 0 ),
 		m_Width( 0 ),
-		m_Height( 0 )
+		m_Height( 0 ),
+		m_DisplayNumber( -1 ),
+		m_ScreenNumber( -1 )
 	{
 	}
 
@@ -79,6 +81,8 @@ namespace Gunslinger
 		}
 		else
 		{
+			this->LoadDefaults( );
+
 			return ZED_FAIL;
 		}
 
@@ -131,37 +135,7 @@ namespace Gunslinger
 			++LineIterator;
 		}
 
-		if( m_Width == 0 || m_Height == 0 )
-		{
-			ZED::System::SCREEN *pScreens;
-			ZED_MEMSIZE ScreenCount;
-			ZED::System::EnumerateScreens(
-				ZED::System::GetCurrentDisplayNumber( ),
-				ZED::System::GetCurrentScreenNumber( ),
-				&pScreens, &ScreenCount );
-
-			ZED_UINT32 SmallestWidth = pScreens[ 0 ].Width;
-			ZED_UINT32 SmallestHeight = pScreens[ 0 ].Height;
-			ZED_UINT32 SmallestResolution = SmallestWidth * SmallestHeight;
-
-			for( ZED_MEMSIZE i = 1; i < ScreenCount; ++i )
-			{
-				if( ( pScreens[ i ].Width * pScreens[ i ].Height ) <
-					SmallestResolution )
-				{
-					SmallestWidth = pScreens[ i ].Width;
-					SmallestHeight = pScreens[ i ].Height;
-				}
-			}
-
-			m_Width = SmallestWidth;
-			m_Height = SmallestHeight;
-
-			m_X = ( pScreens[ 0 ].Width / 2 ) - ( SmallestWidth / 2 );
-			m_Y = ( pScreens[ 0 ].Height / 2 ) - ( SmallestWidth / 2 );
-
-			zedSafeDeleteArray( pScreens );
-		}
+		this->LoadDefaults( );
 
 		return ZED_OK;
 	}
@@ -226,6 +200,8 @@ namespace Gunslinger
 		Configuration << "\tHeight = " << m_Height << "\n";
 		Configuration << "\tX Position = " << m_X << "\n";
 		Configuration << "\tY Position = " << m_Y << "\n";
+		Configuration << "\tDisplay Number = " << m_DisplayNumber << "\n";
+		Configuration << "\tScreen Number = " << m_ScreenNumber << "\n";
 
 		ZED_MEMSIZE WrittenStringSize = 0;
 
@@ -242,12 +218,12 @@ namespace Gunslinger
 		return ZED_OK;
 	}
 
-	ZED_UINT32 Configuration::GetXPosition( ) const
+	ZED_SINT32 Configuration::GetXPosition( ) const
 	{
 		return m_X;
 	}
 
-	ZED_UINT32 Configuration::GetYPosition( ) const
+	ZED_SINT32 Configuration::GetYPosition( ) const
 	{
 		return m_Y;
 	}
@@ -262,12 +238,22 @@ namespace Gunslinger
 		return m_Height;
 	}
 
-	void Configuration::SetXPosition( const ZED_UINT32 p_X )
+	ZED_SINT32 Configuration::GetDisplayNumber( ) const
+	{
+		return m_DisplayNumber;
+	}
+
+	ZED_SINT32 Configuration::GetScreenNumber( ) const
+	{
+		return m_ScreenNumber;
+	}
+
+	void Configuration::SetXPosition( const ZED_SINT32 p_X )
 	{
 		m_X = p_X;
 	}
 
-	void Configuration::SetYPosition( const ZED_UINT32 p_Y )
+	void Configuration::SetYPosition( const ZED_SINT32 p_Y )
 	{
 		m_Y = p_Y;
 	}
@@ -280,6 +266,16 @@ namespace Gunslinger
 	void Configuration::SetHeight( const ZED_UINT32 p_Height )
 	{
 		m_Height = p_Height;
+	}
+
+	void Configuration::SetDisplayNumber( const ZED_SINT32 p_DisplayNumber )
+	{
+		m_DisplayNumber = p_DisplayNumber;
+	}
+
+	void Configuration::SetScreenNumber( const ZED_SINT32 p_ScreenNumber )
+	{
+		m_ScreenNumber = p_ScreenNumber;
 	}
 
 	ZED_UINT32 Configuration::ProcessFile( ZED::System::NativeFile *p_pFile )
@@ -420,6 +416,16 @@ namespace Gunslinger
 				m_Y = strtol( p_Value.c_str( ), ZED_NULL, 10 );
 				return ZED_OK;
 			}
+			if( p_Key.compare( "Display Number" ) == 0 )
+			{
+				m_DisplayNumber = strtol( p_Value.c_str( ), ZED_NULL, 10 );
+				return ZED_OK;
+			}
+			if( p_Key.compare( "Screen Number" ) == 0 )
+			{
+				m_ScreenNumber = strtol( p_Value.c_str( ), ZED_NULL, 10 );
+				return ZED_OK;
+			}
 		}
 
 		return ZED_FAIL;
@@ -466,6 +472,49 @@ namespace Gunslinger
 			{
 				p_String = p_String.substr( 0, TrailPosition );
 			}
+		}
+	}
+
+	void Configuration::LoadDefaults( )
+	{
+		if( m_DisplayNumber == -1 || m_ScreenNumber == -1 )
+		{
+			m_DisplayNumber = ZED::System::GetCurrentDisplayNumber( );
+			m_ScreenNumber = ZED::System::GetCurrentScreenNumber( );
+		}
+
+		if( m_Width == 0 || m_Height == 0 )
+		{
+			ZED::System::SCREEN *pScreens;
+			ZED_MEMSIZE ScreenCount;
+			ZED::System::EnumerateScreens(
+				ZED::System::GetCurrentDisplayNumber( ),
+				ZED::System::GetCurrentScreenNumber( ),
+				&pScreens, &ScreenCount );
+
+			ZED_UINT32 SmallestWidth = pScreens[ 0 ].Width;
+			ZED_UINT32 SmallestHeight = pScreens[ 0 ].Height;
+			ZED_UINT32 SmallestResolution = SmallestWidth * SmallestHeight;
+
+			for( ZED_MEMSIZE i = 1; i < ScreenCount; ++i )
+			{
+				if( ( pScreens[ i ].Width * pScreens[ i ].Height ) <
+					SmallestResolution )
+				{
+					SmallestWidth = pScreens[ i ].Width;
+					SmallestHeight = pScreens[ i ].Height;
+
+					SmallestResolution = SmallestWidth * SmallestHeight;
+				}
+			}
+
+			m_Width = SmallestWidth;
+			m_Height = SmallestHeight;
+
+			m_X = ( pScreens[ 0 ].Width / 2 ) - ( SmallestWidth / 2 );
+			m_Y = ( pScreens[ 0 ].Height / 2 ) - ( SmallestHeight / 2 );
+
+			zedSafeDeleteArray( pScreens );
 		}
 	}
 }

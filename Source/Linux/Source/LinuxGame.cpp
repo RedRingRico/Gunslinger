@@ -33,10 +33,13 @@ namespace Gunslinger
 
 		ZED_SINT32 X, Y;
 		ZED_UINT32 Width, Height;
+		ZED_SINT32 DisplayNumber, ScreenNumber;
 		X = m_GameConfiguration.GetXPosition( );
 		Y = m_GameConfiguration.GetYPosition( );
 		Width = m_GameConfiguration.GetWidth( );
 		Height = m_GameConfiguration.GetHeight( );
+		DisplayNumber = m_GameConfiguration.GetDisplayNumber( );
+		ScreenNumber = m_GameConfiguration.GetScreenNumber( );
 		ZED_UINT32 WindowStyle = ZED_WINDOW_STYLE_MINIMISE |
 			ZED_WINDOW_STYLE_CLOSE | ZED_WINDOW_STYLE_TITLEBAR |
 			ZED_WINDOW_STYLE_MOVE;
@@ -44,7 +47,8 @@ namespace Gunslinger
 		// TODO
 		// The display and screen number should first be derived from the
 		// cursor's position (Configuration should handle that)
-		if( m_pWindow->Create( X, Y, Width, Height, 0, 0, WindowStyle ) !=
+		if( m_pWindow->Create( X, Y, Width, Height, DisplayNumber,
+			ScreenNumber, WindowStyle ) !=
 			ZED_OK )
 		{
 			zedTrace( "[Gunslinger::Game::Initialise] <ERROR> "
