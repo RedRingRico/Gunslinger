@@ -82,13 +82,6 @@ namespace Gunslinger
 		}
 
 		m_pInputManager->AddDevice( &m_Keyboard );
-/*
-		ZED::Renderer::GLTexture TmpTGA;
-
-		if( TmpTGA.Load( "test.tga" ) != ZED_OK )
-		{
-			return ZED_FAIL;
-		}*/
 
 		return ZED_OK;
 	}

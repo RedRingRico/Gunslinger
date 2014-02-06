@@ -1,13 +1,18 @@
 #include <Configuration.hpp>
 #include <System/Memory.hpp>
 #include <System/Debugger.hpp>
+#include <System/Window.hpp>
 #include <cstring>
 #include <string>
 
 namespace Gunslinger
 {
 	Configuration::Configuration( ) :
-		m_pFilePath( ZED_NULL )
+		m_pFilePath( ZED_NULL ),
+		m_X( 0 ),
+		m_Y( 0 ),
+		m_Width( 0 ),
+		m_Height( 0 )
 	{
 	}
 
@@ -123,6 +128,38 @@ namespace Gunslinger
 			}
 
 			++LineIterator;
+		}
+
+		if( m_Width == 0 || m_Height == 0 )
+		{
+			ZED::System::SCREEN *pScreens;
+			ZED_MEMSIZE ScreenCount;
+			ZED::System::EnumerateScreens(
+				ZED::System::GetCurrentDisplayNumber( ),
+				ZED::System::GetCurrentScreenNumber( ),
+				&pScreens, &ScreenCount );
+
+			ZED_UINT32 SmallestWidth = pScreens[ 0 ].Width;
+			ZED_UINT32 SmallestHeight = pScreens[ 0 ].Height;
+			ZED_UINT32 SmallestResolution = SmallestWidth * SmallestHeight;
+
+			for( ZED_MEMSIZE i = 1; i < ScreenCount; ++i )
+			{
+				if( ( pScreens[ i ].Width * pScreens[ i ].Height ) <
+					SmallestResolution )
+				{
+					SmallestWidth = pScreens[ i ].Width;
+					SmallestHeight = pScreens[ i ].Height;
+				}
+			}
+
+			m_Width = SmallestWidth;
+			m_Height = SmallestHeight;
+
+			m_X = ( pScreens[ 0 ].Width / 2 ) - ( SmallestWidth / 2 );
+			m_Y = ( pScreens[ 0 ].Height / 2 ) - ( SmallestWidth / 2 );
+
+			zedSafeDeleteArray( pScreens );
 		}
 
 		return ZED_OK;
