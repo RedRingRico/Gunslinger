@@ -4,6 +4,7 @@
 #include <System/Window.hpp>
 #include <cstring>
 #include <string>
+#include <sstream>
 
 namespace Gunslinger
 {
@@ -167,6 +168,77 @@ namespace Gunslinger
 
 	ZED_UINT32 Configuration::Write( const ZED_CHAR8 *p_pFilePath )
 	{
+		ZED_CHAR8 *pFilePath = ZED_NULL;
+		ZED_BOOL FilePathAllocated = ZED_FALSE;
+
+		if( p_pFilePath )
+		{
+			pFilePath = const_cast< ZED_CHAR8 * >( p_pFilePath );
+		}
+		else if( m_pFilePath )
+		{
+			pFilePath = m_pFilePath;
+		}
+		else
+		{
+			ZED_CHAR8 *pExecutableDirectory = new ZED_CHAR8[ ZED_MAX_PATH ];
+			ZED_CHAR8 *pCompletePath = new ZED_CHAR8[ ZED_MAX_PATH ];
+
+			memset( pExecutableDirectory, '\0',
+				sizeof( ZED_CHAR8 ) * ZED_MAX_PATH );
+			memset( pCompletePath, '\0', sizeof( ZED_CHAR8 ) * ZED_MAX_PATH );
+
+			ZED::System::GetExecutablePath( &pExecutableDirectory,
+				ZED_MAX_PATH );
+			ZED_CHAR8 *pDefaultConfiguration = "gunslinger.config";
+
+			strcat( pCompletePath, pExecutableDirectory );
+			strcat( pCompletePath, pDefaultConfiguration );
+
+			ZED_MEMSIZE FilePathLength = strlen( pCompletePath );
+			pFilePath = new ZED_CHAR8[ FilePathLength + 1];
+			strncpy( pFilePath, pCompletePath, FilePathLength );
+			pFilePath[ FilePathLength ] = '\0';
+
+			zedSafeDeleteArray( pCompletePath );
+			zedSafeDeleteArray( pExecutableDirectory );
+
+			FilePathAllocated = ZED_TRUE;
+		}
+
+		// This is an unfortunately naive way of saving the configuration file
+		// A better way would be to do this as a difference in the stored value
+		// and the one which is stored, which would also require searching
+		// through the file looking for the key->value pair to change
+		
+		ZED::System::NativeFile File;
+
+		if( File.Open( pFilePath, ZED::System::FILE_ACCESS_WRITE ) !=
+			ZED_OK )
+		{
+			return ZED_FAIL;
+		}
+
+		std::stringstream Configuration;
+		Configuration.str( "" );
+		Configuration << "[Graphics]\n";
+		Configuration << "\tWidth = " << m_Width << "\n";
+		Configuration << "\tHeight = " << m_Height << "\n";
+		Configuration << "\tX Position = " << m_X << "\n";
+		Configuration << "\tY Position = " << m_Y << "\n";
+
+		ZED_MEMSIZE WrittenStringSize = 0;
+
+		File.WriteString( Configuration.str( ).c_str( ),
+			Configuration.str( ).size( ), &WrittenStringSize );
+
+		File.Close( );
+
+		if( FilePathAllocated == ZED_TRUE )
+		{
+			zedSafeDeleteArray( pFilePath );
+		}
+	
 		return ZED_OK;
 	}
 

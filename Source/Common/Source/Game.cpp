@@ -104,6 +104,8 @@ namespace Gunslinger
 			}
 		}
 
+		m_GameConfiguration.Write( );
+
 		zedSafeDelete( pGameplay );
 
 		return ZED_OK;
