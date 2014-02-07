@@ -75,6 +75,18 @@ namespace Gunslinger
 			ZED_KEYBOARDSTATE NewKeyboardState;
 			m_Keyboard.State( &NewKeyboardState );
 
+			if( m_pWindow->Resized( ) )
+			{
+				m_GameConfiguration.SetWidth( m_pWindow->GetWidth( ) );
+				m_GameConfiguration.SetHeight( m_pWindow->GetHeight( ) );
+			}
+
+			if( m_pWindow->Moved( ) )
+			{
+				m_GameConfiguration.SetXPosition( m_pWindow->GetXPosition( ) );
+				m_GameConfiguration.SetYPosition( m_pWindow->GetYPosition( ) );
+			}
+
 			for( ZED_MEMSIZE i = 0; i < KeyCount; ++i )
 			{
 				if( NewKeyboardState.Key[ static_cast< ZED_KEY >( i ) ] !=
