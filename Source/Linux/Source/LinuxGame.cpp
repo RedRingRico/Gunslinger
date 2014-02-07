@@ -44,9 +44,6 @@ namespace Gunslinger
 			ZED_WINDOW_STYLE_CLOSE | ZED_WINDOW_STYLE_TITLEBAR |
 			ZED_WINDOW_STYLE_MOVE;
 
-		// TODO
-		// The display and screen number should first be derived from the
-		// cursor's position (Configuration should handle that)
 		if( m_pWindow->Create( X, Y, Width, Height, DisplayNumber,
 			ScreenNumber, WindowStyle ) !=
 			ZED_OK )
