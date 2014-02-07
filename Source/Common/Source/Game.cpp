@@ -9,6 +9,7 @@
 #include <GameplayGameState.hpp>
 #include <Events.hpp>
 #include <System/Debugger.hpp>
+#include <Configuration.hpp>
 
 namespace Gunslinger
 {
@@ -102,6 +103,8 @@ namespace Gunslinger
 				m_Running = ZED_FALSE;
 			}
 		}
+
+		m_GameConfiguration.Write( );
 
 		zedSafeDelete( pGameplay );
 
