@@ -66,11 +66,16 @@ namespace Gunslinger
 
 		m_Running = ZED_TRUE;
 
+		m_pWindow->GrabKeyboard( );
+		m_pWindow->GrabMouse( ZED_FALSE, ZED_FALSE );
+
+		ZED_BOOL MouseControl = ZED_TRUE;
+
 		while( m_Running )
 		{
 			m_pWindow->Update( );
 			m_pInputManager->Update( );
-			m_pWindow->FlushEvents( );
+			m_pWindow->FlushEvents( ZED_WINDOW_FLUSH_NONE );
 
 			ZED_KEYBOARDSTATE NewKeyboardState;
 			m_Keyboard.State( &NewKeyboardState );
@@ -102,6 +107,13 @@ namespace Gunslinger
 				}
 			}
 
+			if( m_Keyboard.IsKeyDown( ZED_KEY_F12 ) )
+			{
+				m_pWindow->ReleaseMouse( );
+				MouseControl = !MouseControl;
+				m_pWindow->GrabMouse( MouseControl, ZED_FALSE );
+			}
+
 			if( m_Keyboard.IsKeyDown( ZED_KEY_ESCAPE ) &&
 				m_Keyboard.IsKeyDown( ZED_KEY_CTRL ) )
 			{
@@ -115,6 +127,9 @@ namespace Gunslinger
 				m_Running = ZED_FALSE;
 			}
 		}
+
+		m_pWindow->ReleaseMouse( );
+		m_pWindow->ReleaseKeyboard( );
 
 		m_GameConfiguration.Write( );
 
