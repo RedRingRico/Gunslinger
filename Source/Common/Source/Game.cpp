@@ -67,9 +67,12 @@ namespace Gunslinger
 		m_Running = ZED_TRUE;
 
 		m_pWindow->GrabKeyboard( );
-		m_pWindow->GrabMouse( ZED_FALSE, ZED_FALSE );
+		m_pWindow->GrabMouse( ZED_TRUE, ZED_TRUE );
 
 		ZED_BOOL MouseControl = ZED_TRUE;
+		ZED_SINT32 HalfWidth = 0, HalfHeight = 0;
+		HalfWidth = m_pWindow->GetWidth( ) / 2;
+		HalfHeight = m_pWindow->GetHeight( ) / 2;
 
 		while( m_Running )
 		{
@@ -119,6 +122,32 @@ namespace Gunslinger
 			{
 				m_Running = ZED_FALSE;
 			}
+
+			ZED_UINT32 X, Y;
+			m_Mouse.Position( &X, &Y );
+			if( X < HalfWidth )
+			{
+				m_pWindow->WarpPointer( HalfWidth, Y );
+			}
+			else if( X > HalfWidth )
+			{
+				m_pWindow->WarpPointer( HalfWidth, Y );
+			}
+
+			zedTrace( "X Difference: %i\n", X - HalfWidth );
+
+			m_Mouse.Position( &X, &Y );
+
+			if( Y < HalfHeight )
+			{
+				m_pWindow->WarpPointer( X, HalfHeight );
+			}
+			if( Y > HalfHeight )
+			{
+				m_pWindow->WarpPointer( X, HalfHeight );
+			}
+
+			zedTrace( "Y Difference: %i\n", Y - HalfHeight );
 
 			GameStateManager::GetInstance( ).Execute( );
 

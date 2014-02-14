@@ -83,6 +83,7 @@ namespace Gunslinger
 		}
 
 		m_pInputManager->AddDevice( &m_Keyboard );
+		m_pInputManager->AddDevice( &m_Mouse );
 
 		return ZED_OK;
 	}
