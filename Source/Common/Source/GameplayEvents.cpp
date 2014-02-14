@@ -7,6 +7,8 @@
 #include <System/Debugger.hpp>
 
 const ZED_FLOAT32 MaxSpeed = 5.0f;
+const ZED_FLOAT32 MaxHorizontalLookSpeed = 0.5f;
+const ZED_FLOAT32 MaxVerticalLookSpeed = 0.25f;
 namespace Gunslinger
 {
 	GameplayInputListener::GameplayInputListener( ) :
@@ -149,34 +151,18 @@ namespace Gunslinger
 						return ZED_TRUE;
 					}
 
-					case DEBUG_CAMERA_LOOK_UP:
+					case DEBUG_CAMERA_LOOK_HORIZONTAL:
 					{
 						m_pGameplayGameState->GetDebugCamera( )->Rotate(
-							0.002f, 
-							ZED::Arithmetic::Vector3(1.0f, 0.0f, 0.0f ) );
-						return ZED_TRUE;
-					}
-
-					case DEBUG_CAMERA_LOOK_DOWN:
-					{
-						m_pGameplayGameState->GetDebugCamera( )->Rotate(
-							-0.002f,
-							ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
-						return ZED_TRUE;
-					}
-
-					case DEBUG_CAMERA_LOOK_LEFT:
-					{
-						m_pGameplayGameState->GetDebugCamera( )->Rotate(
-							0.002f,
+							-( ActionValue * MaxHorizontalLookSpeed ),
 							ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
 						return ZED_TRUE;
 					}
 
-					case DEBUG_CAMERA_LOOK_RIGHT:
+					case DEBUG_CAMERA_LOOK_VERTICAL:
 					{
 						m_pGameplayGameState->GetDebugCamera( )->Rotate(
-							-0.002f,
+							-( ActionValue * MaxVerticalLookSpeed ),
 							ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
 						return ZED_TRUE;
 					}

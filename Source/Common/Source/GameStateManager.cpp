@@ -129,6 +129,8 @@ namespace Gunslinger
 
 		m_GameStateStack.top( )->GetEventRouter( )->Add( m_pInputListener,
 			KeyboardInputEventType );
+		m_GameStateStack.top( )->GetEventRouter( )->Add( m_pInputListener,
+			MousePositionInputEventType );
 
 		return ZED_OK;
 	}

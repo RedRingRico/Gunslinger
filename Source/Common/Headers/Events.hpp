@@ -8,8 +8,11 @@
 namespace Gunslinger
 {
 	const ZED::Utility::EventType KeyboardInputEventType( "Keyboard Input" );
+	const ZED::Utility::EventType MousePositionInputEventType(
+		"Mouse Position Input" );
 	const ZED::Utility::EventType ActionInputEventType( "Action Input" );
 
+	// Keyboard
 	class KeyboardInputEventData : public ZED::Utility::EventData
 	{
 	public:
@@ -21,7 +24,7 @@ namespace Gunslinger
 		void SetState( const ZED_KEY p_Key, ZED_BOOL p_State );
 
 	private:
-		ZED_KEY	m_Key;
+		ZED_KEY		m_Key;
 		ZED_BOOL	m_State;
 	};
 
@@ -39,6 +42,37 @@ namespace Gunslinger
 		KeyboardInputEventData	m_KeyboardData;
 	};
 
+	// Mouse
+	class MousePositionInputEventData : public ZED::Utility::EventData
+	{
+	public:
+		MousePositionInputEventData( );
+		virtual ~MousePositionInputEventData( );
+
+		ZED_UINT32 GetPosition( ZED_SINT32 &p_X, ZED_SINT32 &p_Y ) const;
+
+		void SetPosition( const ZED_SINT32 p_X, const ZED_SINT32 p_Y );
+
+	private:
+		ZED_SINT32 m_X;
+		ZED_SINT32 m_Y;
+	};
+
+	class MousePositionEvent : public ZED::Utility::Event
+	{
+	public:
+		ZED_EXPLICIT MousePositionEvent(
+			MousePositionInputEventData *p_pMousePositonData = ZED_NULL,
+			ZED_UINT64 p_DispatchTime = ZED::System::GetTimeMiS( ) );
+		virtual ~MousePositionEvent( );
+
+		void SetPosition( const ZED_SINT32 p_X, const ZED_SINT32 p_Y );
+	
+	private:
+		MousePositionInputEventData	m_MousePositionData;
+	};
+
+	// Action
 	class ActionInputEventData : public ZED::Utility::EventData
 	{
 	public:

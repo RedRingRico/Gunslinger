@@ -70,6 +70,82 @@ namespace Gunslinger
 				}
 			}
 		}
+
+
+		if( p_Event.Type( ).ID( ) == MousePositionInputEventType.ID( ) )
+		{
+			if( m_pInputBinder )
+			{
+				MousePositionInputEventData *pMousePositionData =
+					p_Event.Data< MousePositionInputEventData >( );
+			
+				ZED_SINT32 MouseX;
+				ZED_SINT32 MouseY;
+				ZED_BOOL Return = ZED_FALSE;
+
+				pMousePositionData->GetPosition( MouseX, MouseY );
+				ZED_FLOAT32 X = 0.0f, Y = 0.0f;
+				
+				// HARD-CODED for 640*480!
+				if( MouseX != 320 )
+				{
+					ZED_UINT32 ActionCount =
+						m_pInputBinder->GetActionCountForMouseAxis(
+							ZED_MOUSE_AXIS_X );
+
+					if( ActionCount != 0 )
+					{
+						if( ActionCount == 1 )
+						{
+							ZED_UINT32 ActionID =
+								m_pInputBinder->GetActionFromMouseAxis(
+									ZED_MOUSE_AXIS_X );
+
+							if( ActionID != 0 )
+							{
+								ZED_FLOAT32 ActionValue =
+									( static_cast< ZED_FLOAT32 >( MouseX ) /
+										320.0f ) - 1.0f;
+								ActionInputEventData ActionData;
+								ActionData.SetAction( ActionID,
+									ActionValue );
+								ActionInputEvent Action( &ActionData );
+
+								ZED::Utility::SendEvent( Action );
+							}
+						}
+						else
+						{
+							ZED_UINT32 ActionID[ ActionCount ];
+							m_pInputBinder->GetActionsFromMouseAxis(
+								ZED_MOUSE_AXIS_X, ActionID );
+
+							for( ZED_UINT32 i = 0; i < ActionCount; ++i )
+							{
+								ZED_FLOAT32 ActionValue =
+									( static_cast< ZED_FLOAT32 >( MouseX ) /
+										320.0f ) - 1.0f;
+								ActionInputEventData ActionData;
+								ActionData.SetAction( ActionID[ i ],
+									ActionValue );
+								ActionInputEvent Action( &ActionData );
+
+								ZED::Utility::SendEvent( Action );
+							}
+						}
+					}
+					else
+					{
+					}
+				}
+
+				if( MouseY != 240 )
+				{
+				}
+
+				return Return;
+			}
+		}
 		
 		return ZED_FALSE;
 	}

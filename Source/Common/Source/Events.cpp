@@ -2,6 +2,7 @@
 
 namespace Gunslinger
 {
+	// Keyboard
 	KeyboardInputEventData::KeyboardInputEventData( )
 	{
 	}
@@ -44,6 +45,51 @@ namespace Gunslinger
 		m_KeyboardData.SetState( p_Key, p_State );
 	}
 
+	// Mouse
+	MousePositionInputEventData::MousePositionInputEventData( )
+	{
+	}
+
+	MousePositionInputEventData::~MousePositionInputEventData( )
+	{
+	}
+
+	ZED_UINT32 MousePositionInputEventData::GetPosition( ZED_SINT32 &p_X,
+		ZED_SINT32 &p_Y ) const
+	{
+		p_X = m_X;
+		p_Y = m_Y;
+
+		return ZED_OK;
+	}
+
+	void MousePositionInputEventData::SetPosition( const ZED_SINT32 p_X,
+		const ZED_SINT32 p_Y )
+	{
+		m_X = p_X;
+		m_Y = p_Y;
+	}
+
+	MousePositionEvent::MousePositionEvent(
+		MousePositionInputEventData *p_pMousePositionData,
+		ZED_UINT64 p_DispatchTime ) :
+			ZED::Utility::Event( MousePositionInputEventType.Name( ),
+				p_pMousePositionData, p_DispatchTime )
+	{
+		m_pData = p_pMousePositionData;
+	}
+
+	MousePositionEvent::~MousePositionEvent( )
+	{
+	}
+
+	void MousePositionEvent::SetPosition( const ZED_SINT32 p_X,
+		const ZED_SINT32 p_Y )
+	{
+		m_MousePositionData.SetPosition( p_X, p_Y );
+	}
+
+	// Action
 	ActionInputEventData::ActionInputEventData( )
 	{
 	}

@@ -52,10 +52,10 @@ namespace Gunslinger
 		m_pInputBinder->BindKey( ZED_KEY_S, DEBUG_CAMERA_MOVE_BACKWARD );
 		m_pInputBinder->BindKey( ZED_KEY_A, DEBUG_CAMERA_MOVE_LEFT );
 		m_pInputBinder->BindKey( ZED_KEY_D, DEBUG_CAMERA_MOVE_RIGHT );
-		m_pInputBinder->BindKey( ZED_KEY_UPARROW, DEBUG_CAMERA_LOOK_UP );
-		m_pInputBinder->BindKey( ZED_KEY_DOWNARROW, DEBUG_CAMERA_LOOK_DOWN );
-		m_pInputBinder->BindKey( ZED_KEY_LEFTARROW, DEBUG_CAMERA_LOOK_LEFT );
-		m_pInputBinder->BindKey( ZED_KEY_RIGHTARROW, DEBUG_CAMERA_LOOK_RIGHT );
+		m_pInputBinder->BindMouseAxis( ZED_MOUSE_AXIS_X,
+			DEBUG_CAMERA_LOOK_HORIZONTAL );
+		m_pInputBinder->BindMouseAxis( ZED_MOUSE_AXIS_Y,
+			DEBUG_CAMERA_LOOK_VERTICAL );
 		m_pInputBinder->BindKey( ZED_KEY_W, PLAYER_MOVE_FORWARD );
 		m_pInputBinder->BindKey( ZED_KEY_S, PLAYER_MOVE_BACKWARD );
 		m_pInputBinder->BindKey( ZED_KEY_A, PLAYER_MOVE_LEFT );
@@ -78,6 +78,8 @@ namespace Gunslinger
 			0.14f, 0.0f, 0.14f );
 
 		m_GameEntityManager.GetEntityByID( 0, &m_pActiveActor );
+
+		this->ToggleDebugCamera( );
 
 		return ZED_OK;
 	}

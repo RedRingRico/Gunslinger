@@ -74,6 +74,9 @@ namespace Gunslinger
 		HalfWidth = m_pWindow->GetWidth( ) / 2;
 		HalfHeight = m_pWindow->GetHeight( ) / 2;
 
+		ZED_SINT32 PreviousMouseX, PreviousMouseY;
+		m_Mouse.GetPosition( PreviousMouseX, PreviousMouseY );
+
 		while( m_Running )
 		{
 			m_pWindow->Update( );
@@ -123,31 +126,16 @@ namespace Gunslinger
 				m_Running = ZED_FALSE;
 			}
 
-			ZED_UINT32 X, Y;
-			m_Mouse.Position( &X, &Y );
-			if( X < HalfWidth )
-			{
-				m_pWindow->WarpPointer( HalfWidth, Y );
-			}
-			else if( X > HalfWidth )
-			{
-				m_pWindow->WarpPointer( HalfWidth, Y );
-			}
+			ZED_SINT32 MouseX, MouseY;
+			m_Mouse.GetPosition( MouseX, MouseY );
 
-			zedTrace( "X Difference: %i\n", X - HalfWidth );
-
-			m_Mouse.Position( &X, &Y );
-
-			if( Y < HalfHeight )
+			if( ( MouseX != PreviousMouseX ) || ( MouseY != PreviousMouseY ) )
 			{
-				m_pWindow->WarpPointer( X, HalfHeight );
+				MousePositionInputEventData MousePositionData;
+				MousePositionData.SetPosition( MouseX, MouseY );
+				MousePositionEvent MousePosition( &MousePositionData );
+				ZED::Utility::SendEvent( MousePosition );
 			}
-			if( Y > HalfHeight )
-			{
-				m_pWindow->WarpPointer( X, HalfHeight );
-			}
-
-			zedTrace( "Y Difference: %i\n", Y - HalfHeight );
 
 			GameStateManager::GetInstance( ).Execute( );
 
@@ -155,6 +143,11 @@ namespace Gunslinger
 			{
 				m_Running = ZED_FALSE;
 			}
+
+			PreviousMouseX = MouseX;
+			PreviousMouseY = MouseY;
+
+			m_pWindow->WarpPointer( HalfWidth, HalfHeight );
 		}
 
 		m_pWindow->ReleaseMouse( );
