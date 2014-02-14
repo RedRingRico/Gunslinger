@@ -162,8 +162,8 @@ namespace Gunslinger
 					case DEBUG_CAMERA_LOOK_VERTICAL:
 					{
 						m_pGameplayGameState->GetDebugCamera( )->Rotate(
-							-( ActionValue * MaxVerticalLookSpeed ),
-							ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
+							ActionValue * MaxVerticalLookSpeed,
+							ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
 						return ZED_TRUE;
 					}
 				

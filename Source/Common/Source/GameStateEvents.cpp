@@ -107,8 +107,7 @@ namespace Gunslinger
 									( static_cast< ZED_FLOAT32 >( MouseX ) /
 										320.0f ) - 1.0f;
 								ActionInputEventData ActionData;
-								ActionData.SetAction( ActionID,
-									ActionValue );
+								ActionData.SetAction( ActionID, ActionValue );
 								ActionInputEvent Action( &ActionData );
 
 								ZED::Utility::SendEvent( Action );
@@ -141,6 +140,52 @@ namespace Gunslinger
 
 				if( MouseY != 240 )
 				{
+					ZED_UINT32 ActionCount =
+						m_pInputBinder->GetActionCountForMouseAxis(
+							ZED_MOUSE_AXIS_Y );
+
+					if( ActionCount != 0 )
+					{
+						if( ActionCount == 1 )
+						{
+							ZED_UINT32 ActionID =
+								m_pInputBinder->GetActionFromMouseAxis(
+									ZED_MOUSE_AXIS_Y );
+
+							if( ActionID != 0 )
+							{
+								ZED_FLOAT32 ActionValue =
+									-( ( static_cast< ZED_FLOAT32 >( MouseY ) /
+										240.0f ) - 1.0f );
+
+								ActionInputEventData ActionData;
+								ActionData.SetAction( ActionID, ActionValue );
+								ActionInputEvent Action( &ActionData );
+
+								ZED::Utility::SendEvent( Action );
+							}
+						}
+						else
+						{
+							ZED_UINT32 ActionID[ ActionCount ];
+							m_pInputBinder->GetActionsFromMouseAxis(
+								ZED_MOUSE_AXIS_Y, ActionID );
+
+							for( ZED_UINT32 i = 0; i < ActionCount; ++i )
+							{
+								ZED_FLOAT32 ActionValue =
+									-( ( static_cast< ZED_FLOAT32 >( MouseY ) /
+										240.0f ) - 1.0f );
+
+								ActionInputEventData ActionData;
+								ActionData.SetAction( ActionID[ ActionCount ],
+									ActionValue );
+								ActionInputEvent Action( &ActionData );
+
+								ZED::Utility::SendEvent( Action );
+							}
+						}
+					}
 				}
 
 				return Return;

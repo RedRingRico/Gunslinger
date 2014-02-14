@@ -79,8 +79,6 @@ namespace Gunslinger
 
 		m_GameEntityManager.GetEntityByID( 0, &m_pActiveActor );
 
-		this->ToggleDebugCamera( );
-
 		return ZED_OK;
 	}
 
