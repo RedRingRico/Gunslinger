@@ -178,7 +178,7 @@ namespace Gunslinger
 										240.0f ) - 1.0f );
 
 								ActionInputEventData ActionData;
-								ActionData.SetAction( ActionID[ ActionCount ],
+								ActionData.SetAction( ActionID[ i ],
 									ActionValue );
 								ActionInputEvent Action( &ActionData );
 

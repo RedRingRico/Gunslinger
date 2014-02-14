@@ -60,6 +60,10 @@ namespace Gunslinger
 		m_pInputBinder->BindKey( ZED_KEY_S, PLAYER_MOVE_BACKWARD );
 		m_pInputBinder->BindKey( ZED_KEY_A, PLAYER_MOVE_LEFT );
 		m_pInputBinder->BindKey( ZED_KEY_D, PLAYER_MOVE_RIGHT );
+		m_pInputBinder->BindMouseAxis( ZED_MOUSE_AXIS_X,
+			PLAYER_LOOK_HORIZONTAL );
+		m_pInputBinder->BindMouseAxis( ZED_MOUSE_AXIS_Y,
+			PLAYER_LOOK_VERTICAL );
 		GameStateManager::GetInstance( ).SetInputBinder( m_pInputBinder );
 
 		m_pEventRouter->Add( m_pInputListener, ActionInputEventType );

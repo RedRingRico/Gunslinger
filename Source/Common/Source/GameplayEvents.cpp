@@ -92,6 +92,22 @@ namespace Gunslinger
 					return ZED_TRUE;
 				}
 
+				case PLAYER_LOOK_HORIZONTAL:
+				{
+					m_pGameplayGameState->GetPlayerCamera( )->Rotate(
+						ActionValue * MaxHorizontalLookSpeed,
+						ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
+					return ZED_TRUE;
+				}
+
+				case PLAYER_LOOK_VERTICAL:
+				{
+					m_pGameplayGameState->GetPlayerCamera( )->Rotate(
+						-( ActionValue * MaxVerticalLookSpeed ),
+						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
+					return ZED_TRUE;
+				}
+
 				default:
 				{
 					break;
