@@ -77,6 +77,14 @@ namespace Gunslinger
 		ZED_SINT32 PreviousMouseX, PreviousMouseY;
 		m_Mouse.GetPosition( PreviousMouseX, PreviousMouseY );
 
+		ResolutionChangeEventData ResolutionData;
+		ResolutionData.SetResolution( m_pWindow->GetWidth( ),
+			m_pWindow->GetHeight( ) );
+
+		ResolutionChangeEvent Resolution( &ResolutionData );
+
+		ZED::Utility::SendEvent( Resolution );
+
 		while( m_Running )
 		{
 			m_pWindow->Update( );
@@ -90,6 +98,14 @@ namespace Gunslinger
 			{
 				m_GameConfiguration.SetWidth( m_pWindow->GetWidth( ) );
 				m_GameConfiguration.SetHeight( m_pWindow->GetHeight( ) );
+
+				ResolutionChangeEventData ResolutionData;
+				ResolutionData.SetResolution( m_pWindow->GetWidth( ),
+					m_pWindow->GetHeight( ) );
+
+				ResolutionChangeEvent Resolution( &ResolutionData );
+
+				ZED::Utility::SendEvent( Resolution );
 			}
 
 			if( m_pWindow->Moved( ) )

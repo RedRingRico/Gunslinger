@@ -11,6 +11,8 @@ namespace Gunslinger
 	const ZED::Utility::EventType MousePositionInputEventType(
 		"Mouse Position Input" );
 	const ZED::Utility::EventType ActionInputEventType( "Action Input" );
+	const ZED::Utility::EventType ResolutionChangeEventType(
+		"Resolution Change" );
 
 	// Keyboard
 	class KeyboardInputEventData : public ZED::Utility::EventData
@@ -100,6 +102,38 @@ namespace Gunslinger
 
 	private:
 		ActionInputEventData	m_ActionData;
+	};
+
+	// Resolution changed
+	class ResolutionChangeEventData : public ZED::Utility::EventData
+	{
+	public:
+		ResolutionChangeEventData( );
+		virtual ~ResolutionChangeEventData( );
+
+		ZED_UINT32 SetResolution( const ZED_UINT32 p_Width,
+			const ZED_UINT32 p_Height );
+
+		void GetResolution( ZED_UINT32 &p_Width, ZED_UINT32 &p_Height ) const;
+
+	private:
+		ZED_UINT32	m_Width;
+		ZED_UINT32	m_Height;
+	};
+
+	class ResolutionChangeEvent : public ZED::Utility::Event
+	{
+	public:
+		ResolutionChangeEvent(
+			ResolutionChangeEventData *p_pResolutionData = ZED_NULL,
+			ZED_UINT64 p_DispatchTime = ZED::System::GetTimeMiS( ) );
+		virtual ~ResolutionChangeEvent( );
+
+		void SetResolution( const ZED_UINT32 p_Width,
+			const ZED_UINT32 p_Height );
+
+	private:
+		ResolutionChangeEventData	m_ResolutionData;
 	};
 }
 

@@ -1,4 +1,5 @@
 #include <Events.hpp>
+#include <System/Debugger.hpp>
 
 namespace Gunslinger
 {
@@ -142,6 +143,68 @@ namespace Gunslinger
 		const ZED_FLOAT32 p_Value )
 	{
 		m_ActionData.SetAction( p_Action, p_Value );
+	}
+
+	// Resolution changed
+	ResolutionChangeEventData::ResolutionChangeEventData( ) :
+		m_Width( 0 ),
+		m_Height( 0 )
+	{
+	}
+
+	ResolutionChangeEventData::~ResolutionChangeEventData( )
+	{
+	}
+
+	ZED_UINT32 ResolutionChangeEventData::SetResolution(
+		const ZED_UINT32 p_Width, const ZED_UINT32 p_Height )
+	{
+		if( p_Width == 0 )
+		{
+			zedTrace( "[Gunslinger::ResolutionChangeEventData::SetResolution] "
+				"<ERROR> The width passed in was zero\n" );
+
+			return ZED_FAIL;
+		}
+
+		if( p_Height == 0 )
+		{
+			zedTrace( "[Gunslinger::ResolutionChangeEventData::SetResolution] "
+				"<ERROR> The height passed in was zero\n" );
+
+			return ZED_FAIL;
+		}
+
+		m_Width = p_Width;
+		m_Height = p_Height;
+
+		return ZED_OK;
+	}
+
+	void ResolutionChangeEventData::GetResolution( ZED_UINT32 &p_Width,
+		ZED_UINT32 &p_Height ) const
+	{
+		p_Width = m_Width;
+		p_Height = m_Height;
+	}
+
+	ResolutionChangeEvent::ResolutionChangeEvent(
+		ResolutionChangeEventData *p_pResolutionData,
+		ZED_UINT64 p_DispatchTime ) :
+		ZED::Utility::Event( ResolutionChangeEventType.Name( ),
+			p_pResolutionData, p_DispatchTime )
+	{
+		m_pData = p_pResolutionData;
+	}
+
+	ResolutionChangeEvent::~ResolutionChangeEvent( )
+	{
+	}
+
+	void ResolutionChangeEvent::SetResolution( const ZED_UINT32 p_Width,
+		const ZED_UINT32 p_Height )
+	{
+		m_ResolutionData.SetResolution( p_Width, p_Height );
 	}
 }
 

@@ -1,6 +1,7 @@
 #include <GameStateEvents.hpp>
 #include <Events.hpp>
 #include <Utility/EventRouter.hpp>
+#include <System/Debugger.hpp>
 
 namespace Gunslinger
 {
@@ -86,8 +87,7 @@ namespace Gunslinger
 				pMousePositionData->GetPosition( MouseX, MouseY );
 				ZED_FLOAT32 X = 0.0f, Y = 0.0f;
 				
-				// HARD-CODED for 640*480!
-				if( MouseX != 320 )
+				if( MouseX != m_HalfScreenWidth )
 				{
 					ZED_UINT32 ActionCount =
 						m_pInputBinder->GetActionCountForMouseAxis(
@@ -105,7 +105,7 @@ namespace Gunslinger
 							{
 								ZED_FLOAT32 ActionValue =
 									( static_cast< ZED_FLOAT32 >( MouseX ) /
-										320.0f ) - 1.0f;
+										m_HalfScreenWidthF ) - 1.0f;
 								ActionInputEventData ActionData;
 								ActionData.SetAction( ActionID, ActionValue );
 								ActionInputEvent Action( &ActionData );
@@ -123,7 +123,7 @@ namespace Gunslinger
 							{
 								ZED_FLOAT32 ActionValue =
 									( static_cast< ZED_FLOAT32 >( MouseX ) /
-										320.0f ) - 1.0f;
+										m_HalfScreenWidthF ) - 1.0f;
 								ActionInputEventData ActionData;
 								ActionData.SetAction( ActionID[ i ],
 									ActionValue );
@@ -138,7 +138,7 @@ namespace Gunslinger
 					}
 				}
 
-				if( MouseY != 240 )
+				if( MouseY != m_HalfScreenHeight )
 				{
 					ZED_UINT32 ActionCount =
 						m_pInputBinder->GetActionCountForMouseAxis(
@@ -156,7 +156,7 @@ namespace Gunslinger
 							{
 								ZED_FLOAT32 ActionValue =
 									-( ( static_cast< ZED_FLOAT32 >( MouseY ) /
-										240.0f ) - 1.0f );
+										m_HalfScreenHeightF ) - 1.0f );
 
 								ActionInputEventData ActionData;
 								ActionData.SetAction( ActionID, ActionValue );
@@ -175,7 +175,7 @@ namespace Gunslinger
 							{
 								ZED_FLOAT32 ActionValue =
 									-( ( static_cast< ZED_FLOAT32 >( MouseY ) /
-										240.0f ) - 1.0f );
+										m_HalfScreenHeightF ) - 1.0f );
 
 								ActionInputEventData ActionData;
 								ActionData.SetAction( ActionID[ i ],
@@ -190,6 +190,45 @@ namespace Gunslinger
 
 				return Return;
 			}
+		}
+
+		if( p_Event.Type( ).ID( ) == ResolutionChangeEventType.ID( ) )
+		{
+			ResolutionChangeEventData *pResolutionData =
+				p_Event.Data< ResolutionChangeEventData >( );
+			
+			ZED_UINT32 ScreenWidth = 0, ScreenHeight = 0;
+
+			pResolutionData->GetResolution( ScreenWidth, ScreenHeight );
+
+			if( ScreenWidth == 0 )
+			{
+				zedTrace( "[Gunslinger::GameStateInputListener::HandleEvent] "
+					"<ERORR> Setting screen resolution failed, screen width "
+					"is zero\n" );
+
+				return ZED_FALSE;
+			}
+
+			if( ScreenHeight == 0 )
+			{
+				zedTrace( "[Gunslinger::GameStateInputListener::HandleEvent] "
+					"<ERORR> Setting screen resolution failed, screen height "
+					"is zero\n" );
+
+				return ZED_FALSE;
+			}
+
+			m_ScreenWidth = ScreenWidth;
+			m_ScreenHeight = ScreenHeight;
+			m_HalfScreenWidth = ScreenWidth / 2;
+			m_HalfScreenHeight = ScreenHeight / 2;
+			m_HalfScreenWidthF =
+				static_cast< ZED_FLOAT32 >( m_ScreenWidth ) / 2.0f;
+			m_HalfScreenHeightF =
+				static_cast< ZED_FLOAT32 >( m_ScreenHeight ) / 2.0f;
+
+			return ZED_TRUE;
 		}
 		
 		return ZED_FALSE;
