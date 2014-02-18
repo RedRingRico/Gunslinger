@@ -173,11 +173,12 @@ namespace Gunslinger
 
 			for( ZED_MEMSIZE i = 0; i < KeyCount; ++i )
 			{
-				if( NewKeyboardState.Key[ static_cast< ZED_KEY >( i ) ] !=
-					PreviousKeyboardState.Key[ static_cast< ZED_KEY >( i ) ] )
+				ZED_KEY ZEDKey = static_cast< ZED_KEY >( i );
+				if( NewKeyboardState.Key[ ZEDKey ] !=
+					PreviousKeyboardState.Key[ ZEDKey ] )
 				{
 					KeyboardInputEventData KeyboardData;
-					KeyboardData.SetState( static_cast< ZED_KEY >( i ),
+					KeyboardData.SetState( ZEDKey,
 						NewKeyboardState.Key[ i ] );
 
 					KeyboardEvent Keyboard( &KeyboardData );
