@@ -68,7 +68,7 @@ namespace Gunslinger
 				{
 					m_pGameplayGameState->GetPlayerCamera( )->Move(
 						ZED::Arithmetic::Vector3(
-							0.0f, 0.0f, ActionValue * MaxSpeed ) );
+							0.0f, 0.0f, -ActionValue * MaxSpeed ) );
 
 					return ZED_TRUE;
 				}
@@ -77,7 +77,7 @@ namespace Gunslinger
 				{
 					m_pGameplayGameState->GetPlayerCamera( )->Move(
 						ZED::Arithmetic::Vector3(
-							0.0f, 0.0f, -ActionValue * MaxSpeed ) );
+							0.0f, 0.0f, ActionValue * MaxSpeed ) );
 
 					return ZED_TRUE;
 				}
