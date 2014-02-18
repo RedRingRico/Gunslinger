@@ -174,24 +174,23 @@ namespace Gunslinger
 			for( ZED_MEMSIZE i = 0; i < KeyCount; ++i )
 			{
 				ZED_KEY ZEDKey = static_cast< ZED_KEY >( i );
-				if( NewKeyboardState.Key[ ZEDKey ] !=
-					PreviousKeyboardState.Key[ ZEDKey ] )
-				{
-					KeyboardInputEventData KeyboardData;
-					KeyboardData.SetState( ZEDKey,
-						NewKeyboardState.Key[ i ] );
+				KeyboardInputEventData KeyboardData;
+				KeyboardData.SetState( ZEDKey,
+					NewKeyboardState.Key[ i ] );
 
-					KeyboardEvent Keyboard( &KeyboardData );
-
-					ZED::Utility::SendEvent( Keyboard );
-				}
+				KeyboardEvent Keyboard( &KeyboardData );
+				ZED::Utility::SendEvent( Keyboard );
 			}
 
-			if( m_Keyboard.IsKeyDown( ZED_KEY_F12 ) )
+			if( NewKeyboardState.Key[ ZED_KEY_F12 ] !=
+				PreviousKeyboardState.Key[ ZED_KEY_F12 ] )
 			{
-				m_pWindow->ReleaseMouse( );
-				MouseControl = !MouseControl;
-				m_pWindow->GrabMouse( MouseControl, ZED_FALSE );
+				if( NewKeyboardState.Key[ ZED_KEY_F12 ] )
+				{
+					m_pWindow->ReleaseMouse( );
+					MouseControl = !MouseControl;
+					m_pWindow->GrabMouse( MouseControl, ZED_FALSE );
+				}
 			}
 
 			if( m_Keyboard.IsKeyDown( ZED_KEY_ESCAPE ) &&
@@ -222,6 +221,9 @@ namespace Gunslinger
 			PreviousMouseY = MouseY;
 
 			m_pWindow->WarpPointer( HalfWidth, HalfHeight );
+
+			memcpy( &PreviousKeyboardState, &NewKeyboardState,
+				sizeof( PreviousKeyboardState ) );
 		}
 
 		m_pWindow->ReleaseMouse( );

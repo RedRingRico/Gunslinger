@@ -40,6 +40,7 @@ namespace Gunslinger
 
 	private:
 		GameplayGameState	*m_pGameplayGameState;
+		ZED_BOOL			m_DebugCameraToggle;
 	};
 }
 

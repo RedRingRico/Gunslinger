@@ -12,7 +12,8 @@ const ZED_FLOAT32 MaxVerticalLookSpeed = 0.25f;
 namespace Gunslinger
 {
 	GameplayInputListener::GameplayInputListener( ) :
-		m_pGameplayGameState( ZED_NULL )
+		m_pGameplayGameState( ZED_NULL ),
+		m_DebugCameraToggle( ZED_FALSE )
 	{
 	}
 
@@ -46,11 +47,18 @@ namespace Gunslinger
 				}
 				case DEBUG_CAMERA_TOGGLE:
 				{
-					// This still toggles quickly as there is no state checking
-					// of the previous state with this one
 					if( ZED::Arithmetic::Equal( ActionValue, 1.0f ) )
 					{
-						m_pGameplayGameState->ToggleDebugCamera( );
+						if( m_DebugCameraToggle == ZED_FALSE )
+						{
+							m_pGameplayGameState->ToggleDebugCamera( );
+							m_DebugCameraToggle = ZED_TRUE;
+						}
+					}
+
+					if( ZED::Arithmetic::IsZero( ActionValue ) )
+					{
+						m_DebugCameraToggle = ZED_FALSE;
 					}
 
 					return ZED_TRUE;
