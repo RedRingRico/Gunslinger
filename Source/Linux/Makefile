@@ -79,7 +79,7 @@ debug:		BUILD_TYPE	= debug
 debug:		BUILD_DEF	= DEBUG
 debug:		TARGET := $(TARGET)D
 debug:		CPPFLAGS += -g -ggdb -Wall -D_DEBUG $(CPPFLAGS_EXT)
-debug:		LIBS =  -lZEDUtilityD -lZEDArithmeticD -lZEDSystemD -lZEDRendererD
+debug:		LIBS =  -lZEDUtilityD -lZEDArithmeticD -lZEDSystemD -lZEDRendererD -lZEDSystemD
 debug:		$(TARGET)
 
 ##### Release #####

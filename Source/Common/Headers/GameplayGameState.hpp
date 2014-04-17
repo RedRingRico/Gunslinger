@@ -8,6 +8,7 @@
 #include <Utility/FirstPersonCamera.hpp>
 #include <Player.hpp>
 #include <GameEntityManager.hpp>
+#include <Renderer/OGL/GLFont.hpp>
 
 namespace Gunslinger
 {
@@ -43,6 +44,7 @@ namespace Gunslinger
 		ZED::Utility::Camera		*m_pPreviousCamera;
 		GameEntityManager			m_GameEntityManager;
 		GameEntity					*m_pActiveActor;
+		ZED::Renderer::Font			*m_pFont;
 	};
 }
 
