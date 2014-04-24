@@ -4,6 +4,8 @@
 #include <System/DataTypes.hpp>
 #include <Utility/InputBinder.hpp>
 #include <Renderer/Renderer.hpp>
+#include <Renderer/OGL/GLFont.hpp>
+#include <Renderer/Text.hpp>
 #include <stack>
 #include <set>
 
@@ -48,6 +50,9 @@ namespace Gunslinger
 
 		static GameStateManager &GetInstance( );
 
+		void SetWindowDimensions( const ZED_UINT32 p_Width,
+			const ZED_UINT32 p_Height );
+
 	private:
 		typedef std::stack< GameState * > GameStateStack;
 		typedef std::set< GameState * > GameStateSet;
@@ -65,6 +70,16 @@ namespace Gunslinger
 		GameStateInputListener		*m_pInputListener;
 
 		ZED_UINT64					m_TotalElapsedTime;
+
+		ZED::Renderer::Font			*m_pFont;
+		ZED::Renderer::Text			m_Text;
+		ZED_UINT64					m_FrameReset;
+		ZED_UINT32					m_FrameCount;
+		ZED_UINT32					m_FrameRate;
+		ZED_BOOL					m_DrawFrameRate;
+
+		ZED_UINT32		m_WindowWidth;
+		ZED_UINT32		m_WindowHeight;
 	};
 }
 

@@ -110,7 +110,14 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
-		GameStateManager::GetInstance( ).SetRenderer( m_pRenderer );
+		GameStateManager::GetInstance( ).SetWindowDimensions( 
+			m_pWindow->GetWidth( ), m_pWindow->GetHeight( ) );
+
+		if( GameStateManager::GetInstance( ).SetRenderer( m_pRenderer ) !=
+			ZED_OK )
+		{
+			return ZED_FAIL;
+		}
 
 		GameplayGameState *pGameplay = new GameplayGameState( );
 		GameStateManager::GetInstance( ).RegisterState( pGameplay );

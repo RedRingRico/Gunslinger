@@ -10,6 +10,7 @@
 #include <Arithmetic/Matrix4x4.hpp>
 #include <Arithmetic/Vector3.hpp>
 #include <Renderer/OGL/GLFont.hpp>
+#include <GitVersion.hpp>
 
 namespace Gunslinger
 {
@@ -84,16 +85,6 @@ namespace Gunslinger
 
 		m_GameEntityManager.GetEntityByID( 0, &m_pActiveActor );
 
-		m_pFont = new ZED::Renderer::GLFont(
-			GameStateManager::GetInstance( ).GetRenderer( ) );
-
-		if( m_pFont->Load( "test.zed" ) != ZED_OK )
-		{
-			zedTrace( "Failed to open test.zed\n" );
-		}
-
-		m_pFont->SetViewport( 0.0f, 0.0f, 1440.0f, 850.0f );
-
 		return ZED_OK;
 	}
 
@@ -101,12 +92,8 @@ namespace Gunslinger
 	{
 		ZED::Arithmetic::Matrix4x4 ProjectionViewMatrix;
 		m_pActiveCamera->GetProjectionViewMatrix( &ProjectionViewMatrix );
-		for( int i = 0; i < 10; ++i )
-		{
-			m_pFont->RenderGlyph( 'n', ( i * 10 ), 200.0f, 20.0f );
-		}
 
-		//m_pGameWorld->Render( &ProjectionViewMatrix );
+		m_pGameWorld->Render( &ProjectionViewMatrix );
 	}
 
 	void GameplayGameState::Update( const ZED_UINT64 p_ElapsedTime )

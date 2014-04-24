@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <GameStateEvents.hpp>
 #include <Events.hpp>
+#include <GitVersion.hpp>
+#include <System/Memory.hpp>
 
 namespace Gunslinger
 {
@@ -16,15 +18,23 @@ namespace Gunslinger
 		ZED::System::StartTime( );
 		m_StartTime = ZED::System::GetTimeMiS( );
 		m_pInputListener = new GameStateInputListener( );
+		m_pFont = ZED_NULL;
 	}
 
 	GameStateManager::~GameStateManager( )
 	{
+		zedSafeDelete( m_pFont );
 	}
 
 	ZED_UINT32 GameStateManager::Initialise( )
 	{
 		m_Running = ZED_TRUE;
+
+		m_Text.SetScale( 1.5f );
+
+		m_FrameReset = 0ULL;
+		m_FrameCount = 0UL;
+		m_DrawFrameRate = ZED_FALSE;
 
 		return ZED_OK;
 	}
@@ -44,8 +54,47 @@ namespace Gunslinger
 		m_StartTime = CurrentTimeElapsed;
 
 		m_GameStateStack.top( )->Update( TimeDifference );
+		m_FrameReset += TimeDifference;
+
+		if( m_FrameReset > 1000000ULL )
+		{
+			m_DrawFrameRate = ZED_TRUE;
+			m_FrameReset = 0ULL;
+		}
+
 		m_pRenderer->BeginScene( ZED_TRUE, ZED_TRUE, ZED_TRUE );
 		m_GameStateStack.top( )->Render( );
+		ZED_FLOAT32 XPos = static_cast< ZED_FLOAT32 >( m_WindowWidth ) / 2.0f;
+		ZED_FLOAT32 YPos = static_cast< ZED_FLOAT32 >( m_WindowHeight );
+		ZED_FLOAT32 StringWidth = 0.0f;
+		ZED_FLOAT32 StringHeight = 0.0f;
+		m_Text.MeasureString( &StringWidth, &StringHeight,
+			"Gunslinger [Ver. %s] //%s",
+			GIT_BUILD_VERSION, GIT_TAG_NAME );
+
+		StringWidth /= 2.0f;
+
+		m_Text.Render( XPos - StringWidth, YPos - StringHeight,
+			"Gunslinger [Ver. %s] //%s",
+			GIT_BUILD_VERSION, GIT_TAG_NAME );
+
+		if( m_DrawFrameRate )
+		{
+			m_DrawFrameRate = ZED_FALSE;
+			m_FrameRate = m_FrameCount;
+			m_FrameCount = 0UL;
+		}
+
+		ZED_FLOAT32 FPSWidth = 0.0f, FPSHeight = 0.0f;
+		m_Text.MeasureString( &FPSWidth, &FPSHeight, "%d", m_FrameRate );
+
+		ZED_FLOAT32 FPSXPosition =
+			static_cast< ZED_FLOAT32 >( m_WindowWidth ) - FPSWidth;
+		ZED_FLOAT32 FPSYPosition = 0.0f + FPSHeight;
+
+		m_Text.Render( FPSXPosition, FPSYPosition, "%d", m_FrameRate );
+
+		++m_FrameCount;
 		m_pRenderer->EndScene( );
 
 		return ZED_OK;
@@ -185,6 +234,21 @@ namespace Gunslinger
 		if( p_pRenderer )
 		{
 			m_pRenderer = p_pRenderer;
+			m_pFont = new ZED::Renderer::GLFont(
+				GameStateManager::GetInstance( ).GetRenderer( ) );
+
+			if( m_pFont->Load( "test.zed" ) != ZED_OK )
+			{
+				zedTrace( "Failed to open test.zed\n" );
+				return ZED_FAIL;
+			}
+
+			m_pFont->SetViewport( 0.0f, 0.0f,
+				static_cast< ZED_FLOAT32 >( m_WindowWidth ),
+				static_cast< ZED_FLOAT32 >( m_WindowHeight ) );
+
+			m_Text.SetFont( m_pFont );
+
 			return ZED_OK;
 		}
 
@@ -224,6 +288,13 @@ namespace Gunslinger
 		}
 
 		return ZED_FALSE;
+	}
+
+	void GameStateManager::SetWindowDimensions( const ZED_UINT32 p_Width,
+		const ZED_UINT32 p_Height )
+	{
+		m_WindowWidth = p_Width;
+		m_WindowHeight = p_Height;
 	}
 }
 
