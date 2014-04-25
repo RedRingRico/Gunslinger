@@ -53,7 +53,31 @@ namespace Gunslinger
 		void SetWindowDimensions( const ZED_UINT32 p_Width,
 			const ZED_UINT32 p_Height );
 
+		void ShowFPS( );
+		void HideFPS( );
+
+		void ShowFrameTime( );
+		void HideFrameTime( );
+
+		void ShowBuildInfo( );
+		void HideBuildInfo( );
+
+		void ShowBeatTime( );
+		void HideBeatTime( );
+
+		void ShowElapsedTime( );
+		void HideElapsedTime( );
+
+		void ShowAllOverlays( );
+		void HideAllOverlays( );
+
 	private:
+		ZED_UINT32 RenderFPS( );
+		ZED_UINT32 RenderFrameTime( const ZED_UINT64 p_FrameTime );
+		ZED_UINT32 RenderBuildInfo( );
+		ZED_UINT32 RenderBeatTime( );
+		ZED_UINT32 RenderElapsedTime( );
+
 		typedef std::stack< GameState * > GameStateStack;
 		typedef std::set< GameState * > GameStateSet;
 
@@ -80,6 +104,12 @@ namespace Gunslinger
 
 		ZED_UINT32		m_WindowWidth;
 		ZED_UINT32		m_WindowHeight;
+
+		ZED_BOOL	m_RenderFPS;
+		ZED_BOOL	m_RenderFrameTime;
+		ZED_BOOL	m_RenderBuildInfo;
+		ZED_BOOL	m_RenderBeatTime;
+		ZED_BOOL	m_RenderElapsedTime;
 	};
 }
 

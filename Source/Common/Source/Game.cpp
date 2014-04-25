@@ -123,6 +123,8 @@ namespace Gunslinger
 		GameStateManager::GetInstance( ).RegisterState( pGameplay );
 		GameStateManager::GetInstance( ).PushState( "Gameplay" );
 
+		GameStateManager::GetInstance( ).ShowAllOverlays( );
+
 		ZED_KEYBOARDSTATE PreviousKeyboardState;
 		memset( &PreviousKeyboardState, 0, sizeof( PreviousKeyboardState ) );
 		ZED_MEMSIZE KeyCount =	sizeof( PreviousKeyboardState ) /
