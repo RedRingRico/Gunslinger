@@ -47,6 +47,8 @@ namespace Gunslinger
 		void GetPosition( ZED::Arithmetic::Vector3 *p_pPoistion ) const;
 		virtual void SetPosition( const ZED::Arithmetic::Vector3 &p_Position );
 
+		// The Y and Z co-ordinates ignore the orientation, moving along a
+		// level Y and Z
 		void Move( const ZED_FLOAT32 p_X, const ZED_FLOAT32 p_Y,
 			const ZED_FLOAT32 p_Z );
 

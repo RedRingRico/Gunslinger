@@ -82,7 +82,9 @@ namespace Gunslinger
 	GameEntity::GameEntity( const GameEntityType &p_EntityType,
 		const ZED_UINT32 p_ID ) :
 			m_ID( p_ID ),
-			m_Type( p_EntityType )
+			m_Type( p_EntityType ),
+			m_Orientation(
+				ZED::Arithmetic::Quaternion( 1.0f, 0.0f, 0.0f, 0.0f ) )
 	{
 	}
 

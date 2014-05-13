@@ -23,6 +23,8 @@ namespace Gunslinger
 
 	void Player::Update( const ZED_UINT64 p_ElapsedTime )
 	{
+	//	m_Position += m_Velocity;
+	//	this->SetPosition( m_Position );
 	}
 
 	void Player::Render( )

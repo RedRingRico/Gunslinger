@@ -15,6 +15,8 @@ namespace Gunslinger
 
 		ZED_UINT32 CreateEntity( const GameEntityType &p_Type );
 
+		void Update( const ZED_UINT64 p_ElapsedDeltaTime );
+
 		ZED_UINT32 GetEntityByID( const ZED_UINT32 p_ID,
 			GameEntity **p_ppEntity );
 

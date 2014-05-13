@@ -20,7 +20,8 @@ namespace Gunslinger
 		m_DebugCameraActive( ZED_FALSE ),
 		m_pActiveCamera( ZED_NULL ),
 		m_pPreviousCamera( ZED_NULL ),
-		m_pActiveActor( ZED_NULL )
+		m_pActiveActor( ZED_NULL ),
+		m_16msTimer( 0ULL )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
@@ -29,8 +30,9 @@ namespace Gunslinger
 		m_DebugCamera.SetViewMode( ZED_VIEWMODE_PERSPECTIVE );
 		// Clip to 1cm-1Km, it's doubtful that 1Km will be needed
 		m_DebugCamera.SetClippingPlanes( 1.0f, 100000.0f );
-		m_DebugCamera.SetPerspectiveProjection( 45.0f, 1280.0f/720.0f,
+		m_DebugCamera.SetPerspectiveProjection( 45.0f, 1280.0f / 720.0f,
 			ZED_NULL );
+
 		// Set the camera to the height of the player (the debug camera should
 		// start using the position and orientation of the active camera)
 
@@ -98,9 +100,17 @@ namespace Gunslinger
 
 	void GameplayGameState::Update( const ZED_UINT64 p_ElapsedTime )
 	{
-		m_pActiveCamera->Update( p_ElapsedTime );
-		m_pActiveCamera->Rotate( 0.0f, 
-			ZED::Arithmetic::Vector3( 1.0f, 1.0f, 1.0f ) );
+		static ZED_UINT32 UpdateCounter = 0UL;
+		m_16msTimer += p_ElapsedTime;
+
+		while( m_16msTimer >= 16667ULL )
+		{
+			m_pActiveCamera->Update( p_ElapsedTime );
+			m_16msTimer -= 16667ULL;
+			++UpdateCounter;
+		}
+
+		m_GameEntityManager.Update( p_ElapsedTime );
 	}
 
 	ZED_UINT32 GameplayGameState::Exit( )
@@ -130,6 +140,14 @@ namespace Gunslinger
 
 		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >(
 			pReturn );
+	}
+
+	Player *GameplayGameState::GetPlayer( )
+	{
+		GameEntity *pPlayer = ZED_NULL;
+		m_GameEntityManager.GetEntityByID( 0, &pPlayer );
+
+		return reinterpret_cast< Player * >( pPlayer );
 	}
 
 	GameEntity *GameplayGameState::GetActiveActor( )

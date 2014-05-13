@@ -75,6 +75,17 @@ namespace Gunslinger
 		return ZED_OK;
 	}
 
+	void GameEntityManager::Update( const ZED_UINT64 p_ElapsedDeltaTime )
+	{
+		GameEntityArray::const_iterator EntityItr = m_Entities.begin( );
+
+		while( EntityItr != m_Entities.end( ) )
+		{
+			( *EntityItr )->Update( p_ElapsedDeltaTime );
+			++EntityItr;
+		}
+	}
+
 	ZED_UINT32 GameEntityManager::GetEntityByID( const ZED_UINT32 p_ID,
 		GameEntity **p_ppEntity )
 	{

@@ -66,27 +66,24 @@ namespace Gunslinger
 
 				case PLAYER_MOVE_FORWARD:
 				{
-					m_pGameplayGameState->GetPlayerCamera( )->Move(
-						ZED::Arithmetic::Vector3(
-							0.0f, 0.0f, -ActionValue * MaxSpeed ) );
+					m_pGameplayGameState->GetPlayer( )->Move(
+						0.0f, 0.0f, ActionValue * MaxSpeed );
 
 					return ZED_TRUE;
 				}
 
 				case PLAYER_MOVE_BACKWARD:
 				{
-					m_pGameplayGameState->GetPlayerCamera( )->Move(
-						ZED::Arithmetic::Vector3(
-							0.0f, 0.0f, ActionValue * MaxSpeed ) );
+					m_pGameplayGameState->GetPlayer( )->Move(
+						0.0f, 0.0f, -ActionValue * MaxSpeed );
 
 					return ZED_TRUE;
 				}
 
 				case PLAYER_MOVE_LEFT:
 				{
-					m_pGameplayGameState->GetPlayerCamera( )->Move(
-						ZED::Arithmetic::Vector3(
-							-ActionValue * MaxSpeed, 0.0f, 0.0f ) );
+					m_pGameplayGameState->GetPlayer( )->Move(
+						ActionValue * MaxSpeed, 0.0f, 0.0f );
 
 					return ZED_TRUE;
 				}
@@ -105,6 +102,7 @@ namespace Gunslinger
 					m_pGameplayGameState->GetPlayerCamera( )->Rotate(
 						ActionValue * MaxHorizontalLookSpeed,
 						ZED::Arithmetic::Vector3( 0.0f, 1.0f, 0.0f ) );
+
 					return ZED_TRUE;
 				}
 
@@ -113,6 +111,7 @@ namespace Gunslinger
 					m_pGameplayGameState->GetPlayerCamera( )->Rotate(
 						-( ActionValue * MaxVerticalLookSpeed ),
 						ZED::Arithmetic::Vector3( 1.0f, 0.0f, 0.0f ) );
+
 					return ZED_TRUE;
 				}
 

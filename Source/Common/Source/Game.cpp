@@ -183,12 +183,21 @@ namespace Gunslinger
 			for( ZED_MEMSIZE i = 0; i < KeyCount; ++i )
 			{
 				ZED_KEY ZEDKey = static_cast< ZED_KEY >( i );
-				KeyboardInputEventData KeyboardData;
-				KeyboardData.SetState( ZEDKey,
-					NewKeyboardState.Key[ i ] );
 
-				KeyboardEvent Keyboard( &KeyboardData );
-				ZED::Utility::SendEvent( Keyboard );
+				if( ( NewKeyboardState.Key[ i ] 
+						!= PreviousKeyboardState.Key[ i ] ) ||
+					( NewKeyboardState.Key[ i ] == 1 &&
+						PreviousKeyboardState.Key[ i ] == 1 ) )
+				{
+					zedTrace( "Key %s changed\n",
+						ZED::System::KeyToString( ZEDKey ) );
+					KeyboardInputEventData KeyboardData;
+					KeyboardData.SetState( ZEDKey,
+						NewKeyboardState.Key[ i ] );
+
+					KeyboardEvent Keyboard( &KeyboardData );
+					ZED::Utility::SendEvent( Keyboard );
+				}
 			}
 
 			if( NewKeyboardState.Key[ ZED_KEY_F12 ] !=
