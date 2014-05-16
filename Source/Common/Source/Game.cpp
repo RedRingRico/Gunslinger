@@ -189,8 +189,6 @@ namespace Gunslinger
 					( NewKeyboardState.Key[ i ] == 1 &&
 						PreviousKeyboardState.Key[ i ] == 1 ) )
 				{
-					zedTrace( "Key %s changed\n",
-						ZED::System::KeyToString( ZEDKey ) );
 					KeyboardInputEventData KeyboardData;
 					KeyboardData.SetState( ZEDKey,
 						NewKeyboardState.Key[ i ] );

@@ -30,6 +30,9 @@ namespace Gunslinger
 
 		void GetCamera( ZED::Utility::Camera **p_ppCamera );
 
+		void RotateHead( const ZED_FLOAT32 p_Angle,
+			const ZED::Arithmetic::Vector3 &p_Axis );
+
 	private:
 		Player( const Player &p_Player );
 		Player &operator=( const Player &p_Player );

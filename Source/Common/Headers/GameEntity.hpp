@@ -51,6 +51,11 @@ namespace Gunslinger
 		// level Y and Z
 		void Move( const ZED_FLOAT32 p_X, const ZED_FLOAT32 p_Y,
 			const ZED_FLOAT32 p_Z );
+		
+		void MoveForward( const ZED_FLOAT32 p_Forward );
+		void MoveBackward( const ZED_FLOAT32 p_Backward );
+		void MoveLeft( const ZED_FLOAT32 p_Left );
+		void MoveRight( const ZED_FLOAT32 p_Right );
 
 		void GetOrientation(
 			ZED::Arithmetic::Quaternion *p_pOrientation ) const;

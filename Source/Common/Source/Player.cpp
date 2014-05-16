@@ -1,4 +1,5 @@
 #include <Player.hpp>
+#include <Arithmetic/Vector4.hpp>
 
 namespace Gunslinger
 {
@@ -23,8 +24,7 @@ namespace Gunslinger
 
 	void Player::Update( const ZED_UINT64 p_ElapsedTime )
 	{
-	//	m_Position += m_Velocity;
-	//	this->SetPosition( m_Position );
+		this->SetPosition( m_Position );
 	}
 
 	void Player::Render( )
@@ -33,7 +33,22 @@ namespace Gunslinger
 
 	void Player::SetPosition( const ZED::Arithmetic::Vector3 &p_Position )
 	{
-		GameEntity::SetPosition( p_Position );
+		ZED::Arithmetic::Matrix4x4 HeadCameraInverseView;
+		m_Camera.GetViewMatrix( &HeadCameraInverseView );
+
+		HeadCameraInverseView.AffineInverse( );
+
+		ZED::Arithmetic::Vector4 HeadRight;
+		HeadCameraInverseView.GetColumn( 0, HeadRight );
+		m_Position[ 0 ] += HeadRight[ 0 ] * m_Velocity[ 0 ];
+		m_Position[ 2 ] += HeadRight[ 2 ] * m_Velocity[ 0 ];
+
+		ZED::Arithmetic::Vector4 HeadForward;
+		HeadCameraInverseView.GetColumn( 2, HeadForward );
+		m_Position[ 0 ] += HeadForward[ 0 ] * m_Velocity[ 2 ];
+		m_Position[ 2 ] += HeadForward[ 2 ] * m_Velocity[ 2 ];
+		
+		GameEntity::SetPosition( m_Position );
 		// This should really be based on the player's stance, such as whether
 		// the player is standing or crouching
 		m_Camera.SetPosition( m_Position[ 0 ], m_Position[ 1 ] + m_HeadOffset,
@@ -49,6 +64,16 @@ namespace Gunslinger
 	void Player::GetCamera( ZED::Utility::Camera **p_ppCamera )
 	{
 		( *p_ppCamera ) = &m_Camera;
+	}
+
+	void Player::RotateHead( const ZED_FLOAT32 p_Angle,
+		const ZED::Arithmetic::Vector3 &p_Axis )
+	{
+		m_Camera.Rotate( p_Angle, p_Axis );
+
+		// TODO
+		// When the head is rotated about the Y axis more than n radians, the
+		// whole body should move
 	}
 }
 

@@ -108,6 +108,26 @@ namespace Gunslinger
 		m_Velocity.Set( p_X, p_Y, p_Z );
 	}
 
+	void GameEntity::MoveForward( const ZED_FLOAT32 p_Forward )
+	{
+		m_Velocity[ 2 ] = -p_Forward;
+	}
+
+	void GameEntity::MoveBackward( const ZED_FLOAT32 p_Backward )
+	{
+		m_Velocity[ 2 ] = p_Backward;
+	}
+
+	void GameEntity::MoveLeft( const ZED_FLOAT32 p_Left )
+	{
+		m_Velocity[ 0 ] = -p_Left;
+	}
+
+	void GameEntity::MoveRight( const ZED_FLOAT32 p_Right )
+	{
+		m_Velocity[ 0 ] = p_Right;
+	}
+
 	void GameEntity::GetOrientation(
 		ZED::Arithmetic::Quaternion *p_pOrientation ) const
 	{

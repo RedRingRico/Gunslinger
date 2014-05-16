@@ -40,6 +40,7 @@ namespace Gunslinger
 			}
 		}
 
+		// FIXME
 		// I'm not liking the way this will be initially implemented, as it is
 		// a kludge.  There must be a better way to instantiate objects without
 		// needing to manually do this for each type.
