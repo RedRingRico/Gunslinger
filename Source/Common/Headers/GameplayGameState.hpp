@@ -46,7 +46,8 @@ namespace Gunslinger
 		ZED::Utility::Camera		*m_pPreviousCamera;
 		GameEntityManager			m_GameEntityManager;
 		GameEntity					*m_pActiveActor;
-		ZED_UINT64					m_16msTimer;
+		ZED_UINT64					m_60HzTimer;
+		ZED_UINT64					m_100HzTimer;
 	};
 }
 

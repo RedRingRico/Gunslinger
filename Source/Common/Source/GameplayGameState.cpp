@@ -21,7 +21,8 @@ namespace Gunslinger
 		m_pActiveCamera( ZED_NULL ),
 		m_pPreviousCamera( ZED_NULL ),
 		m_pActiveActor( ZED_NULL ),
-		m_16msTimer( 0ULL )
+		m_60HzTimer( 0ULL ),
+		m_100HzTimer( 0ULL )
 	{
 		m_pInputBinder = new ZED::Utility::InputBinder( );
 		m_pEventRouter = new ZED::Utility::EventRouter(
@@ -101,16 +102,20 @@ namespace Gunslinger
 	void GameplayGameState::Update( const ZED_UINT64 p_ElapsedTime )
 	{
 		static ZED_UINT32 UpdateCounter = 0UL;
-		m_16msTimer += p_ElapsedTime;
+		m_60HzTimer += p_ElapsedTime;
+		m_100HzTimer += p_ElapsedTime;
 
-		while( m_16msTimer >= 16667ULL )
+		while( m_60HzTimer >= 16667ULL )
 		{
 			m_pActiveCamera->Update( p_ElapsedTime );
-			m_16msTimer -= 16667ULL;
+			m_60HzTimer -= 16667ULL;
 			++UpdateCounter;
 		}
-
-		m_GameEntityManager.Update( p_ElapsedTime );
+		while( m_100HzTimer >= 10000ULL )
+		{
+			m_GameEntityManager.Update( p_ElapsedTime );
+			m_100HzTimer -= 10000ULL;
+		}
 	}
 
 	ZED_UINT32 GameplayGameState::Exit( )

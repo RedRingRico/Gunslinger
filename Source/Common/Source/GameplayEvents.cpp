@@ -120,7 +120,6 @@ namespace Gunslinger
 				}
 			}
 
-
 			if( m_pGameplayGameState->DebugCameraActive( ) == ZED_TRUE )
 			{
 				switch( Action )
