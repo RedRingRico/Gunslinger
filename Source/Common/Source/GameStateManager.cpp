@@ -553,6 +553,7 @@ namespace Gunslinger
 
 	ZED_UINT32 GameStateManager::RenderElapsedTime( )
 	{
+		static ZED_UINT64 MaxUInt64 = 0xFFFFFFFFFFFFFFFF;
 		ZED_FLOAT32 TotalTimeXPos =
 			static_cast< ZED_FLOAT32 >( m_WindowWidth );
 		ZED_FLOAT32 TotalTimeYPos =
@@ -571,6 +572,17 @@ namespace Gunslinger
 
 		m_Text.Render( TotalTimeXPos, TotalTimeYPos, "Elapsed Time: %lluus",
 			m_TotalElapsedTime );
+
+		TotalTimeXPos = static_cast< ZED_FLOAT32 >( m_WindowWidth );
+		m_Text.MeasureString( &TotalTimeWidth, ZED_NULL, "Time until "
+			"wrap-around: %lluus", MaxUInt64 - m_TotalElapsedTime );
+
+		TotalTimeXPos -= TotalTimeWidth;
+
+		m_Text.Render( TotalTimeXPos,
+			TotalTimeYPos - ( TotalTimeHeight * 1.2f ),
+			"Time until wrap-around: %lluus",
+			MaxUInt64 - m_TotalElapsedTime );
 
 		return ZED_OK;
 	}
