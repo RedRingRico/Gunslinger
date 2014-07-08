@@ -91,6 +91,13 @@ namespace Gunslinger
 			return ZED_FAIL;
 		}
 
+		if( m_pInputManager->Initialise( ) != ZED_OK )
+		{
+			zedTrace( "[Gunslinger::Game::Initialise] <ERROR> "
+				"Failed to initialise the input manager\n" );
+			return ZED_FAIL;
+		}
+
 		m_pInputManager->AddDevice( &m_Keyboard );
 		m_pInputManager->AddDevice( &m_Mouse );
 

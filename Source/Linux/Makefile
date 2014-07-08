@@ -87,7 +87,7 @@ release:	BUILD		= Release
 release:	BUILD_TYPE	= release
 release:	BUILD_DEF	= RELEASE
 release:	TARGET := $(TARGET)
-release:	CPPFLAGS += -O3 $(CPPFLAGS_EXT)
+release:	CPPFLAGS += -O3 -s $(CPPFLAGS_EXT)
 release:	LIBS = -lZEDUtility -lZEDArithmetic -lZEDSystem -lZEDRenderer -lZEDSystem
 release:	LINKFLAGS += -Wl,-S
 release:	$(TARGET)
