@@ -82,19 +82,11 @@ namespace Gunslinger
 		m_pRenderer->RenderState( ZED_RENDERSTATE_DEPTH, ZED_ENABLE );
 		ZED::System::WINDOWDATA WindowData = m_pWindow->WindowData( );
 
-		if( m_pInputManager->SetWindowData( m_pWindow->WindowData( ) ) !=
-			ZED_OK )
-		{
-			zedTrace( "[Gunslinger::Game::Initialise] <ERROR> "
-				"Failed to attach the window to the input manager\n" );
-
-			return ZED_FAIL;
-		}
-
-		if( m_pInputManager->Initialise( ) != ZED_OK )
+		if( m_pInputManager->Initialise( m_pWindow->WindowData( ) ) != ZED_OK )
 		{
 			zedTrace( "[Gunslinger::Game::Initialise] <ERROR> "
 				"Failed to initialise the input manager\n" );
+
 			return ZED_FAIL;
 		}
 
