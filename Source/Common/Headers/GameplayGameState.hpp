@@ -2,7 +2,7 @@
 #define __GUNSLINGER_GAMEPLAYGAMESTATE_HPP__
 
 #include <System/DataTypes.hpp>
-#include <GameState.hpp>
+#include <Game/GameState.hpp>
 #include <Utility/Camera.hpp>
 #include <Utility/FreeCamera.hpp>
 #include <Utility/FirstPersonCamera.hpp>
@@ -16,7 +16,7 @@ namespace Gunslinger
 	class GameplayInputListener;
 	class World;
 
-	class GameplayGameState : public GameState
+	class GameplayGameState : public ZED::Game::GameState
 	{
 	public:
 		GameplayGameState( );

@@ -33,7 +33,7 @@ namespace Gunslinger
 
 		virtual ZED_BOOL HandleEvent( const ZED::Utility::Event &p_Event );
 
-		virtual ZED_CHAR8 *Name( ) const;
+		virtual ZED_CHAR8 *GetName( ) const;
 
 		ZED_UINT32 SetGameplayGameState(
 			GameplayGameState * const &p_pGameplayGameState );

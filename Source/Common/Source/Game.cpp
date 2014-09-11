@@ -7,9 +7,10 @@
 #include <GameStateManager.hpp>
 #include <System/Time.hpp>
 #include <GameplayGameState.hpp>
-#include <Events.hpp>
 #include <System/Debugger.hpp>
 #include <Configuration.hpp>
+#include <Utility/EventRouter.hpp>
+#include <Utility/Events.hpp>
 
 namespace Gunslinger
 {
@@ -104,19 +105,23 @@ namespace Gunslinger
 
 	ZED_UINT32 Game::Execute( )
 	{
+		if( GameStateManager::GetInstance( ).SetRenderer( m_pRenderer ) !=
+			ZED_OK )
+		{
+			zedTrace( "[Gunslinger::Game::Execute] <ERROR> Failed to set the "
+				"renderer\n" );
+			return ZED_FAIL;
+		}
+
 		if( GameStateManager::GetInstance( ).Initialise( ) != ZED_OK )
 		{
+			zedTrace( "[Gunslinger::Game::Execute] <ERROR> Could not "
+				"initialise the game state manager\n" );
 			return ZED_FAIL;
 		}
 
 		GameStateManager::GetInstance( ).SetWindowDimensions( 
 			m_pWindow->GetWidth( ), m_pWindow->GetHeight( ) );
-
-		if( GameStateManager::GetInstance( ).SetRenderer( m_pRenderer ) !=
-			ZED_OK )
-		{
-			return ZED_FAIL;
-		}
 
 		GameplayGameState *pGameplay = new GameplayGameState( );
 		GameStateManager::GetInstance( ).RegisterState( pGameplay );
@@ -142,13 +147,15 @@ namespace Gunslinger
 		ZED_SINT32 PreviousMouseX, PreviousMouseY;
 		m_Mouse.GetPosition( PreviousMouseX, PreviousMouseY );
 
-		ResolutionChangeEventData ResolutionData;
+		ZED::Utility::ResolutionChangeEventData ResolutionData;
 		ResolutionData.SetResolution( m_pWindow->GetWidth( ),
 			m_pWindow->GetHeight( ) );
 
-		ResolutionChangeEvent Resolution( &ResolutionData );
+		ZED::Utility::ResolutionChangeEvent Resolution( &ResolutionData );
 
 		ZED::Utility::SendEvent( Resolution );
+
+		m_pWindow->WarpPointer( HalfWidth, HalfHeight );
 
 		while( m_Running )
 		{
@@ -164,11 +171,12 @@ namespace Gunslinger
 				m_GameConfiguration.SetWidth( m_pWindow->GetWidth( ) );
 				m_GameConfiguration.SetHeight( m_pWindow->GetHeight( ) );
 
-				ResolutionChangeEventData ResolutionData;
-				ResolutionData.SetResolution( m_pWindow->GetWidth( ),
-					m_pWindow->GetHeight( ) );
+				ZED::Utility::ResolutionChangeEventData ResolutionData;
+				ResolutionData.SetResolution(
+					m_pWindow->GetWidth( ), m_pWindow->GetHeight( ) );
 
-				ResolutionChangeEvent Resolution( &ResolutionData );
+				ZED::Utility::ResolutionChangeEvent Resolution(
+					&ResolutionData );
 
 				ZED::Utility::SendEvent( Resolution );
 			}
@@ -188,11 +196,11 @@ namespace Gunslinger
 					( NewKeyboardState.Key[ i ] == 1 &&
 						PreviousKeyboardState.Key[ i ] == 1 ) )
 				{
-					KeyboardInputEventData KeyboardData;
+					ZED::Utility::KeyboardInputEventData KeyboardData;
 					KeyboardData.SetState( ZEDKey,
 						NewKeyboardState.Key[ i ] );
 
-					KeyboardEvent Keyboard( &KeyboardData );
+					ZED::Utility::KeyboardEvent Keyboard( &KeyboardData );
 					ZED::Utility::SendEvent( Keyboard );
 				}
 			}
@@ -219,23 +227,24 @@ namespace Gunslinger
 
 			if( ( MouseX != PreviousMouseX ) || ( MouseY != PreviousMouseY ) )
 			{
-				MousePositionInputEventData MousePositionData;
+				ZED::Utility::MousePositionInputEventData MousePositionData;
 				MousePositionData.SetPosition( MouseX, MouseY );
-				MousePositionEvent MousePosition( &MousePositionData );
+				ZED::Utility::MousePositionEvent MousePosition(
+					&MousePositionData );
 				ZED::Utility::SendEvent( MousePosition );
+
+				m_pWindow->WarpPointer( HalfWidth, HalfHeight );
 			}
 
 			GameStateManager::GetInstance( ).Execute( );
 
-			if( GameStateManager::GetInstance( ).Running( ) == ZED_FALSE )
+			if( GameStateManager::GetInstance( ).IsRunning( ) == ZED_FALSE )
 			{
 				m_Running = ZED_FALSE;
 			}
 
 			PreviousMouseX = MouseX;
 			PreviousMouseY = MouseY;
-
-			m_pWindow->WarpPointer( HalfWidth, HalfHeight );
 
 			memcpy( &PreviousKeyboardState, &NewKeyboardState,
 				sizeof( PreviousKeyboardState ) );

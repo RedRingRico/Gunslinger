@@ -66,6 +66,7 @@ namespace Gunslinger
 
 				case PLAYER_MOVE_FORWARD:
 				{
+					zedTrace( "Moving forward\n" );
 					m_pGameplayGameState->GetPlayer( )->MoveForward(
 						ActionValue * MaxSpeed );
 
@@ -199,7 +200,7 @@ namespace Gunslinger
 		return ZED_FALSE;
 	}
 
-	ZED_CHAR8 *GameplayInputListener::Name( ) const
+	ZED_CHAR8 *GameplayInputListener::GetName( ) const
 	{
 		return "Gameplay Input Listener";
 	}

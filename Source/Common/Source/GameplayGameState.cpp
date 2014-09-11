@@ -49,6 +49,8 @@ namespace Gunslinger
 
 	ZED_UINT32 GameplayGameState::Enter( )
 	{
+		zedTrace( "Entering Gameplay\n" );
+		ZED::Utility::SetGlobalEventRouter( this->m_pEventRouter );
 		m_pInputBinder->BindKey( ZED_KEY_ESCAPE, STATE_EXIT );
 		m_pInputBinder->BindKey( ZED_KEY_F1, DEBUG_CAMERA_TOGGLE );
 		m_pInputBinder->BindKey( ZED_KEY_Q, DEBUG_CAMERA_MOVE_UP );
@@ -120,7 +122,11 @@ namespace Gunslinger
 
 	ZED_UINT32 GameplayGameState::Exit( )
 	{
-		GameStateManager::GetInstance( ).PopState( );
+		// FIXME
+		// I'd like to find a way to pop this off the stack and not have the
+		// GSM try to pop it again, instead of calling quit (maybe
+		// changestate?)
+		GameStateManager::GetInstance( ).Quit( );
 		return ZED_OK;
 	}
 
