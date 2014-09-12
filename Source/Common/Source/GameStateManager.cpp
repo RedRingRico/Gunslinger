@@ -34,6 +34,7 @@ namespace Gunslinger
 
 	ZED_UINT32 GameStateManager::Initialise( )
 	{
+		zedTrace( "GameStateManager: Initialise\n" );
 		if( ZED::Game::GameStateManager::Initialise( ) != ZED_OK )
 		{
 			zedTrace( "[Gunslinger::GameStateManager::Initiailse] <ERROR> "
@@ -61,6 +62,8 @@ namespace Gunslinger
 		}
 
 		zedSafeDeleteArray( pFontFile );
+
+		zedTrace( "Loaded font: \"test.zed\"\n" );
 
 		m_pOverlayFont->SetViewport( 0.0f, 0.0f,
 			static_cast< ZED_FLOAT32 >( m_WindowWidth ),
@@ -165,6 +168,13 @@ namespace Gunslinger
 	{
 		m_WindowWidth = p_Width;
 		m_WindowHeight = p_Height;
+
+		if( m_pOverlayFont )
+		{
+			m_pOverlayFont->SetViewport( 0.0f, 0.0f,
+				static_cast< ZED_FLOAT32 >( m_WindowWidth ),
+				static_cast< ZED_FLOAT32 >( m_WindowHeight ) );
+		}
 	}
 
 	void GameStateManager::ShowFPS( )
@@ -238,7 +248,8 @@ namespace Gunslinger
 	ZED_UINT32 GameStateManager::RenderFPS( )
 	{
 		ZED_FLOAT32 FPSWidth = 0.0f, FPSHeight = 0.0f;
-		m_OverlayText.MeasureString( &FPSWidth, &FPSHeight, "[%d]", m_FrameRate );
+		m_OverlayText.MeasureString( &FPSWidth, &FPSHeight, "[%d]",
+			m_FrameRate );
 
 		ZED_FLOAT32 FPSXPosition =
 			static_cast< ZED_FLOAT32 >( m_WindowWidth ) - FPSWidth;
@@ -268,7 +279,8 @@ namespace Gunslinger
 
 		m_pOverlayFont->SetForegroundColour( TextColour );
 
-		m_OverlayText.Render( FPSXPosition, FPSYPosition, "[%d]", m_FrameRate );
+		m_OverlayText.Render( FPSXPosition, FPSYPosition, "[%d]",
+			m_FrameRate );
 
 		return ZED_OK;
 	}
@@ -283,8 +295,8 @@ namespace Gunslinger
 
 		ZED_FLOAT32 FrameTimeWidth = 0.0f, FrameTimeHeight = 0.0f;
 
-		m_OverlayText.MeasureString( &FrameTimeWidth, &FrameTimeHeight, "(%lluus)",
-			p_FrameTime );
+		m_OverlayText.MeasureString( &FrameTimeWidth, &FrameTimeHeight,
+			"(%lluus)", p_FrameTime );
 
 		FrameTimeXPos -= FrameTimeWidth;
 
@@ -299,7 +311,8 @@ namespace Gunslinger
 		
 		m_pOverlayFont->SetForegroundColour( TextColour );
 
-		m_OverlayText.Render( FrameTimeXPos, FrameTimeYPos, "(%lluus)", p_FrameTime );
+		m_OverlayText.Render( FrameTimeXPos, FrameTimeYPos, "(%lluus)",
+			p_FrameTime );
 
 		return ZED_OK;
 	}
