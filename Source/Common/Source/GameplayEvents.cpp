@@ -23,7 +23,7 @@ namespace Gunslinger
 
 	ZED_BOOL GameplayInputListener::HandleEvent(
 		const ZED::Utility::Event &p_Event )
-	{
+	{/*
 		if( p_Event.Type( ).ID( ) == ActionInputEventType.ID( ) )
 		{
 			ActionInputEventData *pActionData =
@@ -66,7 +66,6 @@ namespace Gunslinger
 
 				case PLAYER_MOVE_FORWARD:
 				{
-					zedTrace( "Moving forward\n" );
 					m_pGameplayGameState->GetPlayer( )->MoveForward(
 						ActionValue * MaxSpeed );
 
@@ -195,7 +194,7 @@ namespace Gunslinger
 					}
 				}
 			}
-		}
+		}*/
 
 		return ZED_FALSE;
 	}

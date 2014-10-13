@@ -6,8 +6,8 @@
 #include <Utility/Camera.hpp>
 #include <Utility/FreeCamera.hpp>
 #include <Utility/FirstPersonCamera.hpp>
-#include <Player.hpp>
-#include <GameEntityManager.hpp>
+//#include <Player.hpp>
+//#include <GameEntityManager.hpp>
 #include <Renderer/OGL/GLFont.hpp>
 #include <Renderer/Text.hpp>
 
@@ -31,8 +31,8 @@ namespace Gunslinger
 
 		ZED::Utility::FreeCamera		*GetDebugCamera( );
 		ZED::Utility::FirstPersonCamera	*GetPlayerCamera( );
-		GameEntity						*GetActiveActor( );
-		Player							*GetPlayer( );
+//		GameEntity						*GetActiveActor( );
+//		Player							*GetPlayer( );
 
 		void ToggleDebugCamera( );
 		ZED_BOOL DebugCameraActive( ) const;
@@ -44,10 +44,11 @@ namespace Gunslinger
 		ZED_BOOL					m_DebugCameraActive;
 		ZED::Utility::Camera		*m_pActiveCamera;
 		ZED::Utility::Camera		*m_pPreviousCamera;
-		GameEntityManager			m_GameEntityManager;
-		GameEntity					*m_pActiveActor;
+/*		GameEntityManager			m_GameEntityManager;
+		GameEntity					*m_pActiveActor;*/
 		ZED_UINT64					m_60HzTimer;
 		ZED_UINT64					m_100HzTimer;
+		ZED_UINT32					m_PlayerID;
 	};
 }
 

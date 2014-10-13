@@ -8,7 +8,7 @@
 #include <GameEntity.hpp>
 
 namespace Gunslinger
-{
+{/*
 	const GameEntityType PlayerGameEntityType( "Player", ZED_TRUE );
 
 	class Player : public GameEntity
@@ -40,7 +40,7 @@ namespace Gunslinger
 		ZED::Utility::FirstPersonCamera	m_Camera;
 		ZED::Arithmetic::AABB			m_BoundingBox;
 		ZED_FLOAT32						m_HeadOffset;
-	};
+	};*/
 }
 
 #endif // __GUNSLINGER_PLAYER_HPP__

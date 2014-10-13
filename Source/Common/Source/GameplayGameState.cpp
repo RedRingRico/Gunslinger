@@ -11,6 +11,8 @@
 #include <Arithmetic/Vector3.hpp>
 #include <Renderer/OGL/GLFont.hpp>
 #include <GitVersion.hpp>
+#include <GameEntity.hpp>
+#include <GameEntityManager.hpp>
 
 namespace Gunslinger
 {
@@ -20,7 +22,7 @@ namespace Gunslinger
 		m_DebugCameraActive( ZED_FALSE ),
 		m_pActiveCamera( ZED_NULL ),
 		m_pPreviousCamera( ZED_NULL ),
-		m_pActiveActor( ZED_NULL ),
+		//m_pActiveActor( ZED_NULL ),
 		m_60HzTimer( 0ULL ),
 		m_100HzTimer( 0ULL )
 	{
@@ -76,19 +78,29 @@ namespace Gunslinger
 		m_pEventRouter->Add( m_pInputListener, ActionInputEventType );
 
 		m_pInputListener->SetGameplayGameState( this );
-
+/*
 		m_GameEntityManager.CreateEntity( PlayerGameEntityType );
 		GameEntity *pPlayer = ZED_NULL;
-		m_GameEntityManager.GetEntityByID( 0, &pPlayer );
+		m_GameEntityManager.GetEntityByID( 0, &pPlayer );*/
 
-		reinterpret_cast< Player * >( pPlayer )->SetPosition(
+		/*reinterpret_cast< Player * >( pPlayer )->SetPosition(
 			ZED::Arithmetic::Vector3( 0.0f, 0.0f, 0.0f ) );
-		reinterpret_cast< Player * >( pPlayer )->GetCamera( &m_pActiveCamera );
+		reinterpret_cast< Player * >( pPlayer )->GetCamera( &m_pActiveCamera );*/
 
 		GameStateManager::GetInstance( ).GetRenderer( )->ClearColour(
 			0.14f, 0.0f, 0.14f );
 
-		m_GameEntityManager.GetEntityByID( 0, &m_pActiveActor );
+		
+		m_PlayerID = GameEntityManager::GetInstance( ).CreateEntity( );
+
+		zedTrace( "Created player entity with an ID of '%d'\n", m_PlayerID );
+
+		GameEntityManager::GetInstance( ).SetEntityComponents( m_PlayerID,
+			ENTITY_TYPE_POSITION | ENTITY_TYPE_VELOCITY );
+
+		GameEntityManager::GetInstance( ).PrintAllEntityComponents( );
+
+		//m_GameEntityManager.GetEntityByID( 0, &m_pActiveActor );
 
 		return ZED_OK;
 	}
@@ -96,7 +108,7 @@ namespace Gunslinger
 	void GameplayGameState::Render( )
 	{
 		ZED::Arithmetic::Matrix4x4 ProjectionViewMatrix;
-		m_pActiveCamera->GetProjectionViewMatrix( &ProjectionViewMatrix );
+		//m_pActiveCamera->GetProjectionViewMatrix( &ProjectionViewMatrix );
 
 		m_pGameWorld->Render( &ProjectionViewMatrix );
 	}
@@ -109,13 +121,13 @@ namespace Gunslinger
 
 		while( m_60HzTimer >= 16667ULL )
 		{
-			m_pActiveCamera->Update( p_ElapsedTime );
+		//	m_pActiveCamera->Update( p_ElapsedTime );
 			m_60HzTimer -= 16667ULL;
 			++UpdateCounter;
 		}
 		while( m_100HzTimer >= 10000ULL )
 		{
-			m_GameEntityManager.Update( p_ElapsedTime );
+		//	m_GameEntityManager.Update( p_ElapsedTime );
 			m_100HzTimer -= 10000ULL;
 		}
 	}
@@ -140,19 +152,19 @@ namespace Gunslinger
 		return &m_DebugCamera;
 	}
 
-	ZED::Utility::FirstPersonCamera *GameplayGameState::GetPlayerCamera( )
+/*	ZED::Utility::FirstPersonCamera *GameplayGameState::GetPlayerCamera( )
 	{
 		GameEntity *pPlayer = ZED_NULL;
-		m_GameEntityManager.GetEntityByID( 0, &pPlayer );
+		m_GameEntityManager.GetEntityByID( 0, &pPlayer );*/
 
-		ZED::Utility::Camera *pReturn;
+		/*ZED::Utility::Camera *pReturn;
 
 		reinterpret_cast< Player * >( pPlayer )->GetCamera( &pReturn );
 
 		return reinterpret_cast< ZED::Utility::FirstPersonCamera * >(
 			pReturn );
-	}
-
+	}*/
+/*
 	Player *GameplayGameState::GetPlayer( )
 	{
 		GameEntity *pPlayer = ZED_NULL;
@@ -165,7 +177,7 @@ namespace Gunslinger
 	{
 		return m_pActiveActor;
 	}
-
+*/
 	void GameplayGameState::ToggleDebugCamera( )
 	{
 		m_DebugCameraActive = !m_DebugCameraActive;

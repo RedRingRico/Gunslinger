@@ -2,35 +2,63 @@
 #define __GUNSLINGER_GAMEENTITYMANAGER_HPP__
 
 #include <System/DataTypes.hpp>
-#include <GameEntity.hpp>
+#include <PositionComponent.hpp>
 #include <vector>
+#include <map>
 
 namespace Gunslinger
 {
+	class GameEntity;
+	class GameEntityComponent;
+	class GameEntitySystem;
+
+	const ZED_MEMSIZE MAX_ENTITY_COUNT = 300;
+
+	// The list of entities in the world are stored as a structre of arrays in
+	// order to improve cache coherency.  Unfortunately, this means each entity
+	// has to retain the data for all components.
+	typedef struct _tagENTITY_WORLD
+	{
+		ZED_UINT32	Mask[ MAX_ENTITY_COUNT ];
+
+		PositionComponent Position[ MAX_ENTITY_COUNT ];
+	}ENTITY_WORLD;
+
 	class GameEntityManager
 	{
 	public:
 		GameEntityManager( );
 		~GameEntityManager( );
 
-		ZED_UINT32 CreateEntity( const GameEntityType &p_Type );
+		ZED_UINT32 CreateEntity( );
+		void DestroyEntity( ZED_MEMSIZE p_Index );
 
-		void Update( const ZED_UINT64 p_ElapsedDeltaTime );
+		ZED_UINT32 SetEntityComponents( const ZED_MEMSIZE p_Index,
+			const ZED_UINT32 p_ComponentMask );
 
-		ZED_UINT32 GetEntityByID( const ZED_UINT32 p_ID,
-			GameEntity **p_ppEntity );
+		ZED_UINT32 AddEntityComponent( const ZED_MEMSIZE p_Index,
+			const ZED_UINT32 p_ComponentMask );
+		ZED_UINT32 RemoveEntityComponent( const ZED_MEMSIZE p_Index,
+			const ZED_UINT32 p_ComponentMask );
 
-		void PurgeEntities( );
+		ZED_UINT32 GetEntityComponents( const ZED_MEMSIZE p_Index,
+			ZED_UINT32 *p_pComponentMask ) const;
+		ZED_UINT32 PrintEntityComponents( const ZED_MEMSIZE p_Index ) const;
+
+		ZED_UINT32 PrintAllEntityComponents( ) const;
+
+		ZED_UINT32 AddSystem( GameEntitySystem *p_pSystem );
+
+		ZED_UINT32 Process( );
+
+		static GameEntityManager &GetInstance( );
 
 	private:
-		GameEntityManager( const GameEntityManager &p_Original );
-		GameEntityManager &operator=( const GameEntityManager &p_Original );
+		typedef std::vector< GameEntitySystem * >GameSystemArray;
 
-		typedef std::vector< GameEntity * > GameEntityArray;
+		GameSystemArray		m_Systems;
 
-		GameEntityArray	m_Entities;
-
-		ZED_UINT32		m_UniqueID;
+		ENTITY_WORLD m_GameEntityWorld;
 	};
 }
 

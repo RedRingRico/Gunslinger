@@ -134,10 +134,10 @@ namespace Gunslinger
 		ZED_MEMSIZE KeyCount =	sizeof( PreviousKeyboardState ) /
 								sizeof( PreviousKeyboardState.Key[ 0 ] );
 
-		m_Running = ZED_TRUE;
+		m_Running = ZED_TRUE;/*
 
 		m_pWindow->GrabKeyboard( );
-		m_pWindow->GrabMouse( ZED_TRUE, ZED_TRUE );
+		m_pWindow->GrabMouse( ZED_TRUE, ZED_TRUE );*/
 
 		ZED_BOOL MouseControl = ZED_TRUE;
 		ZED_SINT32 HalfWidth = 0, HalfHeight = 0;
@@ -233,7 +233,7 @@ namespace Gunslinger
 					&MousePositionData );
 				ZED::Utility::SendEvent( MousePosition );
 
-				m_pWindow->WarpPointer( HalfWidth, HalfHeight );
+				//m_pWindow->WarpPointer( HalfWidth, HalfHeight );
 			}
 
 			GameStateManager::GetInstance( ).Execute( );

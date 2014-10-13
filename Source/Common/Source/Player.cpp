@@ -1,9 +1,9 @@
-#include <Player.hpp>
+//#include <Player.hpp>
 #include <Arithmetic/Vector4.hpp>
 
 namespace Gunslinger
 {
-	Player::Player( const ZED_UINT32 p_ID ) :
+	/*Player::Player( const ZED_UINT32 p_ID ) :
 		GameEntity( PlayerGameEntityType, p_ID ),
 		m_HeadOffset( 0.0f )
 	{
@@ -74,6 +74,6 @@ namespace Gunslinger
 		// TODO
 		// When the head is rotated about the Y axis more than n radians, the
 		// whole body should move
-	}
+	}*/
 }
 
